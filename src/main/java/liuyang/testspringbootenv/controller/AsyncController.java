@@ -1,5 +1,6 @@
 package liuyang.testspringbootenv.controller;
 
+import liuyang.testspringbootenv.common.utils.R;
 import liuyang.testspringbootenv.service.AsyncService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,13 +19,16 @@ public class AsyncController {
     private AsyncService asyncService;
 
     @GetMapping("/sync")
-    public String doSomething() throws Exception {
-        return asyncService.doSomething();
+    public R doSomething() throws Exception {
+        // 同步方法
+        String msg = asyncService.doSomething();
+        return R.ok(msg);
     }
 
     @GetMapping("/async")
-    public String doSomethingAsync() throws Exception {
+    public R doSomethingAsync() throws Exception {
+        // 异步方法
         asyncService.doSomethingAsync();
-        return "Async Service Returned!";
+        return R.ok("Async Service Returned! 方法返回，但任务线程仍在后台运行。观察后台日志来看任务完成情况。");
     }
 }

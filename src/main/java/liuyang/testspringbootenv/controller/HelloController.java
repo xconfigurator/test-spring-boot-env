@@ -1,5 +1,6 @@
 package liuyang.testspringbootenv.controller;
 
+import liuyang.testspringbootenv.common.utils.R;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @GetMapping("/hello")
-    public String hello() {
-        return "hello Spring Boot Env";
+    public R hello() {
+        return R.ok("hello Spring Boot Env");
     }
 
     @GetMapping("/exception")
