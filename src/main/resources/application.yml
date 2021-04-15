@@ -4,11 +4,17 @@ spring:
     url: jdbc:mysql://localhost:3306/mp?useSSL=false&serverTimezone=GMT%2B8
     username: root
     password: 123456
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  session:
+    store-type: redis
 
 logging:
   level:
     root: info
-    liuyang: trace
+    liuyang: debug
+    #liuyang: trace
 #    liuyang.testmbp.service: trace
 #  pattern:
 #    console: '%p%m%n' # 只关注SQL语句

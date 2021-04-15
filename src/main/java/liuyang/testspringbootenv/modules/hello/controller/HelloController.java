@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.controller;
+package liuyang.testspringbootenv.modules.hello.controller;
 
 import liuyang.testspringbootenv.common.utils.R;
 import org.springframework.web.bind.annotation.GetMapping;

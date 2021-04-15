@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.security.springsecurity.config;
+package liuyang.testspringbootenv.modules.security.springsecurity.config;
 
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

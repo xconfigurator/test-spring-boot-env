@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.security.springsecurity.controller;
+package liuyang.testspringbootenv.modules.security.springsecurity.controller;
 
 /**
  * @author liuyang

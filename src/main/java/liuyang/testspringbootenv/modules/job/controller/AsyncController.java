@@ -1,7 +1,7 @@
-package liuyang.testspringbootenv.controller;
+package liuyang.testspringbootenv.modules.job.controller;
 
 import liuyang.testspringbootenv.common.utils.R;
-import liuyang.testspringbootenv.service.AsyncService;
+import liuyang.testspringbootenv.modules.job.service.AsyncService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
