@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/sys")
 @Slf4j
+@Deprecated // 标准使用Spring Security之后，这个控制器就没用了。应该是在Spring Security的框架下添加修改和订制。
 public class SysLoginController {
 
     @GetMapping("/test/username")

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 @Slf4j
-public class ControllerExceptionHandler {
+public class RestControllerExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public R handleException(Exception e) {

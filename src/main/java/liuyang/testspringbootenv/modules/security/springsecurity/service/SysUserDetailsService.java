@@ -36,7 +36,7 @@ public class SysUserDetailsService implements UserDetailsService {
         }
         if ("liuyang2".equals(s)) {
             userDetails = User.withUsername("liuyang2")
-                    .password("$2a$10$xu4HmcMsZrNdp0742ql06upKdJ6cn34P924wuWtR6yx2rtv0BCov.") // 123123
+                    .password("$2a$10$xu4HmcMsZrNdp0742ql06upKStrdJ6cn34P924wuWtR6yx2rtv0BCov.") // 123123
                     .authorities("authoritiesxxx")
                     .roles("admin").build();
         }
