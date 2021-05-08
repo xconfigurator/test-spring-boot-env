@@ -177,12 +177,15 @@ OK modules/job
 OK modules/security/springsecurity
 
 
+### dubbo
+modules/dubbo
+
 ### amqp
 细节测试参见独立的 test-messaging
 OK RabbitMQ
 
 ### 消息：其他
-TODO Kafka 
+TODO Kafka
 
 ### 分布式
 参见周阳的Spring Cloud Alibaba
