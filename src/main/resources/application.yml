@@ -1,0 +1,22 @@
+# 这个配置文件里的所有场景都生效
+# Actuator
+# https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-endpoints
+# http://localhost:8080/actuator/health
+management:
+  endpoints:
+    # enabled-by-default: true # 开启所有端点。
+    enabled-by-default: false # 关闭所有端点（JMX Web）, 需要开放的端点可以逐一单独配置。
+    web:
+      exposure:
+        include: '*' # 默认仅开启info和health。这里手动打开所有。如beans。 用火狐浏览器看更方便。http://localhost:8080/actuator/beans
+  # 单独开启各个监控端点 http://localhost:8080/actuator 查看已经开启的列表 jconsole可以对应查看对应的Endpoint
+  endpoint:
+    health:
+      enabled: true
+      show-details: always # 默认是never
+    info:
+      enabled: true
+    beans:
+      enabled: true
+    metrics:
+      enabled: true

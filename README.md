@@ -1,4 +1,8 @@
 # 测试Spring Boot集成
+## Spring Boot提供服务
+1. 依赖管理
+2. 自动配置
+
 
 ###
 ```shell
