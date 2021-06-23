@@ -4,7 +4,8 @@
 启动项目前需要先启动本地的Redis服务。  
 Spring Session Data Redis (2021/4/13已配置)
 Spring Cache (TODO)
-测试从PC提交， 注意: GitHub上的项目clone时最好选择ssh（在注册了SSH key之后）
+测试从PC提交， 注意: GitHub上的项目clone时最好选择ssh（在注册了SSH key之后）  
+202106221012 增加Bean Validation
 
 ###
 ```shell
@@ -195,3 +196,8 @@ TODO Kafka
 
 ### 监控
 参见Spring Boot 2.x的方案
+
+### Bean Validation
+[参考视频](https://www.bilibili.com/video/BV1UE411t7BZ/?spm_id_from=333.788.recommend_more_video.0)
+202106221012 增加Bean Validation  
+暂时转移到data-server下实验。那里没有Spring Security干扰。
