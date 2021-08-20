@@ -15,6 +15,13 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
+        <!-- webjar begin -->
+        <jquery.version>3.5.1</jquery.version>
+        <layui.version>2.5.6</layui.version>
+        <locator.version>0.40</locator.version>
+        <bootstrap.version>5.0.1</bootstrap.version>
+        <axios.version>0.21.1</axios.version>
+        <!-- webjar end -->
     </properties>
     <dependencies>
         <dependency>
@@ -73,6 +80,12 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
@@ -94,26 +107,31 @@
             <artifactId>spring-session-data-redis</artifactId>
         </dependency>
 
-        <!-- MyBatis-Plus -->
-        <dependency>
+        <!-- MyBatis-Plus --> <!-- 2021/7/1 换为Spring Data JPA MyBatis-Plus的部分参考其他工程 -->
+        <!--<dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.4.2</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
         <!-- CXF -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
             <version>3.4.3</version>
-        </dependency>
+        </dependency>-->
 
         <!-- CXF -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
             <version>3.4.3</version>
-        </dependency>
+        </dependency>-->
 
         <!-- FastJSON -->
         <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
@@ -162,6 +180,47 @@
             <artifactId>commons-beanutils</artifactId>
             <version>1.9.4</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- webjars-locator -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator</artifactId>
+            <version>${locator.version}</version>
+        </dependency>
+        <!-- 不使用locator -->
+        <!--script src="/webjars/jquery/3.5.1/jquery.min.js"></script> -->
+        <!-- 使用locator -->
+        <!--<script src="/webjars/jquery/jquery.min.js"></script>  -->
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>${jquery.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>layui</artifactId>
+            <version>${layui.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${bootstrap.version}</version>
+        </dependency>
+
+        <!-- axios webjar aliyun仓库没有 -->
+        <!--<dependency>
+            <groupId>org.webjars.bowergithub.axios</groupId>
+            <artifactId>axios</artifactId>
+            <version>${axios.version}</version>
+        </dependency>-->
 
     </dependencies>
 
@@ -170,6 +229,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.4.7</version>
                 <configuration>
                     <excludes>
                         <exclude>
@@ -197,5 +257,4 @@
         </resources>
         <!-- liuyang 202103301125 add fix MyBatis 的mapper.xml找不到问题 end -->
     </build>
-
 </project>

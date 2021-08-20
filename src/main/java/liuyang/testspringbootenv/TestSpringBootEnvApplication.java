@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
-
+// 这些@EnableXX可以分别写在不同的@Configuration中 2021/7/1
 @EnableCaching          // Spring cache abstraction (Initializr里目前被分类在I/O下)
 @EnableRedisHttpSession // Spring Session Data Redis (Initializr分类在Web下)
 @EnableScheduling

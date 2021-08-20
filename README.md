@@ -7,6 +7,15 @@ Spring Cache (TODO)
 测试从PC提交， 注意: GitHub上的项目clone时最好选择ssh（在注册了SSH key之后）  
 202106221012 增加Bean Validation
 
+### 主要参考视频  
+Spring Boot  
+[雷丰阳]()
+Spring Security  
+[雷丰阳]()  
+[ES搜房网]()
+Bean Validation
+[参考视频](https://www.bilibili.com/video/BV1UE411t7BZ/?spm_id_from=333.788.recommend_more_video.0)
+
 ###
 ```shell
 …or create a new repository on the command line

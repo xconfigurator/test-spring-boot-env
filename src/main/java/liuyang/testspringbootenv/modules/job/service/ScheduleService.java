@@ -11,7 +11,7 @@ public class ScheduleService {
     /**
      * second, minute, hour, day of month, month, day of week
      */
-    @Scheduled(cron = "0 * * * * MON-SAT")
+    @Scheduled(cron = "0/2 * * * * MON-SAT")//
     public void hello() {
         log.info("hello, Schedule! ");
     }

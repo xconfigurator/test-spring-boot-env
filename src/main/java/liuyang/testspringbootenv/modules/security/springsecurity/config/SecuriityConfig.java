@@ -32,7 +32,16 @@ public class SecuriityConfig extends WebSecurityConfigurerAdapter {
     // 能够配置的项具体参见HttpSecurity的源码注释
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http); // 父类有一些默认的规则(包含登录和注销)
+        // 使用默认保护方案 begin
+        //super.configure(http); // 父类有一些默认的规则(包含登录和注销)
+        // 使用默认保护方案 end
+
+        // 放开所有权限 begin 2021/7/3
+        http.authorizeRequests().anyRequest().permitAll();
+        // 放开所有权限 end 2021/7/3
+
+        // 需要根据不同的角色给出不同的登录页面
+        //
 
         // 自定义登录页面配置
         // http.formLogin();
@@ -100,17 +109,21 @@ public class SecuriityConfig extends WebSecurityConfigurerAdapter {
         /*
         http.logout()
             .logoutUrl("/logout")
-            .logoutSuccessUrl("/login");
+            .logoutSuccessUrl("/login")     // 指定注销后的页面
+            .deleteCookies("JSESSIONID")    // 删除指定的Cookie
+            .invalidateHttpSession(true);   // 另Session失效
          */
 
-
         // 记住我
-        http.rememberMe(); // 重启服务需要重新登录
+        // http.rememberMe(); // 重启服务需要重新登录(配合默认方案一起使用)
         // 在浏览器上写入一个名为remember-me的Cookie。
         // 定制记住我参数名称： http.rememberMe().rememberMeParameter("remember");
 
         // csrf Spring Security 4 之后默认是开启的
         // http.csrf().disable(); // cross-site request forgery跨站伪造请求。
+
+        // 开启同源 (如果使用如hui等基于iframe的前端框架则需要后面做相应配合)
+        // http.headers().frameOptions().sameOrigin();
     }
 
     // 认证

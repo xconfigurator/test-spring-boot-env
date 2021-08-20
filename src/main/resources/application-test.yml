@@ -1,0 +1,7 @@
+#H2
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver #这个报红不必理会，实测是可以跑通的。
+    url: jdbc:h2:mem:spring-boot-env
+#    schema: classpath:db/schema_h2.sql
+#    data: classpath:db/data_h2.sql

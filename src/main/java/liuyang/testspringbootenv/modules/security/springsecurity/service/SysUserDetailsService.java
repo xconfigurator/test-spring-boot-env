@@ -25,6 +25,16 @@ public class SysUserDetailsService implements UserDetailsService {
         log.info("username = " + s);
         // return null;
 
+        // Mock
+        return mockLoadUserByUsername(s);
+
+        // JPA
+        //return jpaLoadUserByUsername(s);
+    }
+
+    // Mock
+    private UserDetails mockLoadUserByUsername(String s) {
+        // UserDetails是一个接口
         UserDetails userDetails = null;
         // Mock begin
         if ("liuyang".equals(s)) {
@@ -45,5 +55,13 @@ public class SysUserDetailsService implements UserDetailsService {
         }
         return userDetails;
         // Mock end
+    }
+
+    // TODO
+    // Spring Data JPA
+    private UserDetails jpaLoadUserByUsername(String s) {
+        UserDetails userDetails = null;
+
+        return userDetails;
     }
 }

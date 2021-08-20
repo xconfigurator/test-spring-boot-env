@@ -1,7 +1,7 @@
 package liuyang.testspringbootenv.modules.security.springsecurity.dao;
 
-import liuyang.testspringbootenv.modules.security.springsecurity.entity.SysUserAuthenticationVO;
-import liuyang.testspringbootenv.modules.security.springsecurity.entity.SysUserAuthorizationVO;
+import liuyang.testspringbootenv.modules.security.springsecurity.vo.SysUserAuthenticationVO;
+import liuyang.testspringbootenv.modules.security.springsecurity.vo.SysUserAuthorizationVO;
 
 import java.util.List;
 
