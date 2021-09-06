@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.job.controller;
+package liuyang.testspringbootenv.modules.async.controller;
 
 import liuyang.testspringbootenv.common.utils.R;
 import lombok.extern.slf4j.Slf4j;

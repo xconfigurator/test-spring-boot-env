@@ -19,4 +19,5 @@ public class BTarget {
     private String cb;// 测试名称不同的普通属性
     private List<String> list;
     private List<Integer> listb;// 测试名称不同集合属性
+    private String bOnly; // 只有B有这个字段
 }
