@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.event;
+package liuyang.testspringbootenv.modules.event.spring;
 
 import org.springframework.context.ApplicationEvent;
 

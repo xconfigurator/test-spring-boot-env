@@ -1,8 +1,7 @@
-package liuyang.testspringbootenv.modules.event;
+package liuyang.testspringbootenv.modules.event.spring;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 
 /**
  * @author liuyang

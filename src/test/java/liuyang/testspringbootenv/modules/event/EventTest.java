@@ -1,5 +1,8 @@
 package liuyang.testspringbootenv.modules.event;
 
+import liuyang.testspringbootenv.modules.event.spring.LiuyangEvent;
+import liuyang.testspringbootenv.modules.event.spring.LiuyangEvent2;
+import liuyang.testspringbootenv.modules.event.spring.LiuyangEventDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

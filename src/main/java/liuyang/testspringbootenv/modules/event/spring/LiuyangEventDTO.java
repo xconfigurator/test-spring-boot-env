@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.event;
+package liuyang.testspringbootenv.modules.event.spring;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
