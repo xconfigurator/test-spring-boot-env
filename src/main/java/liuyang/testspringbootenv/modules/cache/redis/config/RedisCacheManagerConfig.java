@@ -1,11 +1,11 @@
-package liuyang.testspringbootenv.modules.cache.config;
+package liuyang.testspringbootenv.modules.cache.redis.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import liuyang.testspringbootenv.modules.cache.serializer.LocalDateTimeDeserializer;
-import liuyang.testspringbootenv.modules.cache.serializer.LocalDateTimeSerializer;
+import liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeDeserializer;
+import liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeSerializer;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;

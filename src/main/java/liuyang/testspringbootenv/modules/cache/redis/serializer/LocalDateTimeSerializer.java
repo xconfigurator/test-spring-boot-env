@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.cache.serializer;
+package liuyang.testspringbootenv.modules.cache.redis.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

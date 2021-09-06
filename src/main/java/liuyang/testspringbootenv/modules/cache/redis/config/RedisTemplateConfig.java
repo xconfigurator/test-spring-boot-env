@@ -1,23 +1,21 @@
-package liuyang.testspringbootenv.modules.cache.config;
+package liuyang.testspringbootenv.modules.cache.redis.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import liuyang.testspringbootenv.modules.cache.serializer.LocalDateTimeDeserializer;
-import liuyang.testspringbootenv.modules.cache.serializer.LocalDateTimeSerializer;
+import liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeDeserializer;
+import liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeSerializer;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.SerializationException;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.LocalDateTime;
