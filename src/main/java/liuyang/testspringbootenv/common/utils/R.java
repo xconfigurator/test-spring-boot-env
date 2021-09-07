@@ -1,12 +1,15 @@
 package liuyang.testspringbootenv.common.utils;
 
+import org.springframework.http.ResponseEntity;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 来自renren逆向工程
- *
  * 返回数据
+ *
+ * 类比：org.springframework.http.ResponseEntity
  *
  * @author chenshun
  * @email sunlightcs@gmail.com

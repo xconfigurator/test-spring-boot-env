@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.session.config;
+package liuyang.testspringbootenv.modules.session.redis.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.BeanClassLoaderAware;

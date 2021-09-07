@@ -9,6 +9,21 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLParameters;
+import java.io.IOException;
+import java.net.Authenticator;
+import java.net.CookieHandler;
+import java.net.ProxySelector;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+
 /**
  * @author liuyang
  * @scine 2021/7/5
@@ -47,5 +62,21 @@ public class AsyncControllerTest {
     void testAsync() {
         // 正常
         R forObject = restTemplate.getForObject("http://localhost/async/async", R.class);
+    }
+
+    @Test
+    void testRestTemplate() {
+        R forObject = restTemplate.getForObject("http://www.baidu.com", R.class);
+        log.info("R = {}", forObject);
+    }
+
+    @Test
+    void testHttpClientSinceJDK9() throws IOException, InterruptedException {
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpRequest req = HttpRequest.newBuilder(URI.create("http://www.baidu.com")).GET().build();
+        HttpResponse<String> resp = httpClient.send(req, HttpResponse.BodyHandlers.ofString());
+        log.info("resp.headers() = {}", resp.headers());
+        log.info("resp.body() = {}", resp.body());
+        log.info("resp = {}", resp);
     }
 }
