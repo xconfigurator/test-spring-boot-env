@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.event.spring;
+package liuyang.testspringbootenv.modules.event.spring.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +14,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @Data
 @ToString
-public class LiuyangEventDTO {
+public class LiuyangEvent1DTO {
     private String value;
 }

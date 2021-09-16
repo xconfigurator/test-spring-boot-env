@@ -62,4 +62,22 @@ public class BeanUtilsTest {
     void test() {
         log.info("now = {}", LocalDateTime.now());
     }
+
+    @Test
+    void testDefaultValue() {
+        @AllArgsConstructor
+        @NoArgsConstructor
+        @Data
+        @ToString
+        class A {
+            String str;
+            Long l;
+            Integer i;
+            Double d;
+        }
+
+        A a = new A();
+
+        log.info("a = {}", a);
+    }
 }

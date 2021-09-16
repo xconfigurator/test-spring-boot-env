@@ -15,6 +15,7 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
+        <dozer.version>6.5.2</dozer.version>
         <!-- webjar begin -->
         <jquery.version>3.5.1</jquery.version>
         <layui.version>2.5.6</layui.version>
@@ -222,6 +223,21 @@
             <version>${axios.version}</version>
         </dependency>-->
 
+        <!-- Dozer::Core -->
+        <!--
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-core</artifactId>
+            <version>${dozer.version}</version>
+        </dependency>
+         -->
+
+        <!-- Dozer::Integrations::Spring Support::Starter -->
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-spring-boot-starter</artifactId>
+            <version>${dozer.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
