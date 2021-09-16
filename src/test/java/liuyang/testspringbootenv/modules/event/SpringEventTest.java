@@ -33,6 +33,6 @@ public class SpringEventTest {
         ctx.publishEvent(new LiuyangEvent1(new LiuyangEvent1DTO("############event data for evnet1 03")));
         ctx.publishEvent(new LiuyangEvent1(new LiuyangEvent1DTO("############event data for evnet1 04")));
         // 使用继承ApplicationListener方式
-        ctx.publishEvent(new LiuyangEvent3(new LiuyangEvent3DTO("hello, world")));
+        ctx.publishEvent(new LiuyangEvent3(new LiuyangEvent3DTO("hello, world")));// 这个Listener演示了异步多线程处理。
     }
 }
