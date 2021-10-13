@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * @author liuyang
  * @scine 2021/9/6
  */
-@Configuration
+//@Configuration
 public class QuartzConfig {
     private static final String JOB_GROUP_NAME = "LIUYANG_QUARTZ_SINGLE_JOB_GROUP_NAME";
     private static final String TRIGGER_GROUP_NAME = "LIUYANG_QUARTZ_SINGLE_TRIGGER_GROUP_NAME";

@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeDeserializer;
-import liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeSerializer;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -42,8 +40,10 @@ public class RedisCacheManagerConfig {
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         // LocalDateTime
         om.registerModule(new JavaTimeModule()
-                .addSerializer(LocalDateTime.class, new LocalDateTimeSerializer())// 好像fasterxml里有
-                .addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer())); // 好像fasterxml里有
+                .addSerializer(LocalDateTime.class
+                        , new liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeSerializer())// 好像fasterxml里有
+                .addDeserializer(LocalDateTime.class
+                        , new liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeDeserializer())); // 好像fasterxml里有
         jackson2JsonRedisSerializer.setObjectMapper(om);
         // ////////////////////////////////////////////////////////////////////////////////
 

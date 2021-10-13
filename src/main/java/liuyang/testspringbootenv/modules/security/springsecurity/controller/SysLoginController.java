@@ -1,5 +1,6 @@
 package liuyang.testspringbootenv.modules.security.springsecurity.controller;
 
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -22,6 +23,7 @@ public class SysLoginController {
     @GetMapping("/test/username")
     public String getUsername() {
         log.info(ReflectionToStringBuilder.toString(SecurityContextHolder.getContext().getAuthentication(), ToStringStyle.MULTI_LINE_STYLE));
+        log.info(JSON.toJSONString(SecurityContextHolder.getContext().getAuthentication()));
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         // 示例：测试类型

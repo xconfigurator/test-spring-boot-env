@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.utils;
+package liuyang.testspringbootenv.modules.utils.key;
 
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.stereotype.Component;

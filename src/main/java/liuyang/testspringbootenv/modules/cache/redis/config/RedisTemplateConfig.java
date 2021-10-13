@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeDeserializer;
-import liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeSerializer;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -53,8 +51,10 @@ public class RedisTemplateConfig {
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         // LocalDateTime
         om.registerModule(new JavaTimeModule()
-                .addSerializer(LocalDateTime.class, new LocalDateTimeSerializer())
-                .addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer()));
+                .addSerializer(LocalDateTime.class
+                        , new liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeSerializer())
+                .addDeserializer(LocalDateTime.class
+                        , new liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeDeserializer()));
         jackson2JsonRedisSerializer.setObjectMapper(om);
         // ////////////////////////////////////////////////////////////////////////////////
 

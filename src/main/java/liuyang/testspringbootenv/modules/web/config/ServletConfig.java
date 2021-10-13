@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @author liuyang
  * @scine 2021/9/6
  */
-@Configuration
+//@Configuration
 public class ServletConfig {
 
     // Servlet
