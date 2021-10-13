@@ -177,10 +177,10 @@
         </dependency>-->
 
         <!-- Spring initializr NoSQL Spring Data Redis(Access + Driver)  -->
-        <!--<dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>-->
+        </dependency>
 
         <!-- MyBatis-Plus --> <!-- 2021/7/1 换为Spring Data JPA MyBatis-Plus的部分参考其他工程 -->
         <!--<dependency>

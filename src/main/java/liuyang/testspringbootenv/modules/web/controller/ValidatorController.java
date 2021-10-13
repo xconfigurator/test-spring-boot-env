@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
 
 import javax.validation.Valid;
 
 /**
  * @author liuyang
- * @scine 2021/6/22
+ * @since 2021/6/22
  */
 @RestController
 @RequestMapping("/valid")
