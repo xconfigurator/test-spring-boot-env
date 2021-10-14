@@ -5,7 +5,7 @@ package liuyang.testspringbootenv.modules.security.springsecurity.vo;
  * @author liuyang
  * @scine 2021/4/19
  */
-public class SysUserAuthenticationVO {
+public class SysUserAuthenticationInfo {
     private Integer id;
 
 }

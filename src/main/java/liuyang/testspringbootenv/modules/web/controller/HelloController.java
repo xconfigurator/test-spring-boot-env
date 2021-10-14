@@ -31,6 +31,17 @@ public class HelloController {
         throw new RuntimeException("测试异常处理");
     }
 
+    // 需要权限r1 在SecurityConfig中配置
+    @GetMapping("/r1")
+    public R testR1() {
+        return R.ok("拥有权限r1");
+    }
+
+    // 需要权限r2 在SecurityConfig中配置
+    @GetMapping("/r2")
+    public R testR2() {
+        return R.ok("拥有权限r2");
+    }
 
     @PostMapping
     public R testPost(String cityId){

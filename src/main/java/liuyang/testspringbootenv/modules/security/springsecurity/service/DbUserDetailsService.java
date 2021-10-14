@@ -16,20 +16,38 @@ import java.util.Collection;
  * @author liuyang
  * @scine 2021/4/19
  */
-@Service
+//@Service
 @Slf4j
-public class SysUserDetailsService implements UserDetailsService {
+public class DbUserDetailsService implements UserDetailsService {
+
+    // JPA::注入JPA服务
+    // MyBatis-Plus::注入MyBatis-Plus服务
+    // 类推：也可以接驳其他NoSQL数据源，如LDAP、MongoDB等...
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        log.info("username = " + s);
-        // return null;
+        // JPA
+        //return jpaLoadUserByUsername(s);
+
+        // MyBatis-Plus
+        //return myBatisPlusLoadUserByUsername(s);
 
         // Mock
         return mockLoadUserByUsername(s);
+    }
 
-        // JPA
-        //return jpaLoadUserByUsername(s);
+    // Spring Data JPA impl
+    private UserDetails jpaLoadUserByUsername(String s) {
+        UserDetails userDetails = null;
+        // TODO
+        return userDetails;
+    }
+
+    // MyBatis-Plus impl
+    private UserDetails myBatisPlusLoadUserByUsername(String s) {
+        UserDetails userDetails = null;
+        // TODO
+        return userDetails;
     }
 
     // Mock
@@ -55,13 +73,5 @@ public class SysUserDetailsService implements UserDetailsService {
         }
         return userDetails;
         // Mock end
-    }
-
-    // TODO
-    // Spring Data JPA
-    private UserDetails jpaLoadUserByUsername(String s) {
-        UserDetails userDetails = null;
-
-        return userDetails;
     }
 }

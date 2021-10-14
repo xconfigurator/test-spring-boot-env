@@ -1,7 +1,7 @@
 package liuyang.testspringbootenv.modules.security.springsecurity.dao;
 
-import liuyang.testspringbootenv.modules.security.springsecurity.vo.SysUserAuthenticationVO;
-import liuyang.testspringbootenv.modules.security.springsecurity.vo.SysUserAuthorizationVO;
+import liuyang.testspringbootenv.modules.security.springsecurity.vo.SysUserAuthenticationInfo;
+import liuyang.testspringbootenv.modules.security.springsecurity.vo.SysUserAuthorizationInfo;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ import java.util.List;
 public interface SysUserDao {
 
     // 认证信息
-    SysUserAuthenticationVO getUserAuthenticationInfo(String username);
+    SysUserAuthenticationInfo getUserAuthenticationInfo(String username);
 
     // 授权信息
-    List<SysUserAuthorizationVO> getUserAuthorizationInfo(String username);
+    List<SysUserAuthorizationInfo> getUserAuthorizationInfo(String username);
 
 }

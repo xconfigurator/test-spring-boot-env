@@ -1,8 +1,8 @@
 package liuyang.testspringbootenv.modules.security.springsecurity.dao.jdbc;
 
 import liuyang.testspringbootenv.modules.security.springsecurity.dao.SysUserDao;
-import liuyang.testspringbootenv.modules.security.springsecurity.vo.SysUserAuthenticationVO;
-import liuyang.testspringbootenv.modules.security.springsecurity.vo.SysUserAuthorizationVO;
+import liuyang.testspringbootenv.modules.security.springsecurity.vo.SysUserAuthenticationInfo;
+import liuyang.testspringbootenv.modules.security.springsecurity.vo.SysUserAuthorizationInfo;
 
 import java.util.List;
 
@@ -13,13 +13,13 @@ import java.util.List;
  */
 public class SysUserDaoImpl implements SysUserDao {
     @Override
-    public SysUserAuthenticationVO getUserAuthenticationInfo(String username) {
+    public SysUserAuthenticationInfo getUserAuthenticationInfo(String username) {
         // TODO
         return null;
     }
 
     @Override
-    public List<SysUserAuthorizationVO> getUserAuthorizationInfo(String username) {
+    public List<SysUserAuthorizationInfo> getUserAuthorizationInfo(String username) {
         // TODO
         return null;
     }

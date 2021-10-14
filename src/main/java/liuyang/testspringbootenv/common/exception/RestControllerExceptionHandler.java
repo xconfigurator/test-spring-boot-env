@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @scine 2021/3/31
  */
 @RestControllerAdvice
-@Slf4j()
+@Slf4j
 public class RestControllerExceptionHandler {
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
