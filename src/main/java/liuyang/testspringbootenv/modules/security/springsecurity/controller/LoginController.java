@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
 // 202110140926 自定义的登录页面跳转在这个控制器里实现
 public class LoginController {
 
-    @GetMapping("/showuserinfo")
+    @GetMapping("/userinfo")
     public R getUsername() {
         log.info(ReflectionToStringBuilder.toString(SecurityContextHolder.getContext().getAuthentication(), ToStringStyle.MULTI_LINE_STYLE));
         log.info(JSON.toJSONString(SecurityContextHolder.getContext().getAuthentication()));

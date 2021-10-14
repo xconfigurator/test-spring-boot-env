@@ -1,5 +1,6 @@
 package liuyang.testspringbootenv.modules.security.springsecurity.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,49 +27,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)// @Secure @PreAuthorize @PostAuthorize
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Value("${liuyang.debug.security.enabled}")
+    private boolean isSecurityEnabled = true;// 为方便调试，自定义安全规则开关。不可以写成final
+
     // 授权
     // 定义安全拦截机制
     // 能够配置的项具体参见HttpSecurity的源码注释
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // ///////////////////////////////////////////////
-        // 【一段相对完整的配置示例】 begin
 
-        // 类比shiro: shiroFilterFactoryBean.setFilterChainDefinitionMap(FilterChainDefinitionMapBuilder.build())
-        // 声明不需要权限拦截的资源（白名单必须在前，否则将失效）
-        // 首页
-        http.authorizeRequests().antMatchers("/").permitAll();
-        // 登录页面
-        http.authorizeRequests()
-                .antMatchers("/security/login/page").permitAll()
-                .antMatchers("/security/login").permitAll();
-        // 配置授权规则：需要权限控制的页面
-        http.authorizeRequests()
-                .antMatchers("/hello/r1").hasAuthority("r1")
-                .antMatchers("/hello/r2").hasAuthority("r2");
-        // 声明需要权限拦截的资源
-        http.authorizeRequests().anyRequest().authenticated();
-        // 登录
-        http.formLogin()
-                // 自定义登录页面以及页面处理 若想用Spring Security默认提供页面就注释掉这两项
-                // Spring Security默认提供的登录地址是/login
-                //.loginPage("/security/login/page")
-                //.loginProcessingUrl("/security/login")
-                // 下面的配置配合Spring Security默认提供登录页面仍然有效
-                .failureForwardUrl("/security/login/failure");    // 未测试 酌情配置(若自定义了登录处理方法，且为rest风格，则按照自定义的返回。)
-                //.successForwardUrl("/security/login/success");  // ok 不配置的话就是访问哪个页面被阻止了就跳转到哪个页面
-                //.successForwardUrl("/");                        // ok 不配置的话就是访问哪个页面被阻止了就跳转到哪个页面
-        // 注销
-        http.logout()
-                // Spring Security默认提供的实现是/logout
-                .logoutUrl("/security/logout")                      // ok
-                //.logoutSuccessUrl("/security/logout/success")     // 未生效 指定注销后的页面（若/security/logout是rest风格，则这个选项失效）
-                .deleteCookies("JSESSIONID")                   // 删除指定的Cookie
-                .invalidateHttpSession(true);                  // 另Session失效
-
-        // 【一段相对完整的配置示例】 end
-        // ///////////////////////////////////////////////
-
+        if (isSecurityEnabled) {
+            // HttpSecurity
+            // 一段相对完整的配置示例
+            demoConfig(http);
+        } else {
+            // 放开所有资源的访问权限
+            http.authorizeRequests().anyRequest().permitAll();
+        }
 
         // 【配置项分类解释】
         // 【使用场景】：想要用一下SpringSecurity提供的登录页面做一下UserDetailsService以及PasswordEncoder测试。
@@ -89,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 放开所有权限 begin 2021/7/3
         //http.authorizeRequests().anyRequest().permitAll();
         // 放开所有权限 end 2021/7/3
-        // 方法2：彻底关闭Spring Security组件。可以取消SecurityConfig上面的注解。
+        // 方法2：彻底关闭Spring Security组件。可以取消SecurityConfig上面的注解。202110141400 实测这种方法貌似不生效！！为什么？
 
         // 【使用场景】：需要根据不同的角色给出不同的登录页面
         // TODO
@@ -228,5 +203,46 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         // return NoOpPasswordEncoder.getInstance();
         return new BCryptPasswordEncoder();
+    }
+
+    // HttpSecurity
+    // 一段相对完整的配置示例
+    private void demoConfig(HttpSecurity http) throws Exception {
+        // ///////////////////////////////////////////////
+        // 【一段相对完整的配置示例】 begin
+        // 类比shiro: shiroFilterFactoryBean.setFilterChainDefinitionMap(FilterChainDefinitionMapBuilder.build())
+        // 声明不需要权限拦截的资源（白名单必须在前，否则将失效）
+        // 首页
+        http.authorizeRequests().antMatchers("/").permitAll();
+        // 登录页面
+        http.authorizeRequests()
+                .antMatchers("/security/login/page").permitAll()
+                .antMatchers("/security/login").permitAll();
+        // 配置授权规则：需要权限控制的页面
+        http.authorizeRequests()
+                .antMatchers("/hello/r1").hasAuthority("r1")
+                .antMatchers("/hello/r2").hasAuthority("r2");
+        // 声明需要权限拦截的资源
+        http.authorizeRequests().anyRequest().authenticated();
+        // 登录
+        http.formLogin()
+                // 自定义登录页面以及页面处理 若想用Spring Security默认提供页面就注释掉这两项
+                // Spring Security默认提供的登录地址是/login
+                //.loginPage("/security/login/page")
+                //.loginProcessingUrl("/security/login")
+                // 下面的配置配合Spring Security默认提供登录页面仍然有效
+                .failureForwardUrl("/security/login/failure");    // 未测试 酌情配置(若自定义了登录处理方法，且为rest风格，则按照自定义的返回。)
+        //.successForwardUrl("/security/login/success");  // ok 不配置的话就是访问哪个页面被阻止了就跳转到哪个页面
+        //.successForwardUrl("/");                        // ok 不配置的话就是访问哪个页面被阻止了就跳转到哪个页面
+        // 注销
+        http.logout()
+                // Spring Security默认提供的实现是/logout
+                .logoutUrl("/security/logout")                      // ok
+                //.logoutSuccessUrl("/security/logout/success")     // 未生效 指定注销后的页面（若/security/logout是rest风格，则这个选项失效）
+                .deleteCookies("JSESSIONID")                   // 删除指定的Cookie
+                .invalidateHttpSession(true);                  // 另Session失效
+
+        // 【一段相对完整的配置示例】 end
+        // ///////////////////////////////////////////////
     }
 }
