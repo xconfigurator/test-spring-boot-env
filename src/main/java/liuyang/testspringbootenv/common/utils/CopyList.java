@@ -23,15 +23,20 @@ public class CopyList {
      * @return
      */
     public static <S, T> void copy(List<S> sourceList, List<T> targetList, Class<T> aimClazz) {
-        if (targetList == null){
+        if (null == sourceList) {
+            return;
+        }
+        if (null == targetList){
             targetList = new ArrayList<>();
+        }
+        if (null == aimClazz) {
+            return;
         }
         for (S sourceElement : sourceList) {
             T targetElement = BeanUtils.instantiateClass(aimClazz);
             BeanUtils.copyProperties(sourceElement, targetElement);
             targetList.add(targetElement);
         }
-
     }
 
     // topQuery应该还需要一个订制方法
