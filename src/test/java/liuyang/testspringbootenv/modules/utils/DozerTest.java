@@ -7,6 +7,7 @@ package liuyang.testspringbootenv.modules.utils;
  * @author liuyang
  * @scine 2021/9/14
  */
+@Deprecated
 public class DozerTest {
     
 }

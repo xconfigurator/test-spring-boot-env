@@ -28,7 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${liuyang.debug.security.enabled}")
-    private boolean isSecurityEnabled = true;// 为方便调试，自定义安全规则开关。不可以写成final
+    private boolean isSecurityEnabled = false;// 为方便调试，自定义安全规则开关。不可以写成final
 
     // 授权
     // 定义安全拦截机制

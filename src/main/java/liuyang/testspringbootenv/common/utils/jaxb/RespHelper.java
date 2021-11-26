@@ -1,7 +1,5 @@
 package liuyang.testspringbootenv.common.utils.jaxb;
 
-import org.apache.xmlbeans.impl.values.XmlDateImpl;
-
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.Date;
 
