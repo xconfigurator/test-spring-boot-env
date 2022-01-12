@@ -44,6 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         } else {
             // 放开所有资源的访问权限
             http.authorizeRequests().anyRequest().permitAll();
+            // https://blog.csdn.net/t894690230/article/details/52404105
+            http.csrf().disable();
         }
 
         // 【配置项分类解释】
@@ -242,7 +244,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.logoutSuccessUrl("/security/logout/success")     // 未生效 指定注销后的页面（若/security/logout是rest风格，则这个选项失效）
                 .deleteCookies("JSESSIONID")                   // 删除指定的Cookie
                 .invalidateHttpSession(true);                  // 另Session失效
-
+        // csrf
+        // https://blog.csdn.net/t894690230/article/details/52404105
+        http.csrf().disable();
         // 【一段相对完整的配置示例】 end
         // ///////////////////////////////////////////////
     }

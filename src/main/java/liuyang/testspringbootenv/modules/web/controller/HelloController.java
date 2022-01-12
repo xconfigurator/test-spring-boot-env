@@ -4,10 +4,7 @@ import liuyang.testspringbootenv.common.utils.IdUtils;
 import liuyang.testspringbootenv.common.utils.R;
 import liuyang.testspringbootenv.modules.web.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
@@ -65,6 +62,24 @@ public class HelloController {
         return userDTO;
     }
 
+    @PostMapping("/dtopost1")
+    //@GetMapping("/dtopost1")
+    public UserDTO testRestTemplateDtoPost1(String id, String username, String info, Double d, BigDecimal bd) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(id);
+        userDTO.setUsername(username);
+        userDTO.setInfo(info);
+        userDTO.setD(d);
+        userDTO.setBd(bd);
+        log.info("userDTO = {}", userDTO);
+        return userDTO;
+    }
+
+    @PostMapping("/dtopost2")
+    public UserDTO testRestTemplateDtoPost2(@RequestBody UserDTO userDTO) {
+        log.info("userDTO = {}", userDTO);
+        return userDTO;
+    }
     // 202111261016 为测试RestTemplate定制的方法 end
 
 }
