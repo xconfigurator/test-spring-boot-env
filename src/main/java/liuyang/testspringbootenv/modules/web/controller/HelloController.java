@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+
 /**
  * @author liuyang
  * @scine 2021/3/31
@@ -58,6 +60,8 @@ public class HelloController {
         userDTO.setId(IdUtils.nextTaskId());
         userDTO.setUsername("liuyang");
         userDTO.setInfo("测试RestTemplate的getForObject()");
+        userDTO.setD(9.0);
+        userDTO.setBd(new BigDecimal("40.000000"));
         return userDTO;
     }
 

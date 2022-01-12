@@ -28,13 +28,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${liuyang.debug.security.enabled}")
-    private boolean isSecurityEnabled = false;// 为方便调试，自定义安全规则开关。不可以写成final
+    private boolean isSecurityEnabled;// 为方便调试，自定义安全规则开关。不可以写成final
 
     // 授权
     // 定义安全拦截机制
     // 能够配置的项具体参见HttpSecurity的源码注释
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //http.authorizeRequests().anyRequest().permitAll();
 
         if (isSecurityEnabled) {
             // HttpSecurity

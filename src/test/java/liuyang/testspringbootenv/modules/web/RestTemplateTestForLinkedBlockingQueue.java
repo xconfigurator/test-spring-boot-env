@@ -4,17 +4,17 @@ import com.alibaba.fastjson.JSON;
 import liuyang.testspringbootenv.common.utils.IdUtils;
 import liuyang.testspringbootenv.common.utils.R;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.query.criteria.internal.expression.function.AggregationFunction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 服务端代码在test-messaging中
+ *
  * @author liuyang(wx)
  * @since 2021/12/2
  */

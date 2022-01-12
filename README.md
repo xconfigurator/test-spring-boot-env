@@ -210,3 +210,10 @@ TODO Kafka
 [参考视频](https://www.bilibili.com/video/BV1UE411t7BZ/?spm_id_from=333.788.recommend_more_video.0)
 202106221012 增加Bean Validation  
 暂时转移到data-server下实验。那里没有Spring Security干扰。
+Bean Validation还可以参见李兴华老师的视频。
+
+### ssl
+[参考视频]()
+202112271455 增加SSL配置。笔记见为知笔记。
+ modules/security/ssl
+李兴华老师的在Spring Boot工程中开启SSL。
