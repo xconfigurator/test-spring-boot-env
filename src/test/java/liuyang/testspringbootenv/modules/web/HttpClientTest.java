@@ -1,14 +1,14 @@
 package liuyang.testspringbootenv.modules.web;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.hc.client5.http.classic.methods.HttpGet;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.core5.http.Header;
-import org.apache.hc.core5.http.HttpEntity;
-import org.apache.hc.core5.http.ParseException;
-import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.ParseException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -31,6 +31,7 @@ public class HttpClientTest {
         // 发送请求
         CloseableHttpResponse response = httpClient.execute(new HttpGet(url));
 
+        /*
         // 消息头
         Header[] headers = response.getHeaders();
         for (Header header : headers) {
@@ -43,10 +44,11 @@ public class HttpClientTest {
         log.info("消息体：{}", s);
 
         // 状态码
-        log.info("状态码：{}", response.getCode());
+        //log.info("状态码：{}", );
 
         response.close();
         httpClient.close();
+         */
     }
 
     // POST 14:31
