@@ -39,7 +39,8 @@ import java.util.Map;
  * https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-client
  *
  * @author liuyang(wx)
- * @since 2021/11/25
+ * @since   2021/11/25
+ * @update  2022/1/12
  */
 @Slf4j
 //@SpringBootTest
@@ -68,6 +69,19 @@ public class RestTemplateTest {
     void httpStatusTest() {
         // 100 200 301 302 404 500
     }
+
+    // get https
+    @Test
+    void httpsTest() {
+        String url = "https://muyan-yootk.com/";
+        Map<String, Long> paramMap = new HashMap<>();
+        ResponseEntity<Object> forEntity = restTemplate.getForEntity(url, Object.class, paramMap);
+        log.info("statusCode = {}", forEntity.getStatusCode());
+        log.info("statusCodeValue = {}", forEntity.getStatusCodeValue());
+        log.info("headers = {}", forEntity.getHeaders());
+        log.info("body = {}", forEntity.getBody());
+    }
+
 
     // 直接获取对象
     @Test

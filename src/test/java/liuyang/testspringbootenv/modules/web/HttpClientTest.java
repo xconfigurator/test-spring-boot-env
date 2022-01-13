@@ -2,7 +2,6 @@ package liuyang.testspringbootenv.modules.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -15,6 +14,7 @@ import java.io.IOException;
 
 /**
  * https://hc.apache.org/
+ * 依赖库原因，参见test-client （该工程基于5.x）
  *
  * @author liuyang(wx)
  * @since 2021/12/27
@@ -22,36 +22,36 @@ import java.io.IOException;
 @Slf4j
 public class HttpClientTest {
 
-    // GET
     @Test
-    void helloHttpClient() throws IOException, ParseException {
-        String url = "http://www.baidu.com";
+    void testGet() throws IOException, ParseException {
+        //String url = "http://www.baidu.com";
+        String url = "http://www.sina.com/";// 实测https://www.sina.com也OK。
+        //String url = "https://muyan-yootk.com/";// 调用方法参见HttpClientSSLTest
         CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(url);
+        CloseableHttpResponse response = httpClient.execute(httpGet);
 
-        // 发送请求
-        CloseableHttpResponse response = httpClient.execute(new HttpGet(url));
-
-        /*
-        // 消息头
-        Header[] headers = response.getHeaders();
-        for (Header header : headers) {
-            log.info("头信息: name = {}, value = {}", header.getName(), header.getValue());
-        }
-
-        // 消息体
-        HttpEntity entity = response.getEntity();
-        String s = EntityUtils.toString(entity);
-        log.info("消息体：{}", s);
-
-        // 状态码
-        //log.info("状态码：{}", );
+        showResponse(response);
 
         response.close();
         httpClient.close();
-         */
     }
 
-    // POST 14:31
-    // TODO
+    // 5.x 和 4.x还是有区别的
+    private void showResponse(CloseableHttpResponse response) throws IOException, ParseException {
+        //log.info("header = {}", response.getHeaders());// 这样输出是打不全的
+        /*
+        log.info("header begin");
+        for (Header header : response.getHeaders()) {
+            log.info("header = {}", header);
+        }
+        log.info("header end");
+        */
+        log.info("body = {}", EntityUtils.toString(response.getEntity()));
+        /*
+        log.info("code = {}", response.getCode());
+        log.info("version = {}", response.getVersion());
+        */
+    }
 
 }
