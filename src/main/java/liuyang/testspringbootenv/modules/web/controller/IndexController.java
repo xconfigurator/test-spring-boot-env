@@ -21,7 +21,8 @@ public class IndexController {
     }
 
     // 如果想让默认进来就跳转到登录页
-/*    @RequestMapping
+    /*
+    @RequestMapping
     public ModelAndView index(ModelAndView mav) {
         log.info("自定义首页跳转 index redirect via public ModelAndView index(ModelAndView mav) ");
         mav.setViewName("redirect:/login");// spring security 默认提供的登录页

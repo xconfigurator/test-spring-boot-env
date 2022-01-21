@@ -5,7 +5,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.4</version>
+        <!--<version>2.4.4</version>-->
+        <version>2.6.2</version><!-- 20220120 upgraded -->
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>liuyang</groupId>
@@ -60,6 +61,7 @@
             <artifactId>webjars-locator</artifactId>
             <version>${locator.version}</version>
         </dependency>
+
         <!-- 不使用locator -->
         <!--script src="/webjars/jquery/3.5.1/jquery.min.js"></script> -->
         <!-- 使用locator -->
@@ -106,6 +108,14 @@
             <artifactId>swagger-bootstrap-ui</artifactId>
             <version>1.9.3</version>
         </dependency>
+
+        <!-- Swagger 另一种依赖配置 -->
+        <!-- https://github.com/springfox/springfox -->
+        <!--<dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
+        </dependency>-->
 
         <!-- WebSockets -->
         <dependency>

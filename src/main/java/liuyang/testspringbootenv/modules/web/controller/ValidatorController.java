@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 /**
+ * 测试 BeanValidator JSR 303/ JSR 349/ JSR 380
+ *
  * @author liuyang
  * @since 2021/6/22
  */
@@ -22,7 +24,7 @@ public class ValidatorController {
 
     @GetMapping
     public R hello() {
-        return R.ok("hello Spring Boot Env test Validation");
+        return R.ok("hello Spring Boot Env test BeanValidator JSR 303/ JSR 349/ JSR 380");
     }
 
     @PostMapping("/department")
@@ -35,4 +37,6 @@ public class ValidatorController {
         log.info("校验成功");
         return R.ok("校验成功");
     }
+
+
 }
