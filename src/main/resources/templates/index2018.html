@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>2018视频教程笔记</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2 class="page-header">Thymeleaf & Webjars v2018</h2>
+        <div>
+            <li><span>Data from Spring controller:<span th:text="${info}">页面上写死的内容，运行时会被模板引擎替换。</span></span></li>
+        </div>
+        <div>
+            <li>
+                <span th:text="${infoLabel}"></span><!-- 直接infoLabel变量中的标签 -->
+            </li>
+            <li>
+                <span th:utext="${infoLabel}"></span><!-- 按照infoLabel变量中 HTML Label的意义输出。  -->
+            </li>
+        </div>
+        <div>
+            <!-- 循环 type1 -->
+            <div>
+                <h4 th:text="${user}" th:each="user:${users}"></h4>
+            </div>
+            <!-- 循环 type2 -->
+            <div>
+                <h4>
+                    <div th:each="user:${users}">[[${user.id}]]</div>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <script>
+    </script>
+</body>
+</html>

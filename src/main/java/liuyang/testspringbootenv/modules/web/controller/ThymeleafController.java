@@ -1,9 +1,14 @@
 package liuyang.testspringbootenv.modules.web.controller;
 
+import liuyang.testspringbootenv.common.utils.IdUtils;
+import liuyang.testspringbootenv.modules.web.dto.UserDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 测试Thymeleaf
@@ -24,6 +29,22 @@ public class ThymeleafController {
         return "index";
     }
 
+    @GetMapping("/2018")
+    public String v2018(Model model) {
+        model.addAttribute("info", "hello, thymeleaf v2018");
+        model.addAttribute("infoLabel", "<h1>测试Thymeleaf</h1>");
+        model.addAttribute("users", getUserList());
+        return "index2018";
+    }
 
-
+    private List<UserDTO> getUserList() {
+        List<UserDTO> list = new ArrayList<>();
+        UserDTO user1 = new UserDTO();
+        user1.setId(IdUtils.nextTaskId());
+        list.add(user1);
+        UserDTO user2 = new UserDTO();
+        user2.setId(IdUtils.nextTaskId());
+        list.add(user2);
+        return list;
+    }
 }
