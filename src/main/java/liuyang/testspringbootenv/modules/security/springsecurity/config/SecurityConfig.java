@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -23,12 +25,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @scine 2021/4/1
  *
  */
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)// 打开debug方便学习和调试。debug默认是false
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)// @Secure @PreAuthorize @PostAuthorize
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${liuyang.debug.security.enabled}")
     private boolean isSecurityEnabled;// 为方便调试，自定义安全规则开关。不可以写成final
+
+    @Value("${spring.mvc.static-path-pattern}")
+    private String mvcStaticPath;
+
+    // 通过这个方法配置不需要进入过滤器链的内容
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        //super.configure(web);
+        web.ignoring().mvcMatchers(mvcStaticPath);
+        web.ignoring().mvcMatchers("/webjars/**");// 202201241523 ok 可以通过@EnableWebSecurity(debug = true)时的日志看出。
+    }
 
     // 授权
     // 定义安全拦截机制
@@ -45,7 +58,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // 放开所有资源的访问权限
             http.authorizeRequests().anyRequest().permitAll();
             // https://blog.csdn.net/t894690230/article/details/52404105
-            http.csrf().disable();
+            // csrf 以下三个写法等效
+            // http.csrf().disable();// 写法一
+            // http.csrf(csrf-> csrf.disable());// 写法二 函数式
+            http.csrf(AbstractHttpConfigurer::disable);// 写法三 推荐
         }
 
         // 【配置项分类解释】
@@ -215,19 +231,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 【一段相对完整的配置示例】 begin
         // 类比shiro: shiroFilterFactoryBean.setFilterChainDefinitionMap(FilterChainDefinitionMapBuilder.build())
         // 声明不需要权限拦截的资源（白名单必须在前，否则将失效）
-        // 首页
+        // 白名单：首页
         http.authorizeRequests().antMatchers("/").permitAll();
-        // 登录页面
+        // 白名单：登录页面
         http.authorizeRequests()
                 .antMatchers("/security/login/page").permitAll()
                 .antMatchers("/security/login").permitAll();
+
         // 配置授权规则：需要权限控制的页面
         http.authorizeRequests()
                 .antMatchers("/hello/r1").hasAuthority("r1")
                 .antMatchers("/hello/r2").hasAuthority("r2");
         // 声明需要权限拦截的资源
-        http.authorizeRequests().anyRequest().authenticated();
+        //http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests(req -> {
+            req.anyRequest().authenticated();// 另一种写法
+        });
+
+
         // 登录
+        /*
         http.formLogin()
                 // 自定义登录页面以及页面处理 若想用Spring Security默认提供页面就注释掉这两项
                 // Spring Security默认提供的登录地址是/login
@@ -235,18 +258,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.loginProcessingUrl("/security/login")
                 // 下面的配置配合Spring Security默认提供登录页面仍然有效
                 .failureForwardUrl("/security/login/failure");    // 未测试 酌情配置(若自定义了登录处理方法，且为rest风格，则按照自定义的返回。)
-        //.successForwardUrl("/security/login/success");  // ok 不配置的话就是访问哪个页面被阻止了就跳转到哪个页面
-        //.successForwardUrl("/");                        // ok 不配置的话就是访问哪个页面被阻止了就跳转到哪个页面
+                //.successForwardUrl("/security/login/success");  // ok 不配置的话就是访问哪个页面被阻止了就跳转到哪个页面
+                //.successForwardUrl("/");                        // ok 不配置的话就是访问哪个页面被阻止了就跳转到哪个页面
+        */
+        // 202201241625 add
+        http.formLogin(form -> {
+            form.loginPage("/security/login/page");
+        });
+
         // 注销
         http.logout()
                 // Spring Security默认提供的实现是/logout
                 .logoutUrl("/security/logout")                      // ok
                 //.logoutSuccessUrl("/security/logout/success")     // 未生效 指定注销后的页面（若/security/logout是rest风格，则这个选项失效）
-                .deleteCookies("JSESSIONID")                   // 删除指定的Cookie
-                .invalidateHttpSession(true);                  // 另Session失效
+                .deleteCookies("JSESSIONID")                        // 删除指定的Cookie
+                .invalidateHttpSession(true);                       // 另Session失效
+
         // csrf
         // https://blog.csdn.net/t894690230/article/details/52404105
-        http.csrf().disable();
+        // http.csrf().disable();
+        http.csrf(AbstractHttpConfigurer::disable);
         // 【一段相对完整的配置示例】 end
         // ///////////////////////////////////////////////
     }

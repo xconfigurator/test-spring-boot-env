@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/axios/dist/axios.js"></script>
+    <title>自定义登录页</title>
+</head>
+<body>
+<div class="container">
+    <form name="f" th:action="@{/security/login}" method="post">
+        <div th:if="${param.error}"
+             th:text="${login.page.bad-credential}"
+             class="alert alert-danger">
+            错误的用户名或密码。
+        </div>
+        <div></div>
+    </form>
+</div>
+<script>
+    /*
+    const btns = document.querySelectorAll("button");
+
+    btns[0].onclick = async function() {
+        let duanzi = await axios({
+            method: 'GET'
+            , url: 'https://api.apiopen.top/getJoke'
+        });
+        console.log(duanzi.data.result);
+    }
+     */
+</script>
+</body>
+</html>

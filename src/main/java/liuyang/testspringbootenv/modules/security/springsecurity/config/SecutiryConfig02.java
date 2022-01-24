@@ -9,8 +9,4 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  */
 //@EnableWebSecurity
 public class SecutiryConfig02 extends WebSecurityConfigurerAdapter {
-    private static final String USER_NAME = "liuyang";
-    private static final String PASSWORD = "123123";
-
-
 }

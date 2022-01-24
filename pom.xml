@@ -17,13 +17,25 @@
     <properties>
         <java.version>11</java.version>
         <dozer.version>6.5.2</dozer.version>
+        <fastjson.version>1.2.76</fastjson.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <commons-beanutils.version>1.9.4</commons-beanutils.version>
+        <httpclient.version>4.5.13</httpclient.version>
         <!-- webjar begin -->
         <jquery.version>3.5.1</jquery.version>
         <layui.version>2.5.6</layui.version>
-        <locator.version>0.40</locator.version>
+        <webjars-locator.version>0.40</webjars-locator.version>
         <bootstrap.version>5.0.1</bootstrap.version>
         <axios.version>0.21.1</axios.version>
         <!-- webjar end -->
+        <!-- swagger begin -->
+        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+        <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
+        <swagger-bootstrap-ui.version>1.9.3</swagger-bootstrap-ui.version>
+        <!-- swagger end -->
+        <!-- cxf -->
+        <cxf-spring-boot-starter-jaxws.version>3.4.3</cxf-spring-boot-starter-jaxws.version>
+        <cxf-spring-boot-starter-jaxrs.version>3.4.3</cxf-spring-boot-starter-jaxrs.version>
     </properties>
     <dependencies>
         <!-- Spring Web -->
@@ -59,7 +71,7 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>webjars-locator</artifactId>
-            <version>${locator.version}</version>
+            <version>${webjars-locator.version}</version>
         </dependency>
 
         <!-- 不使用locator -->
@@ -85,28 +97,28 @@
             <version>${bootstrap.version}</version>
         </dependency>
 
-        <!-- axios webjar aliyun仓库没有 -->
-        <!--<dependency>
+        <!-- axios webjar aliyun仓库没有 202201241546 已经有了！-->
+        <dependency>
             <groupId>org.webjars.bowergithub.axios</groupId>
             <artifactId>axios</artifactId>
             <version>${axios.version}</version>
-        </dependency>-->
+        </dependency>
 
         <!-- Swagger -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <version>${springfox-swagger2.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <version>${springfox-swagger-ui.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>
-            <version>1.9.3</version>
+            <version>${swagger-bootstrap-ui.version}</version>
         </dependency>
 
         <!-- Swagger 另一种依赖配置 -->
@@ -134,13 +146,13 @@
         <!--<dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
-            <version>3.4.3</version>
+            <version>${cxf-spring-boot-starter-jaxws.version}</version>
         </dependency>-->
         <!-- CXF -->
         <!--<dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
-            <version>3.4.3</version>
+            <version>${cxf-spring-boot-starter-jaxrs.version}</version>
         </dependency>-->
 
         <!-- Spring Security -->
@@ -224,7 +236,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.76</version>
+            <version>${fastjson.version}</version>
         </dependency>
 
         <!-- ReflectionToStringBuilder -->
@@ -232,14 +244,14 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
+            <version>${commons-lang3.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.9.4</version>
+            <version>${commons-beanutils.version}</version>
         </dependency>
 
         <!-- HttpClient -->
@@ -252,9 +264,8 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.13</version>
+            <version>${httpclient.version}</version>
         </dependency>
-
 
         <!-- Dozer::Core -->
         <!--

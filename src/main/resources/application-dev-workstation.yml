@@ -1,11 +1,11 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.5.15:3306/spring-boot-env?useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:mysql://192.168.2.14:3306/spring-boot-env?useSSL=false&serverTimezone=GMT%2B8
     username: root
     password: 123456
   redis:
-    host: 192.168.5.15
+    host: 192.168.2.14
     port: 6379
   thymeleaf:
     cache=false: false
