@@ -14,12 +14,17 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 
 /**
+ * 若是非前后端分离，则这个控制器是多余的，都在配置类里配置即可。
+ * 如果是前后端分离的应用，则需要提供本控制器，提供REST式的服务。
+ *
  * @author liuyang
  * @scine 2021/4/9
  */
-@Controller
-@RequestMapping("/security")
+//@RestController
+//@Controller
+//@RequestMapping("/security")
 @Slf4j
+@Deprecated
 // 202110140926 自定义的登录页面跳转在这个控制器里实现
 public class LoginController {
 
@@ -32,12 +37,22 @@ public class LoginController {
     }
 
     // 处理登录逻辑
+    // 如果非前后端分离，则这个方法意义不大。如果是前后端分离，则需要提供一个REST式的服务。
     @PostMapping("/login")
-    public ModelAndView login(@RequestParam String username
+    public String login(@RequestParam String username
                             , @RequestParam String password) {
+        boolean isValid = true;
+
+        log.info("username = {}", username);
+        log.info("password = {}", password);
+
         // TODO
 
-        return null;
+        if (isValid) {
+            return "index";
+        } else {
+            return "/security/login";
+        }
     }
 
     @PostMapping("/login/success")

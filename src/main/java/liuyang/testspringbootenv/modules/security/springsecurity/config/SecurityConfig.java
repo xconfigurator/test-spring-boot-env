@@ -1,7 +1,13 @@
 package liuyang.testspringbootenv.modules.security.springsecurity.config;
 
+import liuyang.testspringbootenv.modules.security.springsecurity.handler.JSONLoginFailureHandler;
+import liuyang.testspringbootenv.modules.security.springsecurity.handler.JSONLoginSuccesssHandler;
+import liuyang.testspringbootenv.modules.security.springsecurity.handler.JSONLogoutSuccessHandler;
+import liuyang.testspringbootenv.modules.security.springsecurity.handler.XXLoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -23,6 +29,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  *
  * @author liuyang
  * @scine 2021/4/1
+ * @update 2022/1/25            整理，清理旧笔记，完成页面版本，完成JSON版本（仅交互数据格式为JSON）。（页面和JSON版本的都是基于session的。）
+ * @update TODO                 完成JWT版本。
  *
  */
 @EnableWebSecurity(debug = true)// 打开debug方便学习和调试。debug默认是false
@@ -39,8 +47,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         //super.configure(web);
-        web.ignoring().mvcMatchers(mvcStaticPath);
-        web.ignoring().mvcMatchers("/webjars/**");// 202201241523 ok 可以通过@EnableWebSecurity(debug = true)时的日志看出。
+        web.ignoring().mvcMatchers(mvcStaticPath);// 静态资源
+        //web.ignoring().mvcMatchers("/webjars/**");// 202201241523 ok 可以通过@EnableWebSecurity(debug = true)时的日志看出。
+        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        web.ignoring().mvcMatchers("/error");
     }
 
     // 授权
@@ -50,146 +60,94 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //http.authorizeRequests().anyRequest().permitAll();
 
-        if (isSecurityEnabled) {
-            // HttpSecurity
-            // 一段相对完整的配置示例
-            demoConfig(http);
-        } else {
-            // 放开所有资源的访问权限
-            http.authorizeRequests().anyRequest().permitAll();
-            // https://blog.csdn.net/t894690230/article/details/52404105
-            // csrf 以下三个写法等效
-            // http.csrf().disable();// 写法一
-            // http.csrf(csrf-> csrf.disable());// 写法二 函数式
-            http.csrf(AbstractHttpConfigurer::disable);// 写法三 推荐
-        }
-
-        // 【配置项分类解释】
-        // 【使用场景】：想要用一下SpringSecurity提供的登录页面做一下UserDetailsService以及PasswordEncoder测试。
-        // 方法1：最简单的用法
-        // 使用默认保护方案 begin
-        //super.configure(http); // 父类有一些默认的规则(包含登录和注销)
-        // 使用默认保护方案 end
-        // 方法2：使用默认登录表单，但指定以下登录成功页面
-        /*
+        // ///////////////////////////////////////////////
+        // 【一段相对完整的配置示例】 begin
+        // 类比shiro: shiroFilterFactoryBean.setFilterChainDefinitionMap(FilterChainDefinitionMapBuilder.build())
+        // 声明不需要权限拦截的资源（白名单必须在前，否则将失效）
+        // 白名单：首页
+        http.authorizeRequests().antMatchers("/").permitAll();
+        // 白名单：登录页面相关
         http.authorizeRequests()
-                .anyRequest().authenticated()
-                .and().formLogin()
-                .successForwardUrl("/security/test/foo");// 注意：这样发出的是post请求
-        */
+                .antMatchers("/login").permitAll()                  // 注意没有/logout，想想为什么。
+                .antMatchers("/security/login/page").permitAll()
+                .antMatchers("/security/login").permitAll();
 
-        // 【使用场景】：想要“关闭”SpringSecurity防护
-        // 方法1：取消下面的配置，即默认开放所有的页面资源的访问。
-        // 放开所有权限 begin 2021/7/3
-        //http.authorizeRequests().anyRequest().permitAll();
-        // 放开所有权限 end 2021/7/3
-        // 方法2：彻底关闭Spring Security组件。可以取消SecurityConfig上面的注解。202110141400 实测这种方法貌似不生效！！为什么？
-
-        // 【使用场景】：需要根据不同的角色给出不同的登录页面
-        // TODO
-
-        // 【使用场景】：自定义登录页面配置
-        // http.formLogin();
-        // 1. /login来到登录页
-        // 2. /login?error表示登录失败
-        // 定制登录页, 具体细节参见 formLogin方法和loginPage方法的代码注释。
-        // 定制接收参数：formLogin().usernameParameter("user").passwordParameter("pwd")
-        // 定制登录处理方法: .loginPage("/myLoginPage").loginProcessingUrl("");
-        // e.g.
-        /*
-        http.formLogin()
-            .loginPage("/myLoginPage")
-            .usernameParameter("user")
-            .passwordParameter("pwd")
-            .loginProcessingUrl("/doLogin")
-            .failureForwardUrl()
-            .successForwardUrl()
-            .permitAll();
-         */
-
-        // 【使用场景】：自定义授权规则, 如果这里不配置则拦截所有。
-        // e.g.1 只拦截/r/**下的请求，
-        // http.authorizeRequests().antMatchers("/r/**").authenticated().anyRequest().permitAll();
-        // e.g.2
-        /*
+        // 配置授权规则：需要权限控制的页面
         http.authorizeRequests()
-                .antMatchers("/r/r1").hasAuthority("p1").hasAnyAuthority("p1", "p2")
-                .antMatchers("/r/r2").hasAuthority("p2")
-                .antMatchers("/r/**").authenticated()
-                .anyRequest().permitAll() // 除这些之外允许直接访问 注意校验顺序 从上到下 如果这条放在第一条则所有权限规则失效。
-                .and()
-                .formLogin()
-                .loginPage("/myLoginPage")
-                .usernameParameter("user")
-                .passwordParameter("pwd")
-                .successForwardUrl("/myLoginSuccess")
-                .failureForwardUrl("/myLoginFailure");
-        */
-
-        // 【注意】：拦截顺序从上到下
-        // 实践：具体的规则放前面，通配的规则放后面。
-        /*
-            // OK
-            .antMatchers("/admin/login").permitAll()
-            .antMatchers("/admin/**").hashRole("ADMIN")
-
-            // Wrong!
-            .antMatchers("/admin/**").hashRole("ADMIN")
-            .antMatchers("/admin/login").permitAll()
-         */
-        // .access()中可以使用SpEL表达式 (不推荐这样写)
-        /*
-            .antMatchers(“/r/r3”).access("hasAuthority('p1') and hasAuthority('p2')")
-         */
-
-        // 【使用场景】：自定义注销
-        // http.logout();
-        // 1. 访问/logout <form th:action"@{/logout}" method="post"><input type="submit" value="注销"></form>
-        // 2. 注销成功会返回 /login?Logout 修改注销成功页面 http.logout().logoutSuccessUrl("/");
-        // e.g.
-        /*
-        http.logout()
-            .logoutUrl("/logout")
-            .logoutSuccessUrl("/login")     // 指定注销后的页面
-            .deleteCookies("JSESSIONID")    // 删除指定的Cookie
-            .invalidateHttpSession(true);   // 另Session失效
-         */
-
-        // 【使用场景】：记住我
-        // http.rememberMe(); // 重启服务需要重新登录(配合默认方案一起使用)
-        // 在浏览器上写入一个名为remember-me的Cookie。
-        // 定制记住我参数名称： http.rememberMe().rememberMeParameter("remember");
+                .antMatchers("/hello/r1").hasAuthority("r1")
+                .antMatchers("/hello/r2").hasAuthority("r2");
+        // 声明需要权限拦截的资源
+        //http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests(req -> {
+            req.anyRequest().authenticated();// 另一种写法
+        });
 
 
-        // 【其他常用配置项】：
-        // 配置session
-        // http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED); 默认
+        // 登录
+        // 202201241625 add
+        http.formLogin(form -> {
+            form.loginPage("/login");                                       // 这里提供定制登录页面入口。Spring Security默认提供的实现是/login（post），注意要在白名单中放行/login。
+            //form.failureUrl("/login?error");                              // 页面版本（貌似不写也可以）
+            //form.successHandler(new XXLoginSuccessHandler());             // 定制
+            form.successHandler(new JSONLoginSuccesssHandler());            // 定制JSON版本
+            form.failureHandler(new JSONLoginFailureHandler());             // 定制JSON版本
+        });
 
-        // csrf Spring Security 4 之后默认是开启的
-        // http.csrf().disable(); // cross-site request forgery跨站伪造请求。
+        // 基于session的引用会涉及到的三个操作：注销，rememberme，csrf。
+        // 注销
+        http.logout(logout -> {
+            //logout.logoutUrl("/perform_logout");                          // Spring Security默认提供的实现是/logout（GET）,这里就给改个名。配置了之后，原来的/logout就没啦。 20220125 实测ok
+            logout.logoutSuccessUrl("/login?logout");                       // 页面版本
+            logout.logoutSuccessHandler(new JSONLogoutSuccessHandler());    // 定制JSON版本
+            //logout.deleteCookies("JSESSIONID")                            // 删除指定的Cookie
+            //logout.invalidateHttpSession(true);                           // 另Session失效
+        });
 
-        // 开启同源 (如果使用如hui等基于iframe的前端框架则需要后面做相应配合)
-        // http.headers().frameOptions().sameOrigin();
+
+        // csrf
+        // https://blog.csdn.net/t894690230/article/details/52404105
+        // http.csrf().disable();
+        http.csrf(AbstractHttpConfigurer::disable);
+        // CSRF(Cross-Site Request Forgery)方案：
+        // 方案1： csrf_token: token是由服务器生成，并存储在浏览器的cookie当中。服务端每个请求都要求携带这个token。（目前默认的方案）
+        // 方案2： 设置Cookie中的SameSite属性。但是存在浏览器的兼容性问题。
+        // 注：使用JWT的前后端分离的应用，对CSRF是天然免疫。
+        //    CSRF对无状态应用无效。通过防止钓鱼站点对JWT的伪造来实现。
+        //    故简单了解一下即可。
+
+        // remember-me
+        // 注：Web应用用这个选项比较多，企业内网应用应尽量避免使用该功能。
+        //    解释，web应用面向个人，一般是在个人计算设备上使用，其他人使用的情况会比较少。而企业应用则不然。
+        http.rememberMe(rememberMe -> {
+            rememberMe.key("customizeSecretRememberMe");
+            rememberMe.tokenValiditySeconds(30 * 24 * 3600);// 有效期一个月
+        });
+        // 原理：使用Cookie存储用户名，过期的时间，以及一个Hash。hash = md5(用户名 + 过期时间 + 密码 + key) 注意到这个里面有密码，这就意味着如果改了密码，则rememberMe失效。
+        // remember-me功能需要一个UserDetailUservice
+
+        // 【一段相对完整的配置示例】 end
+        // ///////////////////////////////////////////////
     }
 
-    // 认证
+    // 认证 // UserDetailService
     // 配置认证规则
-    /*
+    // 这个配合remember-me没问题。
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // super.configure(auth);
-        auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder())
-                .withUser("liuyang").password(new BCryptPasswordEncoder().encode("123")).roles("admin", "xxxx").and()
-                .withUser("liuyang2").password(new BCryptPasswordEncoder().encode("123")).roles("xxxx");
-
-        // 测试用的明文对比编码器
-        // NoOpPasswordEncoder.getInstance();
-
+        //super.configure(auth);
+        auth.inMemoryAuthentication()
+                .withUser("liuyang")
+                .password("$2a$10$K9IoTnC9nYFT.UOhBC.dJ.cqxcvxX6Znz3gxxMDNp/V5RT/U6R3s6")
+                .authorities("r1", "r2", "r3", "r4")
+                .and()
+                .withUser("liuyang2")
+                .password("$2a$10$GtPWJSyNUKZJqTKyQJHnk.h31bI0usp6KakWCadWQdg8dC0hM74r6")
+                .authorities("r2")
+        ;
     }
-     */
 
     // UserDetailService
-    // 可以放到外面去实现
+    // 可以放到外面去实现 (20220125 实测 这个配合logout方法有问题。500)
     // InMemoryDetailsManager:InMemoryUserDetailsService
     // JPA:DbUserDetailsService
     /*
@@ -222,63 +180,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         // return NoOpPasswordEncoder.getInstance();
         return new BCryptPasswordEncoder();
-    }
-
-    // HttpSecurity
-    // 一段相对完整的配置示例
-    private void demoConfig(HttpSecurity http) throws Exception {
-        // ///////////////////////////////////////////////
-        // 【一段相对完整的配置示例】 begin
-        // 类比shiro: shiroFilterFactoryBean.setFilterChainDefinitionMap(FilterChainDefinitionMapBuilder.build())
-        // 声明不需要权限拦截的资源（白名单必须在前，否则将失效）
-        // 白名单：首页
-        http.authorizeRequests().antMatchers("/").permitAll();
-        // 白名单：登录页面
-        http.authorizeRequests()
-                .antMatchers("/security/login/page").permitAll()
-                .antMatchers("/security/login").permitAll();
-
-        // 配置授权规则：需要权限控制的页面
-        http.authorizeRequests()
-                .antMatchers("/hello/r1").hasAuthority("r1")
-                .antMatchers("/hello/r2").hasAuthority("r2");
-        // 声明需要权限拦截的资源
-        //http.authorizeRequests().anyRequest().authenticated();
-        http.authorizeRequests(req -> {
-            req.anyRequest().authenticated();// 另一种写法
-        });
-
-
-        // 登录
-        /*
-        http.formLogin()
-                // 自定义登录页面以及页面处理 若想用Spring Security默认提供页面就注释掉这两项
-                // Spring Security默认提供的登录地址是/login
-                //.loginPage("/security/login/page")
-                //.loginProcessingUrl("/security/login")
-                // 下面的配置配合Spring Security默认提供登录页面仍然有效
-                .failureForwardUrl("/security/login/failure");    // 未测试 酌情配置(若自定义了登录处理方法，且为rest风格，则按照自定义的返回。)
-                //.successForwardUrl("/security/login/success");  // ok 不配置的话就是访问哪个页面被阻止了就跳转到哪个页面
-                //.successForwardUrl("/");                        // ok 不配置的话就是访问哪个页面被阻止了就跳转到哪个页面
-        */
-        // 202201241625 add
-        http.formLogin(form -> {
-            form.loginPage("/security/login/page");
-        });
-
-        // 注销
-        http.logout()
-                // Spring Security默认提供的实现是/logout
-                .logoutUrl("/security/logout")                      // ok
-                //.logoutSuccessUrl("/security/logout/success")     // 未生效 指定注销后的页面（若/security/logout是rest风格，则这个选项失效）
-                .deleteCookies("JSESSIONID")                        // 删除指定的Cookie
-                .invalidateHttpSession(true);                       // 另Session失效
-
-        // csrf
-        // https://blog.csdn.net/t894690230/article/details/52404105
-        // http.csrf().disable();
-        http.csrf(AbstractHttpConfigurer::disable);
-        // 【一段相对完整的配置示例】 end
-        // ///////////////////////////////////////////////
     }
 }

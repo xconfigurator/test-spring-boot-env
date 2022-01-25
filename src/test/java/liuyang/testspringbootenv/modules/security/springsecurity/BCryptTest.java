@@ -32,4 +32,12 @@ public class BCryptTest {
         // $2a$10$xu4HmcMsZrNdp0742ql06upKdJ6cn34P924wuWtR6yx2rtv0BCov.
         Assertions.assertEquals(true, BCrypt.checkpw("123123", "$2a$10$xu4HmcMsZrNdp0742ql06upKdJ6cn34P924wuWtR6yx2rtv0BCov."));
     }
+
+    @Test
+    public void testDecrypt2() {
+        // $2a$10$K9IoTnC9nYFT.UOhBC.dJ.cqxcvxX6Znz3gxxMDNp/V5RT/U6R3s6
+        Assertions.assertEquals(true, BCrypt.checkpw("123", "$2a$10$K9IoTnC9nYFT.UOhBC.dJ.cqxcvxX6Znz3gxxMDNp/V5RT/U6R3s6"));
+        // $2a$10$GtPWJSyNUKZJqTKyQJHnk.h31bI0usp6KakWCadWQdg8dC0hM74r6
+        Assertions.assertEquals(true, BCrypt.checkpw("123123", "$2a$10$GtPWJSyNUKZJqTKyQJHnk.h31bI0usp6KakWCadWQdg8dC0hM74r6"));
+    }
 }

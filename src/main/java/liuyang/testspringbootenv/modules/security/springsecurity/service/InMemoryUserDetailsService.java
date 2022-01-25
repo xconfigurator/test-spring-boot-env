@@ -10,8 +10,10 @@ import javax.annotation.PostConstruct;
 /**
  * @author liuyang
  * @scine 2021/10/14
+ *
+ * 20220125 配合remember me的时候会有问题。
  */
-@Service
+//@Service
 @Slf4j
 public class InMemoryUserDetailsService extends InMemoryUserDetailsManager {
 

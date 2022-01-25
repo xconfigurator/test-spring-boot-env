@@ -34,7 +34,7 @@ public class TestSpringBootEnvApplication {
         //String httpPort = environment.getProperty("http.port");// 项目对外提供服务的端口
         String httpPort = port;
         log.info("#################################################################");
-        log.info("data-server 启动完毕。");
+        log.info("启动完毕。");
         if (null == path) {
             log.info("本地：      \thttp://localhost:" + httpPort + "/");
             log.info("外部：      \thttp://" + ip + ":" + httpPort + "/");

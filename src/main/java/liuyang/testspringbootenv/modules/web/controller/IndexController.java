@@ -17,7 +17,7 @@ public class IndexController {
 
     @RequestMapping
     public R index() {
-        return R.ok("Spring Boot 功能测试脚手架。");
+        return R.ok("Spring Boot 功能测试脚手架。IndexController");
     }
 
     // 如果想让默认进来就跳转到登录页

@@ -30,7 +30,7 @@ public class HelloController {
 
     @GetMapping("/hello")
     public R hellohello() {
-        return R.ok("hello Spring Boot Env URL:hell/hello");
+        return R.ok("测试WebMvcConfigurer addViewControllers跳转在首页显示 hello Spring Boot Env URL:hell/hello");
     }
 
     // /////////////////////////////////////////////////

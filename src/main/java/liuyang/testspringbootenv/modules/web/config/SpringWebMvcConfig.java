@@ -30,7 +30,8 @@ public class SpringWebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         // registry.addViewController("/").setViewName("/hello/hello"); // TODO ControllerExceptionHandler竟然没有控制住，为啥？？ 异常貌似是Thymeleaf抛出来的。
-        registry.addViewController("/").setViewName("redirect:/hello/hello");
+        // 这里可以添加一些直接页面跳转的，或者是更改名称的页面路径
+        registry.addViewController("/foo").setViewName("redirect:/hello/hello");
     }
 
     @Override
