@@ -1,9 +1,13 @@
 package liuyang.testspringbootenv.modules.security.springsecurity.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import liuyang.testspringbootenv.modules.security.springsecurity.filter.RESTAuthenticationFilter;
 import liuyang.testspringbootenv.modules.security.springsecurity.handler.JSONLoginFailureHandler;
 import liuyang.testspringbootenv.modules.security.springsecurity.handler.JSONLoginSuccesssHandler;
 import liuyang.testspringbootenv.modules.security.springsecurity.handler.JSONLogoutSuccessHandler;
 import liuyang.testspringbootenv.modules.security.springsecurity.handler.XXLoginSuccessHandler;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * 配置Spring Security
@@ -35,6 +40,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @EnableWebSecurity(debug = true)// 打开debug方便学习和调试。debug默认是false
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)// @Secure @PreAuthorize @PostAuthorize
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${liuyang.debug.security.enabled}")
@@ -42,6 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${spring.mvc.static-path-pattern}")
     private String mvcStaticPath;
+
+    private final ObjectMapper om;// 使用构造函数进行注入
+
+    private static final String REST_AUTH_FILTER_PROCESS_URL = "/rest/login";
 
     // 通过这个方法配置不需要进入过滤器链的内容
     @Override
@@ -82,15 +92,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             req.anyRequest().authenticated();// 另一种写法
         });
 
+        // REST风格登录改造 202201261017  add
+        // 指定一个REST式login的入口
+        // 入口地址：REST_AUTH_FILTER_PROCESS_URL
+        http.addFilterAt(restAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);// at是替代，尝试一下before
 
         // 登录
         // 202201241625 add
         http.formLogin(form -> {
             form.loginPage("/login");                                       // 这里提供定制登录页面入口。Spring Security默认提供的实现是/login（post），注意要在白名单中放行/login。
-            //form.failureUrl("/login?error");                              // 页面版本（貌似不写也可以）
+            form.failureUrl("/login?error");                                // 页面版本（貌似不写也可以）
             //form.successHandler(new XXLoginSuccessHandler());             // 定制
-            form.successHandler(new JSONLoginSuccesssHandler());            // 定制JSON版本
-            form.failureHandler(new JSONLoginFailureHandler());             // 定制JSON版本
+            //form.successHandler(new JSONLoginSuccesssHandler());          // 定制JSON版本 20220125 ok
+            //form.failureHandler(new JSONLoginFailureHandler());           // 定制JSON版本 20220125 ok
         });
 
         // 基于session的引用会涉及到的三个操作：注销，rememberme，csrf。
@@ -98,7 +112,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout(logout -> {
             //logout.logoutUrl("/perform_logout");                          // Spring Security默认提供的实现是/logout（GET）,这里就给改个名。配置了之后，原来的/logout就没啦。 20220125 实测ok
             logout.logoutSuccessUrl("/login?logout");                       // 页面版本
-            logout.logoutSuccessHandler(new JSONLogoutSuccessHandler());    // 定制JSON版本
+            //logout.logoutSuccessHandler(new JSONLogoutSuccessHandler());  // 定制JSON版本 20220125 ok
             //logout.deleteCookies("JSESSIONID")                            // 删除指定的Cookie
             //logout.invalidateHttpSession(true);                           // 另Session失效
         });
@@ -180,5 +194,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         // return NoOpPasswordEncoder.getInstance();
         return new BCryptPasswordEncoder();
+    }
+
+    private RESTAuthenticationFilter restAuthenticationFilter() throws Exception {
+        RESTAuthenticationFilter filter = new RESTAuthenticationFilter(om);
+        filter.setAuthenticationSuccessHandler(new JSONLoginSuccesssHandler());
+        filter.setAuthenticationFailureHandler(new JSONLoginFailureHandler());
+        filter.setAuthenticationManager(authenticationManager());// authenticationManager()是在WebSecurityConfigurerAdapter中
+        filter.setFilterProcessesUrl(REST_AUTH_FILTER_PROCESS_URL);
+        return filter;
     }
 }
