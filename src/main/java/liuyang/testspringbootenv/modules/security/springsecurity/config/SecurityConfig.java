@@ -1,6 +1,7 @@
 package liuyang.testspringbootenv.modules.security.springsecurity.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.deser.ValueInstantiator;
 import liuyang.testspringbootenv.modules.security.springsecurity.filter.RESTAuthenticationFilter;
 import liuyang.testspringbootenv.modules.security.springsecurity.handler.JSONLoginFailureHandler;
 import liuyang.testspringbootenv.modules.security.springsecurity.handler.JSONLoginSuccesssHandler;
@@ -19,8 +20,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
+import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.security.MessageDigestSpi;
+import java.util.Map;
 
 /**
  * 配置Spring Security
@@ -34,7 +40,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  *
  * @author liuyang
  * @scine 2021/4/1
- * @update 2022/1/25            整理，清理旧笔记，完成页面版本，完成JSON版本（仅交互数据格式为JSON）。（页面和JSON版本的都是基于session的。）
+ * @update 2022/1/25            整理，清理旧笔记，完成页面版本。（页面和JSON版本的都是基于session的。）
+ * @update 2022/1/26            增加REST式登录入口。
  * @update TODO                 完成JWT版本。
  *
  */
@@ -128,6 +135,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 注：使用JWT的前后端分离的应用，对CSRF是天然免疫。
         //    CSRF对无状态应用无效。通过防止钓鱼站点对JWT的伪造来实现。
         //    故简单了解一下即可。
+        // csrf 放开纯rest请求的csrf_token验证方法
+        /*
+        http.csrf(csrf -> {
+            csrf.ignoringAntMatchers("/data/*");                            // /data/*下的所有请求肯定是REST式的，如果打开了csrf功能，则csrf过滤器不会验证这些请求下的csrf_token
+        });
+         */
 
         // remember-me
         // 注：Web应用用这个选项比较多，企业内网应用应尽量避免使用该功能。
@@ -194,6 +207,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         // return NoOpPasswordEncoder.getInstance();
         return new BCryptPasswordEncoder();
+
+        // 问题1： 更换密文编码
+        // 对策：  多编码器共存
+        // Spring Security 为变更编码器提出的解决方案 - DelegatingPasswordEncoder
+        // 这个要求从一开始就用这个DelegatingPasswordEncoder
+        // 还是用这个吧
+        // 密码格式：{passwordEncoderId}encodedPassword
+        // 密码匹配：encoder.matches(CharSequence, String)
+        /*
+        String defaultPasswordEncoder = "bcrypt";
+        Map<String, PasswordEncoder> passwordEncoders = Map.of(
+                defaultPasswordEncoder, new BCryptPasswordEncoder(),
+                "SHA-1", new MessageDigestPasswordEncoder("SHA-1")
+        );
+        return new DelegatingPasswordEncoder(defaultPasswordEncoder, passwordEncoders);
+        */
+
+        // 问题2： 旧密码升级
+        // 对策：  UserDetailsPasswordService中的updatePassword
     }
 
     private RESTAuthenticationFilter restAuthenticationFilter() throws Exception {
