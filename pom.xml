@@ -52,6 +52,7 @@
         </dependency>
 
         <!-- Bean Validation -->
+        <!-- JSR 380 2.0  JSR 348 1.1  JSR 303 1.0 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
@@ -62,6 +63,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+        <!-- Thymeleaf 页面标签级别的授权验证 -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>

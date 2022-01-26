@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.security.springsecurity.controller;
+package liuyang.testspringbootenv.modules.security.springsecurity.archived.controller;
 
 import com.alibaba.fastjson.JSON;
 import liuyang.testspringbootenv.common.utils.R;
@@ -7,9 +7,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 
