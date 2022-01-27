@@ -1,6 +1,9 @@
 package liuyang.testspringbootenv.modules.security.springsecurity.service;
 
+import liuyang.testspringbootenv.modules.security.springsecurity.dao.jpa.RoleRepository;
+import liuyang.testspringbootenv.modules.security.springsecurity.dao.jpa.UserRepository;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +21,10 @@ import java.util.Collection;
  */
 //@Service
 @Slf4j
-public class DbUserDetailsService implements UserDetailsService {
+@RequiredArgsConstructor
+public class DBUserDetailsService implements UserDetailsService {
+
+    private UserRepository userRepository;
 
     // JPA::注入JPA服务
     // MyBatis-Plus::注入MyBatis-Plus服务
