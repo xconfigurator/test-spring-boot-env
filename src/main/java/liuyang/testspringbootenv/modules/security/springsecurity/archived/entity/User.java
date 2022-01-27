@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.security.springsecurity.entity;
+package liuyang.testspringbootenv.modules.security.springsecurity.archived.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

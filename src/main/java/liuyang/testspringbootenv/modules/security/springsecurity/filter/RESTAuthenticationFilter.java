@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * 只是提供了一个过滤规则，配合SecurityConfig中的配置，完成对某一个REST式请求的抽取信息过程。
  * @author liuyang(wx)
  * @since 2022/1/26
  */

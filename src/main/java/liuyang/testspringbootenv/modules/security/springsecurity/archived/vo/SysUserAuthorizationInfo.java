@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.security.springsecurity.vo;
+package liuyang.testspringbootenv.modules.security.springsecurity.archived.vo;
 
 /**
  * 授权值对象

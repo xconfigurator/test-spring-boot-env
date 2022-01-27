@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.security.springsecurity.service.ref;
+package liuyang.testspringbootenv.modules.security.springsecurity.archived.ref;
 
 
 import org.springframework.security.authentication.AuthenticationProvider;

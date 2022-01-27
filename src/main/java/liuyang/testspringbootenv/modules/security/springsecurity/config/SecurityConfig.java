@@ -171,6 +171,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .password("$2a$10$GtPWJSyNUKZJqTKyQJHnk.h31bI0usp6KakWCadWQdg8dC0hM74r6")
                 .authorities("r2")
         ;
+
+        // auth.userDetailsService(foo).passwordEncoder(bar).userDetailsPasswordManager(xxx);
+
+        // 配置这个方法会自动创建表结构。
+        // auth.jdbcAuthentication().withDefaultSchema() // 后同inMemoryAuthentication()
     }
 
     // UserDetailService

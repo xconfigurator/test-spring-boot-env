@@ -16,11 +16,13 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
-        <dozer.version>6.5.2</dozer.version>
         <fastjson.version>1.2.76</fastjson.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <httpclient.version>4.5.13</httpclient.version>
+        <passay.version>1.6.1</passay.version>
+        <problem.version>0.27.0</problem.version>
+        <dozer.version>6.5.2</dozer.version>
         <!-- webjar begin -->
         <jquery.version>3.5.1</jquery.version>
         <layui.version>2.5.6</layui.version>
@@ -267,6 +269,21 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>${httpclient.version}</version>
+        </dependency>
+
+        <!-- Passay -->
+        <dependency>
+            <groupId>org.passay</groupId>
+            <artifactId>passay</artifactId>
+            <version>${passay.version}</version>
+        </dependency>
+
+        <!-- Problem -->
+        <!-- 用于简化Spring MVC向前端返回的错误信息 -->
+        <dependency>
+            <groupId>org.zalando</groupId>
+            <artifactId>problem-spring-web</artifactId>
+            <version>${problem.version}</version>
         </dependency>
 
         <!-- Dozer::Core -->

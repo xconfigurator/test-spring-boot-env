@@ -1,6 +1,6 @@
 package liuyang.testspringbootenv.modules.data.jpa.repository;
 
-import liuyang.testspringbootenv.modules.security.springsecurity.dao.jpa.repository.UserRepository;
+import liuyang.testspringbootenv.modules.security.springsecurity.archived.dao.jpa.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

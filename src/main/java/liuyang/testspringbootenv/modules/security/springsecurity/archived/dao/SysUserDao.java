@@ -1,7 +1,7 @@
-package liuyang.testspringbootenv.modules.security.springsecurity.dao;
+package liuyang.testspringbootenv.modules.security.springsecurity.archived.dao;
 
-import liuyang.testspringbootenv.modules.security.springsecurity.vo.SysUserAuthenticationInfo;
-import liuyang.testspringbootenv.modules.security.springsecurity.vo.SysUserAuthorizationInfo;
+import liuyang.testspringbootenv.modules.security.springsecurity.archived.vo.SysUserAuthenticationInfo;
+import liuyang.testspringbootenv.modules.security.springsecurity.archived.vo.SysUserAuthorizationInfo;
 
 import java.util.List;
 

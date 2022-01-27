@@ -1,13 +1,13 @@
-package liuyang.testspringbootenv.modules.security.springsecurity.dao.jpa;
+package liuyang.testspringbootenv.modules.security.springsecurity.archived.dao.jdbc;
 
-import liuyang.testspringbootenv.modules.security.springsecurity.dao.SysUserDao;
-import liuyang.testspringbootenv.modules.security.springsecurity.vo.SysUserAuthenticationInfo;
-import liuyang.testspringbootenv.modules.security.springsecurity.vo.SysUserAuthorizationInfo;
+import liuyang.testspringbootenv.modules.security.springsecurity.archived.dao.SysUserDao;
+import liuyang.testspringbootenv.modules.security.springsecurity.archived.vo.SysUserAuthenticationInfo;
+import liuyang.testspringbootenv.modules.security.springsecurity.archived.vo.SysUserAuthorizationInfo;
 
 import java.util.List;
 
 /**
- * JPA实现
+ * JDBC实现
  * @author liuyang
  * @scine 2021/4/19
  */

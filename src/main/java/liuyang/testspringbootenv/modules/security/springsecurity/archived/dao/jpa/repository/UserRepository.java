@@ -1,6 +1,6 @@
-package liuyang.testspringbootenv.modules.security.springsecurity.dao.jpa.repository;
+package liuyang.testspringbootenv.modules.security.springsecurity.archived.dao.jpa.repository;
 
-import liuyang.testspringbootenv.modules.security.springsecurity.entity.User;
+import liuyang.testspringbootenv.modules.security.springsecurity.archived.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
