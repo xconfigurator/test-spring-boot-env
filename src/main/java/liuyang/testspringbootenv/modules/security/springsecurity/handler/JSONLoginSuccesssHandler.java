@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -27,9 +28,15 @@ public class JSONLoginSuccesssHandler implements AuthenticationSuccessHandler {
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
+        // need JDK 11
         Map<String, Object> msg = Map.of(
                 "msg", "认证成功",
                 "details", authentication);
+        /*
+        Map<String, Object> msg = new HashMap<>();
+        msg.put("msg", "认证成功");
+        msg.put("details", authentication);
+        */
         response.getWriter().println(om.writeValueAsString(R.ok(msg)));
         //response.getWriter().println(om.writeValueAsString(authentication));
         log.debug("认证成功");
