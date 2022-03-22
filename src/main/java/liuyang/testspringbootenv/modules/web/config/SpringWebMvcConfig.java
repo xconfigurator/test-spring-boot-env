@@ -1,10 +1,7 @@
 package liuyang.testspringbootenv.modules.web.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 /**
  * 注册Spring MVC组件
@@ -38,4 +35,16 @@ public class SpringWebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         // TODO 在这里装配Interceptor
     }
+
+    // 跨域请求处理
+    // 2022/3/22貌似没有生效，暂时采用在对应控制器上增加@CrossOrigin注解方式，问题解决。
+    /*
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowCredentials(true)
+                .allowedMethods("GET", "POST", "DELETE", "PUT")
+                .maxAge(3600);
+    }*/
 }

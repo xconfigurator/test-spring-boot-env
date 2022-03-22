@@ -43,9 +43,11 @@ import java.util.Map;
  * @update 2022/1/25            整理，清理旧笔记，完成页面版本。（页面和JSON版本的都是基于session的。）
  * @update 2022/1/26            增加REST式登录入口。
  * @update TODO                 完成JWT版本。
+ * @update 2022/3/22            增加白名单独立方法（方便调试）。
  *
  */
-@EnableWebSecurity(debug = true)// 打开debug方便学习和调试。debug默认是false
+//@EnableWebSecurity(debug = true)// 打开debug方便学习和调试。debug默认是false
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)// @Secure @PreAuthorize @PostAuthorize
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -59,6 +61,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final ObjectMapper om;// 使用构造函数进行注入
 
     private static final String REST_AUTH_FILTER_PROCESS_URL = "/rest/login";
+
+
+    private void whiteList(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/hello").permitAll()
+                .antMatchers("/upload/excel").permitAll();
+    }
+
 
     // 通过这个方法配置不需要进入过滤器链的内容
     @Override
@@ -75,8 +85,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // 能够配置的项具体参见HttpSecurity的源码注释
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //http.authorizeRequests().anyRequest().permitAll();
-
+        if (!isSecurityEnabled) {
+            http.authorizeRequests().anyRequest().permitAll();
+            http.csrf().disable();
+            return;
+        }
         // ///////////////////////////////////////////////
         // 【一段相对完整的配置示例】 begin
         // 类比shiro: shiroFilterFactoryBean.setFilterChainDefinitionMap(FilterChainDefinitionMapBuilder.build())
@@ -88,6 +101,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()                  // 注意没有/logout，想想为什么。
                 .antMatchers("/security/login/page").permitAll()
                 .antMatchers("/security/login").permitAll();
+
+        whiteList(http);// 设置白名单（方便开发）
 
         // 配置授权规则：需要权限控制的页面
         http.authorizeRequests()
