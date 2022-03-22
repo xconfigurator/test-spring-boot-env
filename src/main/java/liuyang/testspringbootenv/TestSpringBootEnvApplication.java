@@ -16,8 +16,8 @@ import java.net.UnknownHostException;
 // 这些@EnableXX可以分别写在不同的@Configuration中 2021/7/1
 @EnableCaching          // Spring cache abstraction (Initializr里目前被分类在I/O下)
 @EnableRedisHttpSession // Spring Session Data Redis (Initializr分类在Web下)
-@EnableScheduling
-@EnableAsync
+@EnableScheduling       // 定时任务
+@EnableAsync            // 异步方法
 @SpringBootApplication
 @Slf4j
 public class TestSpringBootEnvApplication {
