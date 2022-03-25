@@ -38,6 +38,7 @@ public class SpringWebMvcConfig implements WebMvcConfigurer {
 
     // 跨域请求处理
     // 2022/3/22貌似没有生效，暂时采用在对应控制器上增加@CrossOrigin注解方式，问题解决。
+    // https://blog.csdn.net/chang100111/article/details/116697006
     /*
     @Override
     public void addCorsMappings(CorsRegistry registry) {
