@@ -17,6 +17,9 @@ import java.io.InputStream;
 
 /**
  * 只是提供了一个过滤规则，配合SecurityConfig中的配置，完成对某一个REST式请求的抽取信息过程。
+ *
+ * 注： 对比三更草堂的方案，三更草堂把Login和Logout放在了一个独立的Controller中。
+ *
  * @author liuyang(wx)
  * @since 2022/1/26
  */
