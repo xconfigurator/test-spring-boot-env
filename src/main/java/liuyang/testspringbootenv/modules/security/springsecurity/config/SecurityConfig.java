@@ -1,14 +1,10 @@
 package liuyang.testspringbootenv.modules.security.springsecurity.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.deser.ValueInstantiator;
 import liuyang.testspringbootenv.modules.security.springsecurity.filter.RESTAuthenticationFilter;
 import liuyang.testspringbootenv.modules.security.springsecurity.handler.JSONLoginFailureHandler;
-import liuyang.testspringbootenv.modules.security.springsecurity.handler.JSONLoginSuccesssHandler;
-import liuyang.testspringbootenv.modules.security.springsecurity.handler.JSONLogoutSuccessHandler;
-import liuyang.testspringbootenv.modules.security.springsecurity.handler.XXLoginSuccessHandler;
+import liuyang.testspringbootenv.modules.security.springsecurity.handler.JSONLoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -20,13 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.security.MessageDigestSpi;
-import java.util.Map;
 
 /**
  * 配置Spring Security
@@ -250,7 +241,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private RESTAuthenticationFilter restAuthenticationFilter() throws Exception {
         RESTAuthenticationFilter filter = new RESTAuthenticationFilter(om);
-        filter.setAuthenticationSuccessHandler(new JSONLoginSuccesssHandler());
+        filter.setAuthenticationSuccessHandler(new JSONLoginSuccessHandler());
         filter.setAuthenticationFailureHandler(new JSONLoginFailureHandler());
         filter.setAuthenticationManager(authenticationManager());// authenticationManager()是在WebSecurityConfigurerAdapter中
         filter.setFilterProcessesUrl(REST_AUTH_FILTER_PROCESS_URL);

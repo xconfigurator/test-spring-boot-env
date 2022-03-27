@@ -21,7 +21,7 @@ import java.util.Map;
  * @since 2022/1/25
  */
 @Slf4j
-public class JSONLoginSuccesssHandler implements AuthenticationSuccessHandler {
+public class JSONLoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         ObjectMapper om = new ObjectMapper();

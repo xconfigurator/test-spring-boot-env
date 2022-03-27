@@ -17,8 +17,14 @@ public class BCryptPasswordEncoderTest {
     @Test
     void testEncrypt() {
         // 同样的明文，两次加密是不一样的。但都可以匹配。
-        log.info("passwd = {} ", encoder.encode("123"));
-        log.info("passwd = {}", encoder.encode("123"));
+        //log.info("passwd = {} ", encoder.encode("123"));
+        //log.info("passwd = {}", encoder.encode("123"));
+        String encode = encoder.encode("123");
+        String encode2 = encoder.encode("123");
+        log.info("passwd = {}", encode);
+        log.info("passwd = {}", encode2);
+        log.info("matches = {}", encoder.matches("123", encode));
+        log.info("matches = {}", encoder.matches("123", encode2));
     }
 
     @Test
