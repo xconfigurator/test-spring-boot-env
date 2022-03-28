@@ -1,9 +1,12 @@
 package liuyang.testspringbootenv.modules.security.springsecurity.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import liuyang.testspringbootenv.modules.security.springsecurity.exception.RESTAccessDeniedHandler;
+import liuyang.testspringbootenv.modules.security.springsecurity.exception.RESTAuthenticationEntryPoint;
+import liuyang.testspringbootenv.modules.security.springsecurity.filter.JWTAuthenticationFilter;
 import liuyang.testspringbootenv.modules.security.springsecurity.filter.RESTAuthenticationFilter;
-import liuyang.testspringbootenv.modules.security.springsecurity.handler.JSONLoginFailureHandler;
-import liuyang.testspringbootenv.modules.security.springsecurity.handler.JSONLoginSuccessHandler;
+import liuyang.testspringbootenv.modules.security.springsecurity.handler.RESTAuthenticationFailureHandler;
+import liuyang.testspringbootenv.modules.security.springsecurity.handler.RESTAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -16,7 +19,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -55,13 +57,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String REST_AUTH_FILTER_PROCESS_URL = "/rest/login";
 
-
+    // liuyang 2022/3/22
     private void whiteList(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers("/hello").permitAll()
-                .antMatchers("/upload/excel").permitAll();
+                .antMatchers("/upload/excel").permitAll()
+                .antMatchers("/login").permitAll()                  // 注意没有/logout，想想为什么。
+                .antMatchers("/security/login/page").permitAll()
+                .antMatchers("/security/login").permitAll();
+        // 关于permitAll()和anonymous()的区别
+        // 三更草堂 22.认证配置 10:15 左右讲了。前后端不分离的项目中，对静态资源放行多用permitAll()，前后端分离项目，对API的访问多用anonymous()
+        // 不过参考下面的public void configure(WebSecurity web) throws Exception ，看来三更草堂的说法也不是特备靠谱。
     }
-
 
     // 通过这个方法配置不需要进入过滤器链的内容
     @Override
@@ -79,66 +87,64 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         if (!isSecurityEnabled) {
+            System.out.println("foo");
             http.authorizeRequests().anyRequest().permitAll();
             http.csrf().disable();
+            //http.cors();// liuyang 20220328 Spring Security允许跨域（Spring MVC也需要配置允许跨域，参见WebMvcConfig.java）
             return;
         }
-
-        // 20220327 https://www.bilibili.com/video/BV1mm4y1X7Hc?p=17&spm_id_from=pageDriver 16:09 前后端分离项目中，禁止使用session。
-        // 详细策略参见SessionCreationPolicy.STATELESS注释
-        //http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        System.out.println("bar");
 
         // ///////////////////////////////////////////////
         // 【一段相对完整的配置示例】 begin
         // 类比shiro: shiroFilterFactoryBean.setFilterChainDefinitionMap(FilterChainDefinitionMapBuilder.build())
         // 声明不需要权限拦截的资源（白名单必须在前，否则将失效）
-        // 白名单：首页
-        http.authorizeRequests().antMatchers("/").permitAll();
-        // 白名单：登录页面相关
-        http.authorizeRequests()
-                .antMatchers("/login").permitAll()                  // 注意没有/logout，想想为什么。
-                .antMatchers("/security/login/page").permitAll()
-                .antMatchers("/security/login").permitAll();
 
+        // 白名单：首页
         whiteList(http);// 设置白名单（方便开发）
 
-        // 配置授权规则：需要权限控制的页面
+        // 授权规则：需要权限控制的页面
+        // 1. 先配置具体的
         http.authorizeRequests()
                 .antMatchers("/hello/r1").hasAuthority("r1")
                 .antMatchers("/hello/r2").hasAuthority("r2");
+        // 2. 再配置范围的
         // 声明需要权限拦截的资源
         //http.authorizeRequests().anyRequest().authenticated();
         http.authorizeRequests(req -> {
             req.anyRequest().authenticated();// 另一种写法
         });
 
+        // Login（前后端分离版本）
+        // 【方案争议】是否采用本方案待议 20220328
+        //          另一种方案是把登录和注销都放在一个Controller中，通过配置暴露出AuthenticationManager来完成相关操作。见三更草堂方案。
         // REST风格登录改造 202201261017  add
         // 指定一个REST式login的入口
         // 入口地址：REST_AUTH_FILTER_PROCESS_URL
-        http.addFilterAt(restAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);// at是替代，尝试一下before
+        http.addFilterAt(restAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);// 根据源码注释，尽量不要用at造成不确定性。
+        //http.addFilterBefore(restAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        // 登录
-        // 202201241625 add
-        http.formLogin(form -> {
-            form.loginPage("/login");                                       // 这里提供定制登录页面入口。Spring Security默认提供的实现是/login（post），注意要在白名单中放行/login。
-            form.failureUrl("/login?error");                                // 页面版本（貌似不写也可以）
-            //form.successHandler(new XXLoginSuccessHandler());             // 定制
-            //form.successHandler(new JSONLoginSuccesssHandler());          // 定制JSON版本 20220125 ok
-            //form.failureHandler(new JSONLoginFailureHandler());           // 定制JSON版本 20220125 ok
-        });
+        // Exception
+        // REST风格认证授权异常处理 202203281513 add
+        http.exceptionHandling().accessDeniedHandler(restAccessDeniedHandler());// 认证
+        http.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint());// 授权
 
-        // 基于session的引用会涉及到的三个操作：注销，rememberme，csrf。
-        // 注销
-        http.logout(logout -> {
-            //logout.logoutUrl("/perform_logout");                          // Spring Security默认提供的实现是/logout（GET）,这里就给改个名。配置了之后，原来的/logout就没啦。 20220125 实测ok
-            logout.logoutSuccessUrl("/login?logout");                       // 页面版本
-            //logout.logoutSuccessHandler(new JSONLogoutSuccessHandler());  // 定制JSON版本 20220125 ok
-            //logout.deleteCookies("JSESSIONID")                            // 删除指定的Cookie
-            //logout.invalidateHttpSession(true);                           // 另Session失效
-        });
+        // JWT
+        // REST && 前后端分离 的JWT过滤器
+        //http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
+        // CORS
+        // REST && 前后端分离 需要在Spring Security中开启跨域允许
+        // liuyang 20220328 Spring Security允许跨域（Spring MVC也需要配置允许跨域，参见WebMvcConfig.java）
+        http.cors();
 
-        // csrf
+        // Session
+        // REST && 前后端分离 20220327 https://www.bilibili.com/video/BV1mm4y1X7Hc?p=17&spm_id_from=pageDriver 16:09 前后端分离项目中，禁止使用session。
+        // 详细策略参见SessionCreationPolicy.STATELESS注释
+        //http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        // CSRF
+        // REST && 前后端分离 关闭csrf保护即可
         // https://blog.csdn.net/t894690230/article/details/52404105
         // http.csrf().disable();
         http.csrf(AbstractHttpConfigurer::disable);
@@ -155,7 +161,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         });
          */
 
-        // remember-me
+        // Login(前后端不分离版本登录)
+        // 带登录页面的
+        // 登录
+        // 202201241625 add
+        http.formLogin(form -> {
+            form.loginPage("/login");                                       // 这里提供定制登录页面入口。Spring Security默认提供的实现是/login（post），注意要在白名单中放行/login。
+            form.failureUrl("/login?error");                                // 页面版本（貌似不写也可以）
+            //form.successHandler(new XXLoginSuccessHandler());             // 定制
+            //form.successHandler(new RESTLoginSuccesssHandler());          // 定制JSON版本 20220125 ok
+            //form.failureHandler(new RESTLoginFailureHandler());           // 定制JSON版本 20220125 ok
+        });
+
+        // Logout(基于session的注销，与是否前后端分离无关)
+        // 基于session的引用会涉及到的三个操作：注销，rememberme，csrf。
+        // 注销
+        http.logout(logout -> {
+            //logout.logoutUrl("/perform_logout");                          // (前后端分离方案中基本已不再使用这种方式) Spring Security默认提供的实现是/logout（GET）,这里就给改个名。配置了之后，原来的/logout就没啦。 20220125 实测ok
+            logout.logoutSuccessUrl("/login?logout");                       // (前后端分离方案中基本已不再使用这种方式) 页面版本
+            //logout.logoutSuccessHandler(new RESTLogoutSuccessHandler());  // 定制JSON版本 20220125 ok
+            //logout.deleteCookies("JSESSIONID")                            // 删除指定的Cookie
+            //logout.invalidateHttpSession(true);                           // 另Session失效
+        });
+
+        // Remember-Me
         // 注：Web应用用这个选项比较多，企业内网应用应尽量避免使用该功能。
         //    解释，web应用面向个人，一般是在个人计算设备上使用，其他人使用的情况会比较少。而企业应用则不然。
         http.rememberMe(rememberMe -> {
@@ -246,12 +275,39 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 对策：  UserDetailsPasswordService中的updatePassword
     }
 
-    private RESTAuthenticationFilter restAuthenticationFilter() throws Exception {
-        RESTAuthenticationFilter filter = new RESTAuthenticationFilter(om);
-        filter.setAuthenticationSuccessHandler(new JSONLoginSuccessHandler());
-        filter.setAuthenticationFailureHandler(new JSONLoginFailureHandler());
+    // “接灰的电子产品”的方案 20220328 是否采取这种方案有争议
+    @Bean
+    public RESTAuthenticationFilter restAuthenticationFilter() throws Exception {
+        RESTAuthenticationFilter filter = new RESTAuthenticationFilter(om);// 注意到这是一个UsernamePasswordAuthenticationFilter。
+        filter.setAuthenticationSuccessHandler(new RESTAuthenticationSuccessHandler());
+        filter.setAuthenticationFailureHandler(new RESTAuthenticationFailureHandler());
         filter.setAuthenticationManager(authenticationManager());// authenticationManager()是在WebSecurityConfigurerAdapter中
         filter.setFilterProcessesUrl(REST_AUTH_FILTER_PROCESS_URL);
         return filter;
+    }
+
+    // 向容器中暴露authenticationManager 20220328 add
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();// 详细的参考这个方法源码的注释。
+    }
+
+    // JWT过滤器 20220328 add
+    @Bean // 202203281708 实测 貌似注入容器就生效。（即不经过config中配置）
+    public JWTAuthenticationFilter jwtAuthenticationFilter() {
+        return new JWTAuthenticationFilter();
+    }
+
+    // 认证异常 20220328 add
+    @Bean
+    public RESTAccessDeniedHandler restAccessDeniedHandler() {
+        return new RESTAccessDeniedHandler();
+    }
+
+    // 授权异常 20220328 add
+    @Bean
+    public RESTAuthenticationEntryPoint restAuthenticationEntryPoint() {
+        return new RESTAuthenticationEntryPoint();
     }
 }

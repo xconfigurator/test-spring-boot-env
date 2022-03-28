@@ -13,6 +13,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
+    /**
+     * 前后端不分离的登录入口
+     * @param registry
+     */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         // 20220125 实测，这个mvc配置和web下的mvc配置可以共存。

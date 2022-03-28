@@ -18,7 +18,9 @@ import java.io.InputStream;
 /**
  * 只是提供了一个过滤规则，配合SecurityConfig中的配置，完成对某一个REST式请求的抽取信息过程。
  *
- * 注： 对比三更草堂的方案，三更草堂把Login和Logout放在了一个独立的Controller中。
+ * 注： 对比三更草堂的方案，三更草堂把Login和Logout放在了一个独立的Controller中。独立到Controller中的方案扩展起来会更容易理解，比如增加图形验证码功能。
+ *      他在39.其他认证方案畅享一节中提到了本类使用的方案，即集成UsernamePasswordAuthenticationFilter，可以听下思路。
+ *      如果再这里添加验证码，则需要在本过滤器之前再添加一个过滤器，来校验验证码。
  *
  * @author liuyang(wx)
  * @since 2022/1/26

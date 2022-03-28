@@ -47,6 +47,7 @@ public class TestSpringBootEnvApplication {
             log.info("druid:     \thttp://localhost:" + httpPort + "/" + path + "/druid/");// ip的方式默认被禁止
         }
         // liuyang 20210528 end
+        System.out.println("xxx");
     }
 
 }

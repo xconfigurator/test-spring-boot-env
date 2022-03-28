@@ -32,6 +32,12 @@ public class DBUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+
+        // liuyang 20220328 提醒：
+        // 1. 认证信息
+        // 2. 授权信息
+        // 都要从本方法加载。UserDetails的结构就已经说明问题了。
+
         // JPA
         //return jpaLoadUserByUsername(s);
 

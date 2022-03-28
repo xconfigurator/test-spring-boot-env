@@ -16,6 +16,7 @@ Spring Security
 Bean Validation
 [参考视频](https://www.bilibili.com/video/BV1UE411t7BZ/?spm_id_from=333.788.recommend_more_video.0)
 
+
 ###
 ```shell
 …or create a new repository on the command line
@@ -217,3 +218,7 @@ Bean Validation还可以参见李兴华老师的视频。
 202112271455 增加SSL配置。笔记见为知笔记。
  modules/security/ssl
 李兴华老师的在Spring Boot工程中开启SSL。
+
+### Spring Security
+202203281808 按照三更草堂视频重新修正了Spring Security的笔记
+[参考视频]()

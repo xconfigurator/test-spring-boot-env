@@ -16,11 +16,14 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
+ * 配合UsernamePasswordAuthenticationFilter使用
+ * 也可以给默认登录页面用
+ *
  * @author liuyang(wx)
  * @since 2022/1/25
  */
 @Slf4j
-public class JSONLoginFailureHandler implements AuthenticationFailureHandler {
+public class RESTAuthenticationFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         ObjectMapper om = new ObjectMapper();

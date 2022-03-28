@@ -18,7 +18,7 @@ import java.io.IOException;
  * @since 2022/1/25
  */
 @Slf4j
-public class JSONLogoutSuccessHandler implements LogoutSuccessHandler {
+public class RESTLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         ObjectMapper om = new ObjectMapper();

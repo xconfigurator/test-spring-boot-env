@@ -17,11 +17,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 配合UsernamePasswordAuthenticationFilter使用
+ * 也可以给默认登录页面用http.formLogin().successHandler(restAuthenticationSuccessHandler);
+ *
  * @author liuyang(wx)
  * @since 2022/1/25
  */
 @Slf4j
-public class JSONLoginSuccessHandler implements AuthenticationSuccessHandler {
+public class RESTAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         ObjectMapper om = new ObjectMapper();
@@ -32,6 +35,7 @@ public class JSONLoginSuccessHandler implements AuthenticationSuccessHandler {
         Map<String, Object> msg = Map.of(
                 "msg", "认证成功",
                 "details", authentication);
+        // TODO 可以在这里签发JWT并返回个前端页面。
         /*
         Map<String, Object> msg = new HashMap<>();
         msg.put("msg", "认证成功");
