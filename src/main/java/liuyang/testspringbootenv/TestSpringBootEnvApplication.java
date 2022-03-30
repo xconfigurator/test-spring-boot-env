@@ -14,10 +14,10 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 // 这些@EnableXX可以分别写在不同的@Configuration中 2021/7/1
-@EnableCaching          // Spring cache abstraction (Initializr里目前被分类在I/O下)
-@EnableRedisHttpSession // Spring Session Data Redis (Initializr分类在Web下)
-@EnableScheduling       // 定时任务
-@EnableAsync            // 异步方法
+//@EnableCaching          // Spring cache abstraction (Initializr里目前被分类在I/O下)(20220330 放在了cache包配置类上)
+//@EnableRedisHttpSession // Spring Session Data Redis (Initializr分类在Web下)(20220330 放在了session/redis的配置类上)
+//@EnableScheduling       // 定时任务(20220330 放在了scheduler/springscheduled的配置类上)
+//@EnableAsync            // 异步方法(20220330 放在了async包配置类上)
 @SpringBootApplication
 @Slf4j
 public class TestSpringBootEnvApplication {

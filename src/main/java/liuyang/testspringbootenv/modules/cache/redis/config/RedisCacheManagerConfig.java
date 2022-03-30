@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -17,11 +18,14 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import java.time.LocalDateTime;
 
 /**
+ * https://docs.spring.io/spring-boot/docs/current/reference/html/io.html#io.caching
+ *
  * 2021/4/15日测试并没有起效
  *
  * @author liuyang
  * @scine 2021/4/15
  */
+@Configuration
 public class RedisCacheManagerConfig {
     // 这个好像仅仅对Cache起效，而对直接从容器中获取的RedistTemplate无效
     @Bean
@@ -41,9 +45,9 @@ public class RedisCacheManagerConfig {
         // LocalDateTime
         om.registerModule(new JavaTimeModule()
                 .addSerializer(LocalDateTime.class
-                        , new liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeSerializer())// 好像fasterxml里有
+                        , new liuyang.testspringbootenv.modules.data.redis.serializer.LocalDateTimeSerializer())// 好像fasterxml里有
                 .addDeserializer(LocalDateTime.class
-                        , new liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeDeserializer())); // 好像fasterxml里有
+                        , new liuyang.testspringbootenv.modules.data.redis.serializer.LocalDateTimeDeserializer())); // 好像fasterxml里有
         jackson2JsonRedisSerializer.setObjectMapper(om);
         // ////////////////////////////////////////////////////////////////////////////////
 

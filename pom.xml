@@ -172,7 +172,7 @@
             <version>1.1.1.RELEASE</version>
         </dependency>-->
 
-        <!-- Spring initializr I/O Spring cache abstraction -->
+        <!-- Spring initializr I/O Spring cache abstraction JSR 107-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
@@ -184,10 +184,16 @@
             <artifactId>spring-session-data-redis</artifactId>
         </dependency>
 
-        <!-- Quartz -->
+        <!-- Quartz I/O-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
+
+        <!-- Sping initializr I/O Java Mail Sender -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
         <!-- Data -->

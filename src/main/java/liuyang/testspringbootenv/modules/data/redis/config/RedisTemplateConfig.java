@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.cache.redis.config;
+package liuyang.testspringbootenv.modules.data.redis.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -19,6 +19,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import java.time.LocalDateTime;
 
 /**
+ * https://spring.io/projects/spring-data-redis
+ *
  * 使用JSON格式序列化到Redis中，而不是默认的JDK序列化。
  *
  * 说明：
@@ -52,9 +54,9 @@ public class RedisTemplateConfig {
         // LocalDateTime
         om.registerModule(new JavaTimeModule()
                 .addSerializer(LocalDateTime.class
-                        , new liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeSerializer())
+                        , new liuyang.testspringbootenv.modules.data.redis.serializer.LocalDateTimeSerializer())
                 .addDeserializer(LocalDateTime.class
-                        , new liuyang.testspringbootenv.modules.cache.redis.serializer.LocalDateTimeDeserializer()));
+                        , new liuyang.testspringbootenv.modules.data.redis.serializer.LocalDateTimeDeserializer()));
         jackson2JsonRedisSerializer.setObjectMapper(om);
         // ////////////////////////////////////////////////////////////////////////////////
 

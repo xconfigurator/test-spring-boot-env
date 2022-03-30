@@ -7,8 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 /**
+ * https://spring.io/projects/spring-session
+ *
  * 配置Spring Session Data Redis，使用JSON格式序列化到Redis中，而不是默认的JDK序列化。
  * @author liuyang
  * @scine 2021/4/13
@@ -18,6 +21,7 @@ import org.springframework.security.jackson2.SecurityJackson2Modules;
  *
  */
 @Configuration
+@EnableRedisHttpSession
 public class SessionConfig implements BeanClassLoaderAware {
     private ClassLoader loader;
 
