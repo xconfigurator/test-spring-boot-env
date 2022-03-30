@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.data.redis.serializer;
+package liuyang.testspringbootenv.common.serializer.jackson;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

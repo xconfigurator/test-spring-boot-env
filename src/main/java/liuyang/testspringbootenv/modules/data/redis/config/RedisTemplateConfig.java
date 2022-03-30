@@ -21,12 +21,15 @@ import java.time.LocalDateTime;
 /**
  * https://spring.io/projects/spring-data-redis
  *
- * 使用JSON格式序列化到Redis中，而不是默认的JDK序列化。
+ * spring-boot-starter-data-redis
+ *
+ * Redis序列化配置：使用JSON格式序列化对象（需要实现序列化接口）到Redis中，而不是默认的JDK序列化。
+ * Redis starter已经自动配置了redisTemplate以及stringRedisTemplate，这里就是重新定制一下以满足我们自己的要求。
  *
  * 说明：
- *  雷丰阳老师讲的是Spring Boot 1.环境下的方法。
+ *  雷丰阳老师讲的是Spring Boot 1.环境下的方法。(11_尚硅谷_缓存-RedisTemplate&序列化机制 - 14:53 配置RedisTemplate使用的序列化器)
  *  suhj在pdt项目脚手架中给出的是Spring Boot 2.x环境下的方法。
- * 这里参考suhj在Spring Boot 2.x中给出的方案。
+ *  这里参考suhj在Spring Boot 2.x中给出的方案。
  *
  * @author liuyang
  * @scine 2021/4/15
@@ -43,6 +46,9 @@ public class RedisTemplateConfig {
         // ////////////////////////////////////////////////////////////////////////////////
         // key序列化规则
         RedisSerializer<String> stringRedisSerializer = new StringRedisSerializer();
+        // ////////////////////////////////////////////////////////////////////////////////
+
+        // ////////////////////////////////////////////////////////////////////////////////
         // value序列化规则
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Object>(Object.class);
 
@@ -54,9 +60,9 @@ public class RedisTemplateConfig {
         // LocalDateTime
         om.registerModule(new JavaTimeModule()
                 .addSerializer(LocalDateTime.class
-                        , new liuyang.testspringbootenv.modules.data.redis.serializer.LocalDateTimeSerializer())
+                        , new liuyang.testspringbootenv.common.serializer.jackson.LocalDateTimeSerializer())
                 .addDeserializer(LocalDateTime.class
-                        , new liuyang.testspringbootenv.modules.data.redis.serializer.LocalDateTimeDeserializer()));
+                        , new liuyang.testspringbootenv.common.serializer.jackson.LocalDateTimeDeserializer()));
         jackson2JsonRedisSerializer.setObjectMapper(om);
         // ////////////////////////////////////////////////////////////////////////////////
 
@@ -74,6 +80,13 @@ public class RedisTemplateConfig {
     @Bean
     public ValueOperations<String, Object> valueOperations(RedisTemplate<String, Object> redisTemplate) {
         return redisTemplate.opsForValue();
+        /**
+         * String      opsForValue
+         * List        opsForList
+         * Set         opsForSet
+         * Hash        opsForHash
+         * 有序集合     opsForZSet
+         */
     }
 
     @Bean

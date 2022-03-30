@@ -20,6 +20,9 @@ import java.time.LocalDateTime;
 /**
  * https://docs.spring.io/spring-boot/docs/current/reference/html/io.html#io.caching
  *
+ * spring-boot-starter-cache
+ * spring-boot-starter-data-redis
+ *
  * 2021/4/15日测试并没有起效
  *
  * @author liuyang
@@ -45,9 +48,9 @@ public class RedisCacheManagerConfig {
         // LocalDateTime
         om.registerModule(new JavaTimeModule()
                 .addSerializer(LocalDateTime.class
-                        , new liuyang.testspringbootenv.modules.data.redis.serializer.LocalDateTimeSerializer())// 好像fasterxml里有
+                        , new liuyang.testspringbootenv.common.serializer.jackson.LocalDateTimeSerializer())// 好像fasterxml里有
                 .addDeserializer(LocalDateTime.class
-                        , new liuyang.testspringbootenv.modules.data.redis.serializer.LocalDateTimeDeserializer())); // 好像fasterxml里有
+                        , new liuyang.testspringbootenv.common.serializer.jackson.LocalDateTimeDeserializer())); // 好像fasterxml里有
         jackson2JsonRedisSerializer.setObjectMapper(om);
         // ////////////////////////////////////////////////////////////////////////////////
 
