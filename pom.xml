@@ -6,7 +6,8 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <!--<version>2.4.4</version>-->
-        <version>2.6.2</version><!-- 20220120 upgraded -->
+        <!--<version>2.6.2</version>--><!-- 20220120 upgraded -->
+        <version>2.6.5</version><!-- 20220331 upgraded for SpEL -->
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>liuyang</groupId>
@@ -301,11 +302,11 @@
         </dependency>
          -->
         <!-- Dozer::Integrations::Spring Support::Starter -->
-        <dependency>
+        <!--<dependency>
             <groupId>com.github.dozermapper</groupId>
             <artifactId>dozer-spring-boot-starter</artifactId>
             <version>${dozer.version}</version>
-        </dependency>
+        </dependency>-->
 
         <!-- EasyExcel -->
         <dependency>
@@ -327,6 +328,10 @@
             <scope>test</scope>
         </dependency>
 
+        <!--
+        2022-03-31 10:37:40.162 [Thread-0] DEBUG o.s.b.d.restart.classloader.RestartClassLoader - Created RestartClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@4a86d18
+        2022-03-31 10:37:48.848 [restartedMain] INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+        -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
