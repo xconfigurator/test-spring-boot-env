@@ -6,7 +6,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * docs:
- * https://docs.spring.io/spring-framework/docs/current/reference/html/integration.html#rest-resttemplate
+ * https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#webmvc-client
  * https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-client
  *
  * RestTemplate: The original Spring REST client with a synchronous, template method API.
