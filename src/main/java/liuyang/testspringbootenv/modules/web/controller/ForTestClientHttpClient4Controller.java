@@ -1,11 +1,11 @@
 package liuyang.testspringbootenv.modules.web.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import liuyang.testspringbootenv.common.utils.R;
 import liuyang.testspringbootenv.modules.web.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
@@ -45,6 +45,18 @@ public class ForTestClientHttpClient4Controller {
         log.info("userDTO = {}", JSON.toJSONString(userDTO));
         printHeader(httpServletRequest);
         return "test3";
+    }
+
+    @PostMapping("test4")
+    public String testPostFile(@RequestParam("fileName") MultipartFile[] multipartFiles
+                , UserDTO userDTO
+                , HttpServletRequest httpServletRequest) {
+        log.info("userDTO = {}", JSON.toJSONString(userDTO));
+        for (MultipartFile multipartFile : multipartFiles) {
+            System.out.println("上传的文件名：" + multipartFile.getOriginalFilename());
+        }
+        printHeader(httpServletRequest);
+        return "test4";
     }
 
     private void printHeader(HttpServletRequest httpServletRequest) {
