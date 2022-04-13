@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 异步方法
+ * 异步方法依赖的ThreadPoolTaskExecutor监控方法。
  *
  * 参考文档：
  * 监控
