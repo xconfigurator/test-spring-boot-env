@@ -38,11 +38,13 @@ public class TestSpringBootEnvApplication {
         if (null == path) {
             log.info("本地：      \thttp://localhost:" + httpPort + "/");
             log.info("外部：      \thttp://" + ip + ":" + httpPort + "/");
+            log.info("actuator:  \thttp://" + ip + ":" + httpPort + "/actuator");
             log.info("swagger-ui:\thttp://" + ip + ":" + httpPort + "/doc.html");
             log.info("druid:     \thttp://localhost:" + httpPort + "/druid/");// ip的方式默认被禁止
         } else {
             log.info("本地：      \thttp://localhost:" + httpPort + "/" + path + "/");
             log.info("外部：      \thttp://" + ip + ":" + httpPort + "/" + path + "/");
+            log.info("actuator:  \thttp://" + ip + ":" + httpPort + "/actuator");
             log.info("swagger-ui:\thttp://" + ip + ":" + httpPort + "/" + path + "/doc.html");
             log.info("druid:     \thttp://localhost:" + httpPort + "/" + path + "/druid/");// ip的方式默认被禁止
         }
