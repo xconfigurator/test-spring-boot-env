@@ -1,17 +1,15 @@
 package liuyang.testspringbootenv.modules.json;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.serializer.NameFilter;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.TypeReference;
 import liuyang.testspringbootenv.modules.json.vo.Person;
+import liuyang.testspringbootenv.modules.json.vo.R;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * https://github.com/alibaba/fastjson
@@ -80,7 +78,19 @@ public class FastjsonTest {
 
         // /////////////////////////////////////////////////////
         // 反序列化带泛型的VO 02:39 左右 TypeReference
-        // ResultVO<T>
-        // ResultVO<Person> person = JSON.parseObject(jsonStr, new TypeReference<ResultVO<Person>>());
+        // ResultVO<T> <-- 自定义泛型类， VO是Person类
+        // ResultVO<Person> person = JSON.parseObject(jsonStr, new TypeReference<ResultVO<Person>>(){});
+    }
+
+    @Test
+    void testR() {
+        // 序列化
+        R<Person> result = R.ok(p);
+        String jsonPrimitive = JSON.toJSONString(result);
+        log.info("json = {}", jsonPrimitive);
+
+        // 反序列化
+        R<Person> r = JSON.parseObject(jsonPrimitive, new TypeReference<R<Person>>(){});
+        log.info("r = {}", r);
     }
 }
