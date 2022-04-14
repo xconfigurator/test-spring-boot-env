@@ -18,6 +18,8 @@ import java.util.Date;
 /**
  * https://github.com/google/gson
  *
+ * 参考文档：https://geek-docs.com/java/java-tutorial/gson.html
+ *
  * 参考视频：TODO
  *
  * @author liuyang(wx)

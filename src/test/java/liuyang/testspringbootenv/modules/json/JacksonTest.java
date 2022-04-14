@@ -18,6 +18,7 @@ import java.util.Date;
  * https://github.com/FasterXML/jackson
  * 参考文档： https://juejin.cn/post/6844904166809157639
  * 参考文档： https://www.jianshu.com/p/d49dc8dff51a
+ * 参考文档：https://www.yiibai.com/jackson/
  * 参考视频：TODO
  *
  * @author liuyang(wx)
