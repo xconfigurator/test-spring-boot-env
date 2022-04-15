@@ -40,8 +40,12 @@ public class GsonTest {
 
         // 定制Gson
         gson =  new GsonBuilder()
+                // Pretty
                 .setPrettyPrinting()
-                // Date
+                // 1. null处理
+                // TODO
+                // 2. 日期格式处理
+                // java.util.Date
                 .registerTypeAdapter(java.util.Date.class, new JavaUtilDateSerializer())
                 .registerTypeAdapter(java.util.Date.class, new JavaUtilDateDeserializer())
                 // JSR 310 LocalDateTime
@@ -50,11 +54,13 @@ public class GsonTest {
                 .create();
     }
 
+    // toJson
     @Test
     void testSerialization() {
         log.info("person = {}", gson.toJson(p));
     }
 
+    // fromJson
     @Test
     void testDeserialization() {
         // 使用Fastjson序列化（failure）定制Date和LocalDateTime格式之后OK

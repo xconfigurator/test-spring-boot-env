@@ -18,6 +18,7 @@ public class Person {
     private Long id;
     private String name;
     private String info;
+    private String nullProperty;// 测试一下null
     private Date testDate;
     private LocalDateTime testJSR310Date;
     private Double d;
