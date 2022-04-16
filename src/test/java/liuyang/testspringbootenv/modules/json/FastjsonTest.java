@@ -57,13 +57,15 @@ public class FastjsonTest {
 
         // /////////////////////////////////////////////////////
         // 序列化选项
-        // 1. 包含null
+        // 1. null 配置序列化时包含null （默认不包含null值的属性）
         // JSON.toJSONString(obj, SerializerFeature.WriteMapNullValue)
         log.info("person = {}", JSON.toJSONString(p, SerializerFeature.WriteMapNullValue));
         log.info("person = {}", JSON.toJSONString(p, SerializerFeature.WriteMapNullValue, SerializerFeature.PrettyFormat));// 多SerializerFeature
         // 2. 指定日期格式 默认就是标准的JSR 310 DateTimeFormatter.ISO_DATE_TIME 但可定制
         // @JSONField(format = "yyyy-MM-dd HH:mm:ss") (java.util.Data java.time.LocalDateTime均适用)
 
+        // /////////////////////////////////////////////////////
+        // Fastjson 特色
         // 3. 禁用循环引用探测
         // JSON.toJSONString(list, SerializerFeature.DisableCircularReferenceDetect);
         // 4.  SerializeFilter定制处理（对属性或属性值在序列化前做定制化处理）
