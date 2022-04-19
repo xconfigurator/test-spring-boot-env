@@ -1,6 +1,7 @@
 package liuyang.testspringbootenv.modules.actuator.indicators;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -11,22 +12,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 异步方法依赖的ThreadPoolTaskExecutor监控方法。
- *
- * 参考文档：
- * 监控
- * https://blog.csdn.net/a20023930/article/details/110918477
- * 默认线程池问题
- * https://blog.csdn.net/z69183787/article/details/108610381
- *
  * @author liuyang(wx)
- * @since 2022/4/13
+ * @since 2022/4/18
  */
-@Component
-public class ThreadPoolTaskExecutorIndicator implements HealthIndicator {
+// @Component
+public class ApplicationTaskExecutorIndicator implements HealthIndicator {
 
     @Autowired
-    private ThreadPoolTaskExecutor executor;// 参考TaskExecutionAutoConfiguration.java
+    @Qualifier("applicationTaskExecutor") // 202204181502 实测，加上定制的线程池之后容器就不存在applicationTaskExecutor了。
+    private ThreadPoolTaskExecutor executor;
 
     @Override
     public Health health() {
@@ -41,6 +35,8 @@ public class ThreadPoolTaskExecutorIndicator implements HealthIndicator {
         int activeCount = executor.getActiveCount();
         // 当前线程池中线程数
         int poolSize = executor.getPoolSize();
+
+
 
         Map<String, Object> info = new HashMap<>();
         info.put("核心线程数", corePoolSize);

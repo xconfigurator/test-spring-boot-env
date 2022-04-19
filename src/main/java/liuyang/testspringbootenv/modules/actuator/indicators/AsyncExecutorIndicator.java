@@ -1,32 +1,25 @@
 package liuyang.testspringbootenv.modules.actuator.indicators;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 异步方法依赖的ThreadPoolTaskExecutor监控方法。
- *
- * 参考文档：
- * 监控
- * https://blog.csdn.net/a20023930/article/details/110918477
- * 默认线程池问题
- * https://blog.csdn.net/z69183787/article/details/108610381
- *
  * @author liuyang(wx)
- * @since 2022/4/13
+ * @since 2022/4/18
  */
 @Component
-public class ThreadPoolTaskExecutorIndicator implements HealthIndicator {
+public class AsyncExecutorIndicator implements HealthIndicator {
 
     @Autowired
-    private ThreadPoolTaskExecutor executor;// 参考TaskExecutionAutoConfiguration.java
+    @Qualifier("asyncExecutor")
+    private ThreadPoolTaskExecutor executor;
 
     @Override
     public Health health() {
