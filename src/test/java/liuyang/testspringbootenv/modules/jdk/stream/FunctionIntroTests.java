@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -93,21 +92,36 @@ public class FunctionIntroTests {
 
     }
 
+    // 1-3 02:58左右
+    // 1-3 06左右 - 09:59 讲得Lambda表达式需要听一听。（静态方法引用、参数方法引用、实例方法引用、构造器引用。例子见MethodReferenceTests.java）
     @Test
     public void givenFunctionalInterface_thenFunctionAsArgumentsOrReturnValue() {
-
+        // liuyang 20220505 add
+        HigherOrderFunctionClass higherOrderFunctionClass = new HigherOrderFunctionClass();
+        IFactory<User> factory = higherOrderFunctionClass.createFactory(
+                () -> User.builder().id(100l).name("imooc").build(),
+                (user) -> {
+                    log.debug("用户信息:{}", user);
+                    user.setMobile("13012345678");
+                }
+        );
+        User user = factory.create();
+        assertEquals("imooc", user.getName());
+        assertEquals(100l, user.getId());
+        assertEquals("13012345678", user.getMobile());
     }
 
+    // Java中，把有且仅有一个未实现的非静态方法的接口叫做“函数式接口”。（即：Java可以用一个函数来实现这个接口。）
     interface IFactory<T> {
-        T create();
+        T create();// 有且仅有一个，未实现的，非静态方法。
     }
 
     interface IProducer<T> {
-        T produce();
+        T produce();// 有且仅有一个，未实现的，非静态方法。
     }
 
     interface IConfigurator<T> {
-        void configure(T t);
+        void configure(T t);// 有且仅有一个，未实现的，非静态方法。
     }
 
     class TestProducer implements IProducer {
@@ -126,5 +140,44 @@ public class FunctionIntroTests {
                 return instance;
             };
         }
+    }
+
+    // liuyang 202205051902 add
+    // 1-3 12:45左右
+    @Test
+    void testJDK8BuiltIn() {
+        // 1. Function
+        // https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/util/function/package-summary.html
+        // 表示一个函数(方法)，它接收一个单一的参数并返回一个单一的值。
+        Function<Long, Long> some = (value) -> value + 3;
+        Long resultLambda = some.apply((long) 8);
+
+        // 2. Predicate
+        // https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/util/function/Predicate.html
+        // 表示一个简单的函数，它只去一个值作为参数，并返回真或假。
+        Predicate<Object> predicate = (value) -> value != null;
+
+        // 3. UnaryOperator
+        // https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/util/function/UnaryOperator.html
+        // 代表一个操作，它接收一个参数，并返回一个向同类型的参数。
+        UnaryOperator<User> userUnaryOperator = (user) -> {
+            user.setName("New Name;");
+            return user;
+        };
+
+        // 4. BinaryOperator
+        // https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/util/function/BinaryOperator.html
+        // 代表接收两个参数并返回一个值的操作。
+        BinaryOperator<Long> binaryOperator = (a, b) -> a + b;
+
+        // 5. Supplier
+        // https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/util/function/Supplier.html
+        // 代表一个函数，它提供了某种类型的值。
+        Supplier<Integer> supplier = () -> (int) (Math.random() * 1000D);
+
+        // 6. Consumer
+        // https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/util/function/Consumer.html
+        // 代表一个接收一个参数而不返回任何值得函数。
+        Consumer<Integer> consumer = (value) -> log.debug("{}", value);
     }
 }
