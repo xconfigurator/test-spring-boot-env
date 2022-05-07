@@ -148,14 +148,29 @@ public class FunctionIntroTests {
     void testJDK8BuiltIn() {
         // 1. Function
         // https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/util/function/package-summary.html
+        // https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/util/function/Function.html
         // 表示一个函数(方法)，它接收一个单一的参数并返回一个单一的值。
         Function<Long, Long> some = (value) -> value + 3;
         Long resultLambda = some.apply((long) 8);
+        // 演示函数组合（顺序）
+        Function<Integer, Integer> squareOp = (value) -> value * value;
+        Function<Integer, Integer> doubleOp = (value) -> 2 * value;
+        Function<Integer, Integer> doubleThenSquare = doubleOp.andThen(squareOp);
+        Function<Integer, Integer> doubleThenSquare2 = squareOp.compose(doubleOp);
+        log.info("顺序组合 result = {}", doubleThenSquare.apply(4));
+        log.info("顺序组合 result = {}", doubleThenSquare2.apply(4));
 
         // 2. Predicate
         // https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/util/function/Predicate.html
         // 表示一个简单的函数，它只去一个值作为参数，并返回真或假。
         Predicate<Object> predicate = (value) -> value != null;
+        // 演示函数组合（逻辑）
+        Predicate<String> startWithA =  (text) -> text.startsWith("A");
+        Predicate<String> endWithX = (text) -> text.endsWith("X");
+        Predicate<String> combinationFuction = startWithA.and(endWithX);// 复合函数？ 应该叫函数的组合吧。
+        log.info("逻辑组合 result = {}", combinationFuction.test("AX"));
+        log.info("逻辑组合 result = {}", combinationFuction.test("AqqqqX"));
+        log.info("逻辑组合 result = {}", combinationFuction.test("hello, world"));
 
         // 3. UnaryOperator
         // https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/util/function/UnaryOperator.html
