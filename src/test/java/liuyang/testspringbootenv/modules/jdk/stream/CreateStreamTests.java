@@ -36,14 +36,16 @@ public class CreateStreamTests {
         userList = Arrays.asList(arrayOfUsers);
     }
 
+    // Arrays.stream 把数组变成流
     @Test
     public void givenUsers_createStreamWithArray() {
         List<User> collect = Arrays.stream(arrayOfUsers)
-                .peek(user -> log.debug("user: {}", user))
+                .peek(user -> log.debug("user: {}", user))// peek 也可以用forEach，但forEach之后就不能再跟其他操作了。
                 .collect(toList());
         assertEquals(arrayOfUsers.length, collect.size());
     }
 
+    // Collection.stream 把集合变成流
     @Test
     public void givenUsers_createStreamWithList() {
         List<User> collect = userList.stream()
@@ -52,6 +54,8 @@ public class CreateStreamTests {
         assertEquals(userList.size(), collect.size());
     }
 
+    // Stream.of
+    // 可以放入任意类型对象
     @Test
     public void givenUsers_createStreamWithStreamOf() {
         List<User> collect = Stream.of(arrayOfUsers[0], arrayOfUsers[1], arrayOfUsers[2])
@@ -60,22 +64,26 @@ public class CreateStreamTests {
         assertEquals(arrayOfUsers.length, collect.size());
     }
 
+    // Stream.iterate
     @Test
     public void givenUsers_createStreamWithStreamIterate() {
-        List<Integer> collect = Stream.iterate(0, n -> n + 1)// 无尽流
+        List<Integer> collect = Stream.iterate(0, n -> n + 1)// 无尽流。第二个参数是一个兰姆达表达式
                 .limit(10)// 限制条数
                 .peek(n -> log.debug("n = {}", n))
                 .collect(toList());
     }
 
+    // Stream.generate
     @Test
     public void givenUsers_createStreamWithStreamGenerate() {
-        List<Double> collect = Stream.generate(() -> Math.random())
+        List<Double> collect = Stream.generate(() -> Math.random())// 工厂方法不断地产生流中的元素，这里就是一个简单地产生随机数。
                 .limit(10)
                 .peek(n -> log.debug("n = {}", n))
                 .collect(toList());
     }
 
+    // StreamSupport.stream
+    // 看源码可知，list.stream底层使用的就是StreamSupport.stream
     @Test
     public void givenUsers_createStreamWithStreamSplitIterator() {
         Iterator<User> iterator = userList.iterator();
@@ -85,22 +93,25 @@ public class CreateStreamTests {
         assertEquals(3, collect.size());
     }
 
+    // IntStream.range
+    // IntStream.rangeClosed
     @Test
     public void givenIntegerRange_createStreamWithIntStream() {
-        val list = IntStream.rangeClosed(0, 5)
-                .boxed()
+        val list = IntStream.rangeClosed(90, 95)// rangeClosed(0, 5)
+                .boxed()// IntStream默认产生的都是出类型的数据， boxed之后变成包装类型。
                 .peek(i -> log.debug("the number is {}", i))
                 .collect(toList());
         assertEquals(6, list.size());
     }
 
+    // Stream.builder
     @Test
     public void givenUsers_createStreamWithStreamBuilder() {
         Stream.Builder<User> builder = Stream.builder();
         builder.add(arrayOfUsers[0])
                 .add(arrayOfUsers[1])
                 .add(arrayOfUsers[2])
-                .build()
+                .build()// 注意调用Stream.builder方法必须调用这个build()才会变成流。
                 .skip(1)// 跳过n个元素
                 .peek(user -> log.debug("user: {}", user.getUsername()))
                 .collect(Collectors.toList());
