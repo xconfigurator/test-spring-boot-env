@@ -90,9 +90,13 @@ public class FlatMapTests {
 
     }
 
+    // 视频 2-3
     @Test
     public void givenUsers_withOptional_thenDealElseWithStream() {
-
+        String greeting = ThirdPartyApi.findByUsername("zhangsan")
+                .map(Profile::getGreeting)
+                .orElse("未知用户");
+        assertEquals("未知用户", greeting);
     }
 
     @Test
