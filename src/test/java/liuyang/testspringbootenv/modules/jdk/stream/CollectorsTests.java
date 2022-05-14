@@ -18,6 +18,10 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * 收集为一个集合对象 - toList, toSet, toMap, toCollection
+ *
+ */
 @Slf4j
 public class CollectorsTests {
 
@@ -38,7 +42,7 @@ public class CollectorsTests {
     public void givenUsers_withToSet_thenSuccess() {
        Set<String> usernames = userList.stream()
                .map(User::getName)
-               .collect(toSet());
+               .collect(toSet());// Collectors.toSet();
        assertEquals(2, usernames.size());
     }
 
