@@ -1,16 +1,11 @@
 package liuyang.testspringbootenv.modules.web.controller;
 
 import liuyang.testspringbootenv.common.utils.R;
-import liuyang.testspringbootenv.modules.json.util.JsonUtil;
 import liuyang.testspringbootenv.modules.web.vo.Department;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
 
 import static java.util.stream.Collectors.joining;
 
