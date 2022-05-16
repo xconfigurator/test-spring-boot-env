@@ -31,6 +31,17 @@ public class ValidatorController {
         return R.ok("hello Spring Boot Env test BeanValidator JSR 303/ JSR 349/ JSR 380");
     }
 
+    // 最简单使用流程 - 配合全局处理异常（推荐）
+    // 全局处理异常代码参见：liuyang.testspringbootenv.common.exception.RestControllerExceptionHandler.handleMethodArgumentNotValidException
+    @PostMapping("/department2")
+    public R validDepartment2(
+            @RequestBody @Validated Department department) {
+        // 尝试走全局异常处理流程
+        log.info("校验成功");
+        return R.ok("校验成功");
+    }
+
+    // 最简单使用流程 - 局部处理异常
     @PostMapping("/department")
     public R validDepartment(
             @RequestBody @Validated Department department
@@ -56,6 +67,5 @@ public class ValidatorController {
         log.info("校验成功");
         return R.ok("校验成功");
     }
-
 
 }

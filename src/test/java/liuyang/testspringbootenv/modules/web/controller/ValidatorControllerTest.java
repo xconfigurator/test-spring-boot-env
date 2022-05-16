@@ -67,7 +67,7 @@ public class ValidatorControllerTest {
 
         // 值对象
         Department department = new Department();
-        //department.setId(IdUtils.nextIdViaHutool());// 验证规则是@Null 所以传了就不对！
+        department.setId(IdUtils.nextIdViaHutool());// 验证规则是@Null 所以传了就不对！
         department.setParent_id(IdUtils.nextIdViaHutool());
         department.setName("foo");
         //department.setCreateTime(DateUtil.asLocalDateTime(new Date()));
@@ -78,7 +78,8 @@ public class ValidatorControllerTest {
         log.info("jsonData = {}", jsonData);
 
         // HttpClient4
-        String url = "http://localhost/valid/department";
+        //String url = "http://localhost/valid/department";
+        String url = "http://localhost/valid/department2";
         HttpPost httpPost = new HttpPost(url);
         httpPost.setHeader("Content-Type", "application/json; charset=UTF-8");// 不设置就报错。因为默认类型是：Content type 'text/plain;charset=UTF-8'
         StringEntity jsonEntity = new StringEntity(jsonData, StandardCharsets.UTF_8);

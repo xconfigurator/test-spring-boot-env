@@ -49,7 +49,7 @@ public class JacksonTest {
         // 在om输出时om.writerWithDefaultPrettyPrinter().writeValueAsString(p)
         // 1. null 配置序列化时只包含非空属性 （默认是包含null值属性）
         // 方法1：在om处指定
-        om.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        om.setSerializationInclusion(JsonInclude.Include.NON_NULL);// 只有值是非空的时候，才包含相应字段。
         // 方法2：在vo处指定
         // 或者在vo类上使用@JsonInclude(JsonInclude.NON_NULL)注解
 
