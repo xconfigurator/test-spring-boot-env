@@ -7,12 +7,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * 执行归集操作 - 某种程度上和Collect作用类似
+ *
+ */
 @Slf4j
 public class _03_02_ReduceTests {
     private static final User[] arrayOfUsers = {
@@ -68,17 +74,35 @@ public class _03_02_ReduceTests {
         assertEquals(45, sum);
     }
 
+    // max
     @Test
     public void givenUsers_thenReduceToMaxId() {
         Optional<User> userOptional = userList.stream()
                 .reduce((acc, curr) -> {
+                    // 注1：在没有累加器的情况下，acc的初始值就是流的第一个元素值。
+                    // 注2：流中如果只有一个元素则根本不会进入这个位置。直接返回该值即结束。 见下面的测试。
                     log.debug("acc {}, curr {}", acc, curr);
                     return acc.getId() > curr.getId() ? acc : curr;
                 });
         assertTrue(userOptional.isPresent());
         assertEquals(3L, userOptional.get().getId());
+
+        // liuyang 202205161403
+        System.out.println("========================================");
+        Optional<User> reduce = userList.stream()
+                .filter(user -> "lisi".equals(user.getUsername()))// 保证只有一条数据
+                .peek(user -> log.debug("user = {}", user))
+                .reduce((acc, curr) -> {
+                    // 如果输入流只有一个元素，则不会进入这个代码块。
+                    log.debug("acc {}, curr {}", acc, curr);
+                    return acc.getId() > curr.getId() ? acc : curr;
+                });
+        log.debug("只有一条记录的时候的返回值 user = {}", reduce);
+        //.collect(Collectors.toList());
     }
 
+    // count
+    // 注意reduce的第三个参数Integer::sum
     @Test
     public void givenUsers_thenReduceToCount() {
         Integer count = userList.stream()
@@ -86,10 +110,12 @@ public class _03_02_ReduceTests {
         assertEquals(3, count);
     }
 
+    // 使用reduce操作实现一个toList
+    // 对标：Collectors.toList();
     @Test
     public void givenUsers_thenReduceToList() {
         List<User> list = userList.parallelStream().reduce(
-                Collections.emptyList(),
+                Collections.emptyList(),// 初始值
                 (acc, curr) -> {
                     List<User> newAcc= new ArrayList<>();
                     newAcc.addAll(acc);
@@ -108,5 +134,24 @@ public class _03_02_ReduceTests {
                 }
         );
         assertEquals(3, list.size());
+    }
+
+    // liuyang 1 + 2 + 3 + ... + 100 的几种写法 - 01
+    @Test
+    public void testSum1to100_01() {
+        int sum = 0;
+        for (int i = 1; i <= 100; i++) {
+            sum += i;
+        }
+        System.out.println(sum);
+        assertEquals(5050, sum);
+    }
+
+    // liuyang 1 + 2 + 3 + ... + 100 的几种写法 - 02
+    @Test
+    public void testSum1to100_02() {
+        int sum = IntStream.rangeClosed(1, 100).reduce(0, (a, b) -> a + b);
+        System.out.println(sum);
+        assertEquals(5050, sum);
     }
 }
