@@ -17,6 +17,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.Closeable;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -57,16 +59,19 @@ public class ValidatorControllerTest {
     }
 
     @Test
-    void test01() {
+    void test01() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         // Long aLong = IdUtils.nextIdViaHutool();
         // System.out.println(aLong);
 
         // 值对象
         Department department = new Department();
-        department.setId(IdUtils.nextIdViaHutool());// 验证规则是@Null 所以传了就不对！
-        //department.setParent_id(IdUtils.nextIdViaHutool());
-        //department.setName("foo");
-        department.setCreateTime(DateUtil.asLocalDateTime(new Date()));
+        //department.setId(IdUtils.nextIdViaHutool());// 验证规则是@Null 所以传了就不对！
+        department.setParent_id(IdUtils.nextIdViaHutool());
+        department.setName("foo");
+        //department.setCreateTime(DateUtil.asLocalDateTime(new Date()));
+        department.setCreateTime(DateUtil.asLocalDateTime(sdf.parse("2023-05-16 16:35:00")));
 
         // JSON
         String jsonData = JsonUtil.toJSONString(department);

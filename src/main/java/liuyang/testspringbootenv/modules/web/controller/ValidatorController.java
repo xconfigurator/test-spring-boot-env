@@ -1,6 +1,7 @@
 package liuyang.testspringbootenv.modules.web.controller;
 
 import liuyang.testspringbootenv.common.utils.R;
+import liuyang.testspringbootenv.modules.json.util.JsonUtil;
 import liuyang.testspringbootenv.modules.web.vo.Department;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
@@ -44,7 +45,7 @@ public class ValidatorController {
             //log.error(bindingResult.getModel().toString());
             //return R.error("校验失败");
 
-            // style2
+            // style2 - 定制简要失败信息
             String errorInfo = bindingResult.getAllErrors()
                     .stream()
                     .map(error -> error.getDefaultMessage())
@@ -52,6 +53,10 @@ public class ValidatorController {
             log.error("校验失败");
             //log.error(bindingResult.getModel().toString());
             return R.error(errorInfo);
+
+            // style3 - 返回所有校验错误信息
+            //String allErrorInfo = JsonUtil.toJSONString(bindingResult.getModel().toString());
+            //return R.error(allErrorInfo);
         }
         log.info("校验成功");
         return R.ok("校验成功");

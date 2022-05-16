@@ -1,6 +1,5 @@
 package liuyang.testspringbootenv.modules.web.vo;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -43,7 +42,7 @@ public class Department {
     /**
      * 成立时间
      */
-    @PastOrPresent(message = "不能大于当前时间") // 这个字段的判空问题湖面再谈
+    @PastOrPresent(message = "不能晚于当前时间") // 这个字段的判空问题湖面再谈
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")// 这个是在反序列化的时候提供给Jackson看的。
     private LocalDateTime createTime;
 }
