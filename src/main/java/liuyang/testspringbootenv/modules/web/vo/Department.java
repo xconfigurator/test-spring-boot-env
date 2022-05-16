@@ -24,26 +24,26 @@ public class Department {
     /**
      * 主键
      */
-    @Null //必须为空
+    @Null(message = "id必须为空") //必须为空
     private Long id;
 
     /**
      * 父ID
      */
-    @NotNull
+    @NotNull(message = "parent_id不能为空")
     private Long parent_id;
 
     /**
      * 部门名称
      */
-    @NotNull
-    @NotBlank
+    @NotNull(message = "部门名称name不能为空")
+    @NotBlank(message = "部门名称name不能为空字符串")
     private String name;
 
     /**
      * 成立时间
      */
-    @PastOrPresent // 这个字段的判空问题湖面再谈
+    @PastOrPresent(message = "不能大于当前时间") // 这个字段的判空问题湖面再谈
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")// 这个是在反序列化的时候提供给Jackson看的。
     private LocalDateTime createTime;
 }

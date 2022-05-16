@@ -63,9 +63,9 @@ public class ValidatorControllerTest {
 
         // 值对象
         Department department = new Department();
-        //department.setId(IdUtils.nextIdViaHutool());// 验证规则是@Null 所以传了就不对！
-        department.setParent_id(IdUtils.nextIdViaHutool());
-        department.setName("foo");
+        department.setId(IdUtils.nextIdViaHutool());// 验证规则是@Null 所以传了就不对！
+        //department.setParent_id(IdUtils.nextIdViaHutool());
+        //department.setName("foo");
         department.setCreateTime(DateUtil.asLocalDateTime(new Date()));
 
         // JSON
