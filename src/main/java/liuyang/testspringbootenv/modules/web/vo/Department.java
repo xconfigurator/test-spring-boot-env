@@ -1,5 +1,7 @@
 package liuyang.testspringbootenv.modules.web.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -19,13 +21,29 @@ import java.time.LocalDateTime;
 @ToString
 @EqualsAndHashCode
 public class Department {
+    /**
+     * 主键
+     */
     @Null //必须为空
-    private Integer id;
+    private Long id;
+
+    /**
+     * 父ID
+     */
     @NotNull
-    private Integer parent_id;
+    private Long parent_id;
+
+    /**
+     * 部门名称
+     */
     @NotNull
     @NotBlank
     private String name;
+
+    /**
+     * 成立时间
+     */
     @PastOrPresent // 这个字段的判空问题湖面再谈
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")// 这个是在反序列化的时候提供给Jackson看的。
     private LocalDateTime createTime;
 }

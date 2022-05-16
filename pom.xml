@@ -359,6 +359,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+
+        <!-- 20220516 add -->
+        <!-- Snowflake::Hutool -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-captcha</artifactId>
+            <version>4.6.8</version>
+        </dependency>
     </dependencies>
 
     <build>

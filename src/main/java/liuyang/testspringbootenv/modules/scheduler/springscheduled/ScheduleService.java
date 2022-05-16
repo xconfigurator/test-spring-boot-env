@@ -18,7 +18,7 @@ public class ScheduleService {
      *
      * 实测：Quartz and Spring Scheduler可以共存
      */
-    @Scheduled(cron = "0/2 * * * * MON-SAT")//
+    //@Scheduled(cron = "0/2 * * * * MON-SAT")//
     public void hello() throws InterruptedException {
         log.info("Spring Scheduler:: hello, Schedule! ");
         asyncService.doSomethingAsync();

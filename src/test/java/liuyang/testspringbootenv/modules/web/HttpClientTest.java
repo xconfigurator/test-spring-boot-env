@@ -14,10 +14,13 @@ import java.io.IOException;
 
 /**
  * https://hc.apache.org/
- * 依赖库原因，参见test-client （该工程基于5.x）
+ * httpclient4 依赖库原因，参见test-client （该工程基于5.x）
+ * httpclient4 代码参考 test-client-httpclient4
  *
  * @author liuyang(wx)
  * @since 2021/12/27
+ * @update 2022/5/16 copy from test-client-httpclient4
+ *
  */
 @Slf4j
 public class HttpClientTest {
@@ -53,5 +56,4 @@ public class HttpClientTest {
         log.info("version = {}", response.getVersion());
         */
     }
-
 }
