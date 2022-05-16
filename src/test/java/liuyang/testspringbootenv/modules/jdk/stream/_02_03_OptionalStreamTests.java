@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  */
 @Slf4j
-public class OptionalStreamTests {
+public class _02_03_OptionalStreamTests {
 
     private static final User[] arrayOfUsers = {
             User.builder().id(1L).username("zhangsan").name("张三").enabled(true).mobile("13000000001").build(),

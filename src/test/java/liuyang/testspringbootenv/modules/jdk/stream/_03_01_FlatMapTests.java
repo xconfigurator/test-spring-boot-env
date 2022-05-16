@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
-public class FlatMapTests {
+public class _03_01_FlatMapTests {
     private static final User[] arrayOfUsers = {
             User.builder()
                     .id(1L)

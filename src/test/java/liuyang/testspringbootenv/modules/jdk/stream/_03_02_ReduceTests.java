@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
-public class ReduceTests {
+public class _03_02_ReduceTests {
     private static final User[] arrayOfUsers = {
             User.builder().id(1L).username("zhangsan").name("张三").enabled(true).age(30).mobile("13000000001").build(),
             User.builder().id(2L).username("lisi").name("李四").enabled(false).age(32).mobile("13000000002").build(),

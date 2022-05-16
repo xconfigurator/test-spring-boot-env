@@ -15,15 +15,20 @@ import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
+// 静态引用
 import static java.util.stream.Collectors.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * 收集为一个集合对象 - toList, toSet, toMap, toCollection
+ * 2-4 收集器：收集为一个集合对象 - toList, toSet, toMap, toCollection
+ * 2-5 收集器：分组统计和聚合函数
+ *           聚合计算：averagingXXX, summingXXX, mapBy, counting
+ *           分组统计：groupingBy
+ * 2-6 收集器：mapping, joining和collectingAndThen
  *
  */
 @Slf4j
-public class CollectorsTests {
+public class _02_04_06_CollectorsTests {
 
     private static final User[] arrayOfUsers = {
             User.builder().id(1L).username("zhangsan").name("张三").age(30).enabled(true).mobile("13000000001").build(),
@@ -48,12 +53,14 @@ public class CollectorsTests {
 
     @Test
     public void givenUsers_withToMap_thenSuccess() {
+        // 1. 制造简单集合。
         Map<String, User> userMap = userList.stream()
                 .collect(toMap(
                         User::getUsername,
                         user -> user
                 ));
         assertTrue(userMap.containsKey("lisi"));
+        // 2. 处理有键重复的情况。
         Map<String, User> duplicateMap = Stream.concat(userList.stream(), userList.stream())
                 .peek(user -> log.debug("username, {}", user.getUsername()))
                 .collect(toMap(
@@ -62,6 +69,7 @@ public class CollectorsTests {
                         (existing, replace) -> existing
                 ));
         assertEquals(3, duplicateMap.keySet().size());
+        // 3. 不但有重复，而且需要排序。（TreeMap按照Key进行排序。）
         TreeMap<String, User> sortedMap = Stream.concat(userList.stream(), userList.stream())
                 .peek(user -> log.debug("username, {}", user.getUsername()))
                 .collect(toMap(
@@ -73,6 +81,8 @@ public class CollectorsTests {
         assertEquals("lisi", sortedMap.keySet().stream().findFirst().get());
     }
 
+    // 给定制集合更多的自由度
+    // e.g. 比如指定TreeSet的Comparator
     @Test
     public void givenUsers_withToCollection_thenSuccess() {
         Comparator<User> byAge = Comparator.comparing(User::getAge);
@@ -81,17 +91,23 @@ public class CollectorsTests {
         assertEquals(30, users.stream().map(User::getAge).findFirst().orElse(-1));
     }
 
+    // ////////////////////////////////////////////////////////////////
+    // 2-5
     @Test
     public void givenUsers_withSimpleSolarFunction_thenGetResult() {
+        // averagingDouble
         double avg = userList.stream().collect(averagingDouble(User::getAge));
         assertEquals((30 + 32 + 41) /3.0, avg);
+        // summingInt
         int sum = userList.stream().collect(summingInt(User::getAge));
         assertEquals((30 + 32 + 41), sum);
+        // DoubleSummaryStatistics - 一次拿出求和和平均值
         DoubleSummaryStatistics stat = userList.stream().collect(summarizingDouble(User::getAge));
         assertEquals((30 + 32 + 41.0), stat.getSum());
         assertEquals((30 + 32 + 41) /3.0, stat.getAverage());
     }
 
+    // 需求：每10年为一个年龄段进行分组统计。
     @Test
     public void givenUsers_whenGroupingByAge_thenGetStatWithStream() {
         Map<Integer, DoubleSummaryStatistics> map = userList.stream().collect(
@@ -105,18 +121,22 @@ public class CollectorsTests {
         assertEquals(32, map.get(30).getMax());
         assertEquals(30, map.get(30).getMin());
         assertEquals(31, map.get(30).getAverage());
-        assertEquals(62, map.get(30).getSum());    }
+        assertEquals(62, map.get(30).getSum());
+    }
 
+    // 做变换 11:30
     @Test
     public void givenUsers_whenGroupingByAge_thenGetListWithStream() {
         Map<Integer, List<UserDto>> result = userList.stream().collect(
                 groupingBy(
                         user -> (int) Math.floor(user.getAge() / 10.0) * 10,
                         mapping(
+                                // 目标集合中单个元素变换规则
                                 user -> new UserDto(
                                     user.getId(),
                                     user.getUsername() + ":" + user.getName()
                                 ),
+                                // 目标集合类型
                                 toList()
                         )
                 )
@@ -124,23 +144,38 @@ public class CollectorsTests {
         log.debug("result: {}", result);
     }
 
+    // ////////////////////////////////////////////////////////////////
+    // 2-6
+    // groupingBy
     @Test
     public void givenStrings_thenMappingAndFiltering_theChainThemTogether() {
         List<String> strings = List.of("bb", "ddd", "cc", "a");
-        Map<Integer, TreeSet<String>> result = strings.stream()
+/*        Map<Integer, TreeSet<String>> result = strings.stream()
                 .collect(groupingBy(
                         String::length,
                         mapping(
                                 String::toUpperCase,
+                                // 过滤
                                 filtering(
                                         s -> s.length() > 1,
                                         toCollection(TreeSet::new)
                                 )
                         )
+                ));*/
+        Map<Integer, TreeSet<String>> result = strings.stream()
+                .collect(groupingBy(
+                        String::length,
+                        mapping(
+                                String::toUpperCase,
+                                // 不过滤
+                                toCollection(TreeSet::new)
+                        )
                 ));
         log.debug("result: {}", result);
     }
 
+    // collectingAndThen
+    // 需求：想拿到分组之后的列表，以及分组后列表的平均值。
     @Test
     public void givenUsers_whenGroupingByAgeAndCollectingAndThen_thenGetCustomWithStream() {
         // collectingAndThen 其实就是在最后在做一个单一操作
@@ -160,6 +195,7 @@ public class CollectorsTests {
         assertEquals(31.0, map.get(30).getAverage());
     }
 
+    // joining 处理字符串链接
     @Test
     public void givenUsers_withJoining_thenGetString() {
         Map<String, String>  requestParams = Map.of(

@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  */
 @Slf4j
-public class CreateStreamTests {
+public class _02_01_CreateStreamTests {
 
     private static final User[] arrayOfUsers = {
             User.builder().id(1L).username("zhangsan").name("张三").enabled(true).mobile("13000000001").build(),
@@ -120,5 +120,13 @@ public class CreateStreamTests {
     @Test
     public void givenSentence_createStreamWithNewAPIs() {
         // 没有讲
+    }
+
+    // liuyang 202205161001
+    // 类比Python中的切片操作 []
+    @Test
+    public void test() {
+        // [1, 11] Python中的范围遵循[), 且下标从0开始
+        IntStream.rangeClosed(0, 100).skip(1).limit(10).forEach(e -> log.debug("e = {}", e));
     }
 }

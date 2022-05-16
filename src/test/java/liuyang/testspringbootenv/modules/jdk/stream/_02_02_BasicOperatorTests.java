@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  */
 @Slf4j
-public class BasicOperatorTests {
+public class _02_02_BasicOperatorTests {
 
     private static final User[] arrayOfUsers = {
         User.builder().id(1L).username("zhangsan").name("张三").enabled(true).mobile("13000000001").build(),
