@@ -67,7 +67,7 @@ public class ValidatorControllerTest {
 
         // 值对象
         Department department = new Department();
-        department.setId(IdUtils.nextIdViaHutool());// 验证规则是@Null 所以传了就不对！
+        //department.setId(IdUtils.nextIdViaHutool());// 验证规则是@Null 所以传了就不对！
         department.setParent_id(IdUtils.nextIdViaHutool());
         department.setName("foo");
         //department.setCreateTime(DateUtil.asLocalDateTime(new Date()));
@@ -75,7 +75,7 @@ public class ValidatorControllerTest {
 
         // JSON
         String jsonData = JsonUtil.toJSONString(department);
-        log.info("jsonData = {}", jsonData);
+        log.info("request jsonData = {}", jsonData);
 
         // HttpClient4
         //String url = "http://localhost/valid/department";
@@ -91,7 +91,7 @@ public class ValidatorControllerTest {
                 ) {
             HttpEntity entity = closeableHttpResponse.getEntity();
             String entityStr = EntityUtils.toString(entity, StandardCharsets.UTF_8);
-            log.info("entityStr = {}", entityStr);
+            log.info("response entityStr = {}", entityStr);
             EntityUtils.consume(entity);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
