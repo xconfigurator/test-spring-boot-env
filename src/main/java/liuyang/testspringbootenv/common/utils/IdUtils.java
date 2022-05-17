@@ -14,7 +14,11 @@ public class IdUtils {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
 
-    // Hutool Snowflake
+    // Snowflake - Hutool实现
+    // 关于ID，如果使用雪花算法，数据库中的对应字段使用BIGINT
+    // 生成整数为19位，Java应使用Long， MySQL对应字段应使用BIGINT
+    // MySQL https://dev.mysql.com/doc/refman/5.7/en/integer-types.html
+    // SQL Server 2019 https://docs.microsoft.com/zh-cn/sql/t-sql/data-types/int-bigint-smallint-and-tinyint-transact-sql?view=sql-server-ver15
     private static cn.hutool.core.lang.Snowflake snowflake;
     private static long workerId = 1;      // 5位：1 - 31
     private static long datacenterId = 1;  // 5位：1 - 31
@@ -24,6 +28,4 @@ public class IdUtils {
     public static Long nextIdViaHutool() {
         return snowflake.nextId();
     }
-
-
 }
