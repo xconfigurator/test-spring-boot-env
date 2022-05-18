@@ -19,6 +19,10 @@ public class IdUtilsTest {
         // 生成整数为19位，Java应使用Long， MySQL对应字段应使用BIGINT
         // MySQL https://dev.mysql.com/doc/refman/5.7/en/integer-types.html
         // SQL Server 2019 https://docs.microsoft.com/zh-cn/sql/t-sql/data-types/int-bigint-smallint-and-tinyint-transact-sql?view=sql-server-ver15
-        System.out.println(IdUtils.nextIdViaHutool());
+        System.out.println("Hutool实现：\t\t\t" + IdUtils.nextIdViaHutool());
+
+        // MyBatis-Plus的实现
+        System.out.println("MyBatis-Plus实现：\t" + IdUtils.nextId());
+        System.out.println("MyBatis-Plus实现：\t" + IdUtils.nexUUID());
     }
 }

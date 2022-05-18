@@ -1,17 +1,33 @@
 package liuyang.testspringbootenv.common.utils;
 
+import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator;
+import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
+
 import java.util.UUID;
 
 /**
  * @author liuyang
  * @scine 2021/9/27
- *        2022/5/16 增加基于hutool的
+ *        2022/5/16 增加hutool的实现         参考test-mbp项目想干测试用例
+ *        2022/5/18 增加MyBatis-Plus的实现   参考test-mbp项目相关测试用例
  */
 public class IdUtils {
 
     // JDK UUID
     public static String nextTaskId() {
         return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+
+    // Snowflake - MyBatis-Plus
+    private static IdentifierGenerator identifierGenerator;
+    static {
+        identifierGenerator = new DefaultIdentifierGenerator();// 另外一个实现是：ImadcnIdentifierGenerator
+    }
+    public static Long nextId() {
+        return Long.valueOf(identifierGenerator.nextId(null).longValue());// Long类型 19位 见DefaultIdentifierGenerator
+    }
+    public static String nexUUID() {
+        return identifierGenerator.nextUUID(null);
     }
 
     // Snowflake - Hutool实现
