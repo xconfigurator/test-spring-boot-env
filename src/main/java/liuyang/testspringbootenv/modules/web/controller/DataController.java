@@ -1,6 +1,6 @@
 package liuyang.testspringbootenv.modules.web.controller;
 
-import liuyang.testspringbootenv.common.utils.IdUtils;
+import liuyang.testspringbootenv.common.utils.Id;
 import liuyang.testspringbootenv.common.utils.R;
 import liuyang.testspringbootenv.modules.web.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class DataController {
     @GetMapping("/dto")
     public UserDTO testRestTemplateDto() {
         UserDTO userDTO = new UserDTO();
-        userDTO.setId(IdUtils.nextTaskId());
+        userDTO.setId(Id.nextTaskId());
         userDTO.setUsername("liuyang");
         userDTO.setInfo("测试RestTemplate的getForObject()");
         userDTO.setD(9.0);

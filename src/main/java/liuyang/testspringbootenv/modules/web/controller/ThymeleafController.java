@@ -1,6 +1,6 @@
 package liuyang.testspringbootenv.modules.web.controller;
 
-import liuyang.testspringbootenv.common.utils.IdUtils;
+import liuyang.testspringbootenv.common.utils.Id;
 import liuyang.testspringbootenv.modules.web.dto.UserDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,10 +40,10 @@ public class ThymeleafController {
     private List<UserDTO> getUserList() {
         List<UserDTO> list = new ArrayList<>();
         UserDTO user1 = new UserDTO();
-        user1.setId(IdUtils.nextTaskId());
+        user1.setId(Id.nextTaskId());
         list.add(user1);
         UserDTO user2 = new UserDTO();
-        user2.setId(IdUtils.nextTaskId());
+        user2.setId(Id.nextTaskId());
         list.add(user2);
         return list;
     }

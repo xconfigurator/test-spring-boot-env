@@ -1,7 +1,7 @@
 package liuyang.testspringbootenv.modules.web.controller;
 
 import liuyang.testspringbootenv.common.utils.DateUtil;
-import liuyang.testspringbootenv.common.utils.IdUtils;
+import liuyang.testspringbootenv.common.utils.Id;
 import liuyang.testspringbootenv.modules.json.util.JsonUtil;
 import liuyang.testspringbootenv.modules.web.vo.Department;
 import lombok.extern.slf4j.Slf4j;
@@ -15,12 +15,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Test;
 
-import java.io.Closeable;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -68,7 +65,7 @@ public class ValidatorControllerTest {
         // 值对象
         Department department = new Department();
         //department.setId(IdUtils.nextIdViaHutool());// 验证规则是@Null 所以传了就不对！
-        department.setParent_id(IdUtils.nextIdViaHutool());
+        department.setParent_id(Id.nextIdViaHutool());
         department.setName("foo");
         //department.setCreateTime(DateUtil.asLocalDateTime(new Date()));
         department.setCreateTime(DateUtil.asLocalDateTime(sdf.parse("2023-05-16 16:35:00")));

@@ -1,7 +1,7 @@
 package liuyang.testspringbootenv.modules.web;
 
 import com.alibaba.fastjson.JSON;
-import liuyang.testspringbootenv.common.utils.IdUtils;
+import liuyang.testspringbootenv.common.utils.Id;
 import liuyang.testspringbootenv.common.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,7 +77,7 @@ public class RestTemplateTestForLinkedBlockingQueue {
     private void postForObject(int clientIdx) {
         String url = "http://localhost/queue/produce";
         MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
-        paramMap.add("msg", "client" + clientIdx + " " + IdUtils.nextTaskId());
+        paramMap.add("msg", "client" + clientIdx + " " + Id.nextTaskId());
         R r = restTemplate.postForObject(url, paramMap, R.class);
         log.info("R = {}", JSON.toJSONString(r));
     }

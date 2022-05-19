@@ -1,11 +1,9 @@
 package liuyang.testspringbootenv.modules.web;
 
-import liuyang.testspringbootenv.common.utils.IdUtils;
+import liuyang.testspringbootenv.common.utils.Id;
 import liuyang.testspringbootenv.modules.web.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.LinkedMultiValueMap;
@@ -114,7 +112,7 @@ public class RestTemplateTest {
     void postForObjectTest() {
         String url = "http://localhost/hello/dtopost1"; // 202201121329 ok
         MultiValueMap<String ,Object> paramMap = new LinkedMultiValueMap<>();
-        paramMap.add("id", IdUtils.nextTaskId());
+        paramMap.add("id", Id.nextTaskId());
         paramMap.add("username", "liuyang");
         paramMap.add("info", "foo");
         paramMap.add("d", 8.0);
@@ -137,7 +135,7 @@ public class RestTemplateTest {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);// application/json
         // 数据(T)
         UserDTO userDTO = new UserDTO();
-        userDTO.setId(IdUtils.nextTaskId());
+        userDTO.setId(Id.nextTaskId());
         userDTO.setUsername("liuyang");
         userDTO.setInfo("Info test @RequestBody");
         userDTO.setD(0.1);
@@ -163,7 +161,7 @@ public class RestTemplateTest {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);// application/json
         // 数据(T)
         UserDTO userDTO = new UserDTO();
-        userDTO.setId(IdUtils.nextTaskId());
+        userDTO.setId(Id.nextTaskId());
         userDTO.setUsername("liuyang");
         userDTO.setInfo("Info test @RequestBody via restTemplate.exchange");
         userDTO.setD(0.1);
