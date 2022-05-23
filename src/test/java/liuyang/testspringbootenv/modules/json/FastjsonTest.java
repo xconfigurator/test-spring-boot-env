@@ -43,6 +43,8 @@ public class FastjsonTest {
         // 3. 忽略指定属性
         // @JSONField(serialize = false)
         // @JSONField(deserialize = false)
+        // 4. 日期格式化（如果需要）
+        // @JSONField(format = "yyyy-MM-dd HH:mm:ss.SSS")
     }
 
     // 序列化
