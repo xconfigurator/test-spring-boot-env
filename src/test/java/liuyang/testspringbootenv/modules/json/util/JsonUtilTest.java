@@ -2,6 +2,7 @@ package liuyang.testspringbootenv.modules.json.util;
 
 import liuyang.testspringbootenv.modules.json.vo.Person;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import springfox.documentation.spring.web.json.Json;
 
@@ -47,9 +48,22 @@ public class JsonUtilTest {
         log.info("person = {}", pDeserized);
     }
 
+    // 边界测试
+    @Test
+    void testParseObjectNull() {
+        Person person = JsonUtil.parseObject(null, Person.class);
+        log.info("person = {}", person);
+        Assertions.assertNull(person);
+    }
+
+    // 边界测试
     @Test
     void testToJsonNull() {
         // 传入null， 输出null
-        log.info(JsonUtil.toJSONString(null));
+        String jsonString = JsonUtil.toJSONString(null);
+        log.info("json = {}", jsonString);
+        //Assertions.assertNull(jsonString);// 看来这个确实有点误会！ 当然也可以通过封装处理满足这个条件。这并不似Fastjson的问题，而是返回null确实没意义。
+        //Assertions.assertEquals("", jsonString);// 经过封装处理
+        Assertions.assertEquals("null", jsonString);// Fastjson默认侧策略
     }
 }

@@ -65,7 +65,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/upload/excel").permitAll()
                 .antMatchers("/login").permitAll()                  // 注意没有/logout，想想为什么。
                 .antMatchers("/security/login/page").permitAll()
-                .antMatchers("/security/login").permitAll();
+                .antMatchers("/security/login").permitAll()
+                .antMatchers("/inma_smart/alarm").permitAll();
+
         // 关于permitAll()和anonymous()的区别
         // 三更草堂 22.认证配置 10:15 左右讲了。前后端不分离的项目中，对静态资源放行多用permitAll()，前后端分离项目，对API的访问多用anonymous()
         // 不过参考下面的public void configure(WebSecurity web) throws Exception ，看来三更草堂的说法也不是特备靠谱。

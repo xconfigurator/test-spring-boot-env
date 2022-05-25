@@ -2,6 +2,7 @@ package liuyang.testspringbootenv.modules.json.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedList;
 
@@ -9,6 +10,7 @@ import java.util.LinkedList;
  * 为与海能达对接时使用Fastjson特性定制工具类
  * @author liuyang(wx)
  * @since 2022/4/28
+ *        2022/5/25     增强toJSONString
  */
 public class JsonUtil {
 
@@ -27,6 +29,7 @@ public class JsonUtil {
     }
 
     public static String toJSONString(Object obj) {
+        //if (null == obj) return "";// 20220525发现，如果不加这一句，则传入对象为null时，Fastjson默认行为是会转换出"null"字符串。至于是否采用这种策略，可以根据双方意见沟通决定。
         return JSON.toJSONString(obj, serializerFeatures.toArray(new SerializerFeature[]{}));
     }
 
