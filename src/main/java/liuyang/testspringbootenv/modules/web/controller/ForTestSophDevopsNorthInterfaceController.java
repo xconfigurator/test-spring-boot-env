@@ -44,8 +44,16 @@ public class ForTestSophDevopsNorthInterfaceController {
         return new SophResult();
     }
 
+    // 这个工具类很重要！！！
     @PostMapping("util")
     public SophResult util(@RequestBody String json) {
+        // 发送工具类以及测试用例在test-client-httpclient4
+        // 工具类
+        // liuyang.testclienthttpclient4.modules.apache.httpclient4.utils
+        // liuyang.testclienthttpclient4.modules.apache.httpclient4.utils.fastjson.HttpClientUtil
+        // liuyang.testclienthttpclient4.modules.apache.httpclient4.utils.fastjson.JsonUtil
+        // 测试用例
+        // liuyang.testclienthttpclient4.modules.apache.httpclient4.utils.fastjson.HttpClientUtilTest
         log.info("上传的json = {}", json);
         return new SophResult();
     }
