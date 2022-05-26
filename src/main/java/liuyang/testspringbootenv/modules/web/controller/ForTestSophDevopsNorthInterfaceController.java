@@ -44,6 +44,12 @@ public class ForTestSophDevopsNorthInterfaceController {
         return new SophResult();
     }
 
+    @PostMapping("util")
+    public SophResult util(@RequestBody String json) {
+        log.info("上传的json = {}", json);
+        return new SophResult();
+    }
+
     @Data // 试一试不写get set。试试就逝世。
     public class SophResult {
         private Integer code = 200;
