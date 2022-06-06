@@ -1,6 +1,6 @@
-package liuyang.testspringbootenv.modules.scheduler.quartz.config;
+package liuyang.testspringbootenv.modules.scheduling.quartz.config;
 
-import liuyang.testspringbootenv.modules.scheduler.quartz.quartzjobbean.Hello01Job;
+import liuyang.testspringbootenv.modules.scheduling.quartz.quartzjobbean.Hello01Job;
 import org.quartz.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;

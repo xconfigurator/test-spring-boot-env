@@ -26,6 +26,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Slf4j
 public class AsyncExecutorConfig implements AsyncConfigurer {
 
+    // 定制线程池
     @Bean
     public ThreadPoolTaskExecutor asyncExecutor() {
         // 明确定义异步任务使用线程池，@Async在不指定线程池名称时默认就是用这个线程池中的线程。
@@ -40,7 +41,8 @@ public class AsyncExecutorConfig implements AsyncConfigurer {
         return executor;
     }
 
-
+    // 告诉框架，用我定制好的线程池。
+    // 使用asyncExecutor这个名字的Bean是通过重写下面这个方法来实现的。
     @Override
     public Executor getAsyncExecutor() {
         return asyncExecutor();

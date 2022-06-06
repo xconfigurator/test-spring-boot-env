@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.scheduler.spring;
+package liuyang.testspringbootenv.modules.scheduling.spring;
 
 import liuyang.testspringbootenv.modules.async.service.AsyncService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class SchedulerService {
      *
      * 实测：Quartz and Spring Scheduler可以共存
      */
-    @Scheduled(cron = "0/2 * * * * MON-SAT")//
+    //@Scheduled(cron = "0/2 * * * * MON-SAT")//
     public void hello() throws InterruptedException {
         log.info("Spring Scheduler:: hello, Schedule! ");
         asyncService.doSomethingAsync();

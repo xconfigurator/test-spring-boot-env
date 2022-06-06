@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.scheduler.quartz.util;
+package liuyang.testspringbootenv.modules.scheduling.quartz.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
