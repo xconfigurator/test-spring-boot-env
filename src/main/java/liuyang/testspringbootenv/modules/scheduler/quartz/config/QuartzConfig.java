@@ -2,6 +2,7 @@ package liuyang.testspringbootenv.modules.scheduler.quartz.config;
 
 import liuyang.testspringbootenv.modules.scheduler.quartz.quartzjobbean.Hello01Job;
 import org.quartz.*;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,7 +10,8 @@ import org.springframework.context.annotation.Configuration;
  * @author liuyang
  * @scine 2021/9/6
  */
-//@Configuration
+@ConditionalOnProperty(prefix = "enable", name="modules.scheduler.quartz", havingValue = "true")// 2022/6/6 实测，Quartz的任务标注到这里就顶用。这个跟Spring Scheduler的行为不太一致。
+@Configuration
 public class QuartzConfig {
     private static final String JOB_GROUP_NAME = "LIUYANG_QUARTZ_SINGLE_JOB_GROUP_NAME";
     private static final String TRIGGER_GROUP_NAME = "LIUYANG_QUARTZ_SINGLE_TRIGGER_GROUP_NAME";
