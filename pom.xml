@@ -17,7 +17,7 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
-        <fastjson.version>1.2.76</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version><!-- 20220606 upgrade from 1.2.76 to 1.2.83 基于已知安全漏洞 -->
         <gson.version>2.9.0</gson.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
@@ -366,6 +366,16 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-captcha</artifactId>
             <version>4.6.8</version>
+        </dependency>
+
+        <!-- 20220606 add -->
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
         </dependency>
     </dependencies>
 
