@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.scheduler.springscheduled;
+package liuyang.testspringbootenv.modules.scheduler.spring;
 
 import liuyang.testspringbootenv.modules.async.service.AsyncService;
 import lombok.extern.slf4j.Slf4j;
@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-@ConditionalOnProperty(prefix = "enable", name="modules.scheduler.springscheduled", havingValue = "true")
+@ConditionalOnProperty(prefix = "enable", name="modules.scheduler.spring", havingValue = "true")
 @Service
 @Slf4j
-public class ScheduleService {
+public class SchedulerService {
 
     @Autowired
     private AsyncService asyncService;
