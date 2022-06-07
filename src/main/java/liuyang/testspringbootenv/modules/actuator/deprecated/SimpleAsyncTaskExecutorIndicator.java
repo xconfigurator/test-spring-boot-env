@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.actuator.indicators;
+package liuyang.testspringbootenv.modules.actuator.deprecated;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health;
@@ -13,6 +13,7 @@ import java.util.Map;
  * @author liuyang(wx)
  * @since 2022/4/18
  */
+@Deprecated
 //@Component // 这个不行 容器中没有simpleAsyncTaskSexecutor
 public class SimpleAsyncTaskExecutorIndicator implements HealthIndicator {
 

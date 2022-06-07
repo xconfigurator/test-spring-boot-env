@@ -24,7 +24,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Configuration
 @EnableAsync
 @Slf4j
-public class AsyncExecutorConfig implements AsyncConfigurer {
+public class AsyncConfig implements AsyncConfigurer {
 
     // 定制线程池
     @Bean

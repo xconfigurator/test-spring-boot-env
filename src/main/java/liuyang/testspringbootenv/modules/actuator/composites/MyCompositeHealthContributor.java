@@ -1,6 +1,6 @@
 package liuyang.testspringbootenv.modules.actuator.composites;
 
-import liuyang.testspringbootenv.modules.actuator.indicators.ThreadPoolTaskExecutorIndicator;
+import liuyang.testspringbootenv.modules.actuator.deprecated.ThreadPoolTaskExecutorIndicator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.CompositeHealthContributor;
 import org.springframework.boot.actuate.health.HealthContributor;

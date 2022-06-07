@@ -1,5 +1,12 @@
 /**
- * 结论：Date和LocalDateTime的格式要实现说清楚！！！！！
+ * 【注】
+ * 本包只存放JSON相关的内容。
+ * 目前（20220607）最新的序列化套件在test-client-httpclient4/modules/apache/httpclient4/utils/fastjson下的HttpClientUtil和JsonUtil。
+ *      HttpClientUtil会直接调用JsonUtil来进行序列化，同时通过JsonUtil来对使用的基础GSON序列化工具进行特性配置。
+ *
+ *
+ * 【结论（关于日期）】
+ * Date和LocalDateTime的格式要实现说清楚！！！！！
  *
  * 【Fastjson】
  *  java.util.Date

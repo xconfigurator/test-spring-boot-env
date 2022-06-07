@@ -2,7 +2,7 @@ package liuyang.testspringbootenv.modules.web.controller;
 
 import liuyang.testspringbootenv.common.utils.DateUtil;
 import liuyang.testspringbootenv.common.utils.Id;
-import liuyang.testspringbootenv.modules.json.util.JsonUtil;
+import liuyang.testspringbootenv.modules.json.util.fastjson.JsonUtil;
 import liuyang.testspringbootenv.modules.web.vo.Department;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;

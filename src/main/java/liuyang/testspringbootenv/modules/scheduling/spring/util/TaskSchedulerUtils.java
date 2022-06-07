@@ -85,4 +85,12 @@ public class TaskSchedulerUtils {
             scheduledFuture.cancel(true);
         }
     }
+
+    /**
+     * 为了方便监控
+     * @return
+     */
+    public ConcurrentHashMap<String, ScheduledFuture> getScheduledFutureMap() {
+        return this.scheduledFutureMap;
+    }
 }

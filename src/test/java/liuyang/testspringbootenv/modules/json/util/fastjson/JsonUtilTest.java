@@ -1,10 +1,10 @@
-package liuyang.testspringbootenv.modules.json.util;
+package liuyang.testspringbootenv.modules.json.util.fastjson;
 
+import liuyang.testspringbootenv.modules.json.util.fastjson.JsonUtil;
 import liuyang.testspringbootenv.modules.json.vo.Person;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import springfox.documentation.spring.web.json.Json;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

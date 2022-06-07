@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.actuator.indicators;
+package liuyang.testspringbootenv.modules.actuator.deprecated;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +15,7 @@ import java.util.Map;
  * @author liuyang(wx)
  * @since 2022/4/18
  */
+@Deprecated
 // @Component
 public class ApplicationTaskExecutorIndicator implements HealthIndicator {
 

@@ -1,5 +1,6 @@
-package liuyang.testspringbootenv.common.incubator;
+package liuyang.testspringbootenv.common.utils;
 
+import liuyang.testspringbootenv.common.utils.DataCacheUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 

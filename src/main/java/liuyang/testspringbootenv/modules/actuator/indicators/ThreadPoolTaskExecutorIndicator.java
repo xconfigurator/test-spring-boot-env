@@ -1,46 +1,43 @@
 package liuyang.testspringbootenv.modules.actuator.indicators;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * 异步方法依赖的ThreadPoolTaskExecutor监控方法。
- *
- * 参考文档：
- * 监控
- * https://blog.csdn.net/a20023930/article/details/110918477
- * 默认线程池问题
- * https://blog.csdn.net/z69183787/article/details/108610381
- *
  * @author liuyang(wx)
- * @since 2022/4/13
+ * @since 2022/4/18
  */
 @Component
 public class ThreadPoolTaskExecutorIndicator implements HealthIndicator {
 
     @Autowired
-    private ThreadPoolTaskExecutor executor;// 参考TaskExecutionAutoConfiguration.java
+    @Qualifier("asyncExecutor")// 这个是在modules/async/config/AsyncConfig.java中定义
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Override
     public Health health() {
         // 核心线程数
-        int corePoolSize = executor.getCorePoolSize();
+        int corePoolSize = threadPoolTaskExecutor.getCorePoolSize();
         // 最大线程数
-        int maxPoolSize = executor.getMaxPoolSize();
+        int maxPoolSize = threadPoolTaskExecutor.getMaxPoolSize();
         // 线程池维护线程允许的空闲时间
-        int keepAliveSeconds = executor.getKeepAliveSeconds();
+        int keepAliveSeconds = threadPoolTaskExecutor.getKeepAliveSeconds();
         // queueCapacity 貌似executor拿不到
         // 活跃线程数
-        int activeCount = executor.getActiveCount();
+        int activeCount = threadPoolTaskExecutor.getActiveCount();
         // 当前线程池中线程数
-        int poolSize = executor.getPoolSize();
+        int poolSize = threadPoolTaskExecutor.getPoolSize();
+
+        // JDK 底层干活的
+        ThreadPoolExecutor threadPoolExecutor = threadPoolTaskExecutor.getThreadPoolExecutor();
 
         Map<String, Object> info = new HashMap<>();
         info.put("核心线程数", corePoolSize);
