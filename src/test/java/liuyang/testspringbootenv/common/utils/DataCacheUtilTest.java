@@ -13,7 +13,7 @@ import java.io.IOException;
 @Slf4j
 public class DataCacheUtilTest {
 
-    String SYSTEM_CACHE_FILE_NAME = "data.cache";
+    String SYSTEM_CACHE_FILE_NAME = "local.data.cache";
 
     // 删
     @Test
