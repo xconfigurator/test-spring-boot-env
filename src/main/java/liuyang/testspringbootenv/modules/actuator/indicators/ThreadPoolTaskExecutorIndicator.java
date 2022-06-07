@@ -18,9 +18,15 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Component
 public class ThreadPoolTaskExecutorIndicator implements HealthIndicator {
 
+    //@Autowired
+    //@Qualifier("asyncExecutor")// 这个是在modules/async/config/AsyncConfig.java中定义
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
     @Autowired
     @Qualifier("asyncExecutor")// 这个是在modules/async/config/AsyncConfig.java中定义
-    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+    public void setThreadPoolTaskExecutor(ThreadPoolTaskExecutor threadPoolTaskExecutor) {
+        this.threadPoolTaskExecutor = threadPoolTaskExecutor;
+    }
 
     @Override
     public Health health() {

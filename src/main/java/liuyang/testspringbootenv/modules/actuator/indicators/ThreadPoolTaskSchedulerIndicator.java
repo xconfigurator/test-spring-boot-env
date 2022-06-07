@@ -18,9 +18,15 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 @Component
 public class ThreadPoolTaskSchedulerIndicator implements HealthIndicator {
 
+    //@Autowired
+    //@Qualifier("taskScheduler")// 这个是在modules/scheduling/spring/config/SchedulerConfig.java中定义的。
+    private ThreadPoolTaskScheduler threadPoolTaskScheduler;
+
     @Autowired
     @Qualifier("taskScheduler")// 这个是在modules/scheduling/spring/config/SchedulerConfig.java中定义的。
-    private ThreadPoolTaskScheduler threadPoolTaskScheduler;
+    public void setThreadPoolTaskScheduler(ThreadPoolTaskScheduler threadPoolTaskScheduler) {
+        this.threadPoolTaskScheduler = threadPoolTaskScheduler;
+    }
 
     @Override
     public Health health() {

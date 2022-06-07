@@ -20,8 +20,13 @@ import java.util.concurrent.ScheduledFuture;
 @Component
 public class TaskSchedulerUtilsIndicator implements HealthIndicator {
 
-    @Autowired
+    //@Autowired
     private TaskSchedulerUtils taskSchedulerUtils;
+
+    @Autowired
+    public void setTaskSchedulerUtils(TaskSchedulerUtils taskSchedulerUtils) {
+        this.taskSchedulerUtils = taskSchedulerUtils;
+    }
 
     @Override
     public Health health() {
