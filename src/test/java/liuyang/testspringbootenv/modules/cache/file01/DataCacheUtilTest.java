@@ -1,6 +1,5 @@
-package liuyang.testspringbootenv.common.utils;
+package liuyang.testspringbootenv.modules.cache.file01;
 
-import liuyang.testspringbootenv.common.utils.DataCacheUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
