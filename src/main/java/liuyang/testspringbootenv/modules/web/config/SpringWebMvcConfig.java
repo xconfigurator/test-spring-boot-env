@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.*;
  * 注册Spring MVC组件
  * @author liuyang
  * @scine 2021/4/19
+ *        2022/6/20 增加跨域请求
  *
  * 作用相当于springmvc.xml
  */
@@ -48,4 +49,22 @@ public class SpringWebMvcConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "DELETE", "PUT")
                 .maxAge(3600);
     }*/
+
+    /*
+    private static final int MAX_AGE = 3600;
+
+    // 协议、域名、端口号。有任何一个不同，都会被浏览器视为跨域。
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        // 这样配置相当于在指定URL(addMapping)的响应头（response.setHeader()）增加注释中的字段
+        registry.addMapping("/**")
+                .allowCredentials(true)      // Access-Control-Allow-Credentials // 允许携带Cookie
+                //.allowedOrigins("*")         // Access-Control-Allow-Origin // 500!
+                .allowedOriginPatterns("*")
+                .allowedMethods("*")         // Access-Control-Allow-Methods
+                //.allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("*")         // Access-Control-Allow-Headers
+                .maxAge(MAX_AGE);            // Access-Control-Max-Age
+    }
+     */
 }
