@@ -19,7 +19,8 @@
         <!-- 演示改变文本值 -->
         <div>
             <span>Data from Spring controller: Welcome <span th:text="${username}"></span><br></span>
-            <button class="btn btn-primary">请求(看控制台)</button>
+            <button class="btn btn-primary">请求 跨域被禁止 （看控制台）</button>
+            <button class="btn btn-primary">其求 同域（看控制台）</button>
         </div>
         <!-- 演示改变html元素属性值 -->
         <div>
@@ -35,6 +36,15 @@
                 , url: 'https://api.apiopen.top/getJoke'
             });
             console.log(duanzi.data.result);
+        }
+
+        btns[1].onclick = async function() {
+            let result = await axios({
+                method: 'GET'
+                , url: "http://localhost/data/dto"
+            });
+            console.log(result);
+            console.log(result.data);
         }
     </script>
 </body>
