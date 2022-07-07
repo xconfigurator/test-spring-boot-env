@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletRequest;
  * @author liuyang(wx)
  * @since 2022/5/24
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class GlobalHttpAspect {
     private static final Logger log = LoggerFactory.getLogger(GlobalHttpAspect.class);
 
