@@ -13,6 +13,9 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  * https://spring.io/projects/spring-session
  *
  * 配置Spring Session Data Redis，使用JSON格式序列化到Redis中，而不是默认的JDK序列化。
+ * 如果使用默认JDK序列化，则每一个被持久化的对象都必须实现Serializable接口
+ * 配置为使用JSON存储之后就不需要，而且便于在Redis中进行观察。
+ *
  * @author liuyang
  * @scine 2021/4/13
  *
