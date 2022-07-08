@@ -28,7 +28,7 @@ import java.time.LocalDateTime;
  * @author liuyang
  * @scine 2021/4/15
  */
-@Configuration
+//@Configuration
 public class RedisCacheManagerConfig {
     // 这个好像仅仅对Cache起效，而对直接从容器中获取的RedistTemplate无效
     @Bean
