@@ -89,13 +89,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         if (!isSecurityEnabled) {
-            System.out.println("foo");
+            System.out.println("***********************************************************************************************************");
+            System.out.println("* liuyang Spring Secutiry permitAll(). Config using liuyang.debug.security.enabled in appliation.properties");
+            System.out.println("***********************************************************************************************************");
             http.authorizeRequests().anyRequest().permitAll();
             http.csrf().disable();
             //http.cors();// liuyang 20220328 Spring Security允许跨域（Spring MVC也需要配置允许跨域，参见WebMvcConfig.java）
             return;
         }
-        System.out.println("bar");
+
+        System.out.println("**************************************************************************************************************");
+        System.out.println("* liuyang Spring Security is protecting.  Config using liuyang.debug.security.enabled in appliation.properties");
+        System.out.println("**************************************************************************************************************");
 
         // ///////////////////////////////////////////////
         // 【一段相对完整的配置示例】 begin

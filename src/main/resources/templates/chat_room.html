@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- http://localhost/chat2 (“chat”被sockjs占用，见liuyang.testspringbootenv.modules.messaging.websocket.config.WebSocketConfig)-->
-    <!-- TODO 尝试存放在单独的文件中 -->
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -31,7 +30,6 @@
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 <script>
-    // TODO 尝试存放在单独的文件中
     var stompClient = null;
 
     function setConnected(connected) {
@@ -50,6 +48,16 @@
         if (!$("#name").val()) {
             return;
         }
+        /*
+        @Configuration
+        @EnableWebSocketMessageBroker
+        public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+            @Override
+            public void registerStompEndpoints(StompEndpointRegistry registry) {
+                registry.addEndpoint("/chat").withSockJS();
+            }
+        }
+         */
         var socket = new SockJS('/chat');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {

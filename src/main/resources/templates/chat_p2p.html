@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket示例 - 点对点</title>
+</head>
+bar
+<div id="chat">
+    <div id="chatsContent"></div>
+</div>
+<div>
+    请输入聊天内容：<input type="text" id="content" placeholder="聊天内容">
+    目标用户：<input type="text" id="to" placeholder="目标用户">
+    <button id="send" type="button">发送</button>
+</div>
+<body>
+<!-- Scripts  -->
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script>
+var stompClient = null;
+function connect() {
+    /*
+    @Configuration
+    @EnableWebSocketMessageBroker
+    public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+        @Override
+        public void registerStompEndpoints(StompEndpointRegistry registry) {
+            registry.addEndpoint("/chat").withSockJS();
+        }
+    }
+     */
+    var socket = new SockJS("/chat");
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        stompClient.subscribe('/user/queue/chat', function (chat) {// 202207111557 OK 活见鬼，那个/user是怎么回事？！。 搞不清楚那就先固定加上这个/user吧。
+        //stompClient.subscribe('/queue/chat', function (chat) {// 20220711 failure!
+            showGreeting(JSON.parse(chat.body));
+        });
+    });
+}
+
+function sendMsg() {
+    stompClient.send("/app/chat", {},
+        JSON.stringify({'content':$("#content").val(), 'to':$("#to").val()}));
+}
+
+function showGreeting(message) {
+    $("#chatsContent").append("<div>" + message.from + ":" + message.content + "</div>");
+}
+
+$(function() {
+    connect();
+    $("#send").click(function() { sendMsg(); });
+});
+</script>
+</body>
+</html>
