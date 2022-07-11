@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- http://localhost/chat2 (“chat”被sockjs占用，见liuyang.testspringbootenv.modules.messaging.websocket.config.WebSocketConfig)-->
+    <!-- TODO 尝试存放在单独的文件中 -->
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WebSocket示例 - 群聊</title>
+</head>
+<body>
+<div>
+    <label for="name">请输入用户名：</label>
+    <input type="text" id="name" placeholder="用户名">
+</div>
+<div>
+    <button id="connect" type="button">连接</button>
+    <button id="disconnect" type="button" disabled="disabled">断开连接</button>
+</div>
+<div id="chat"style="display: none;"></div>
+<div>
+    <label for="content">请输入聊天内容：</label>
+    <input type="text" id="content" placeholder="聊天内容">
+</div>
+<button id="send" type="button">发送</button>
+<div id="greetings"></div>
+<div id="conversation" style="display: none">群聊进行中...</div>
+<!-- Scripts  -->
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script>
+    // TODO 尝试存放在单独的文件中
+    var stompClient = null;
+
+    function setConnected(connected) {
+        $("#connect").prop("disabled", connected);
+        $("#disconnect").prop("disabled", !connected);
+        if (connected) {
+            $("#conversation").show();
+            $("#chat").show();
+        } else {
+            $("#conversation").hide();
+            $("#chat").hide();
+        }
+    }
+
+    function connect() {
+        if (!$("#name").val()) {
+            return;
+        }
+        var socket = new SockJS('/chat');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function(frame) {
+            setConnected(true);
+            stompClient.subscribe('/topic/greetings', function(greeting) {
+                showGreeting(JSON.parse(greeting.body));
+            })
+        });
+    }
+
+    function disconnect() {
+        if (stompClient !== null) {
+            stompClient.disconnect();
+        }
+        setConnected(false);
+    }
+
+    function sendName() {
+        stompClient.send("/app/hello", {},
+            JSON.stringify({'name': $('#name').val(), 'content': $("#content").val()}));
+    }
+
+    function showGreeting(message) {
+        $("#greetings").append("<div>" + message.name + ":" + message.content + "</div>");
+    }
+
+    $(function() {
+        $("#connect").click(function() { connect(); });
+        $("#disconnect").click(function() { disconnect(); });
+        $("#send").click(function() { sendName(); });
+    });
+</script>
+</body>
+</html>

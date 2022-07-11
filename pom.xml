@@ -24,22 +24,28 @@
         <httpclient.version>4.5.13</httpclient.version>
         <passay.version>1.6.1</passay.version>
         <problem.version>0.27.0</problem.version>
-        <dozer.version>6.5.2</dozer.version>
+        <!--<dozer.version>6.5.2</dozer.version>--><!-- 20220711 计划不再使用dozer 只写在这保留用过的记录 -->
+
         <!-- webjar begin -->
         <jquery.version>3.5.1</jquery.version>
         <layui.version>2.5.6</layui.version>
         <webjars-locator.version>0.40</webjars-locator.version>
         <bootstrap.version>5.0.1</bootstrap.version>
         <axios.version>0.21.1</axios.version>
+        <sockjs-client.version>1.1.2</sockjs-client.version>
+        <stomp-websocket.version>2.3.3</stomp-websocket.version><!-- Simple Text Oriented Messaging Protocol https://docs.spring.io/spring-framework/docs/5.3.21/reference/html/web.html#websocket-stomp-->
         <!-- webjar end -->
+
         <!-- swagger begin -->
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
         <swagger-bootstrap-ui.version>1.9.3</swagger-bootstrap-ui.version>
         <!-- swagger end -->
-        <!-- cxf -->
+
+        <!-- cxf begin -->
         <cxf-spring-boot-starter-jaxws.version>3.4.3</cxf-spring-boot-starter-jaxws.version>
         <cxf-spring-boot-starter-jaxrs.version>3.4.3</cxf-spring-boot-starter-jaxrs.version>
+        <!-- cxf end -->
     </properties>
     <dependencies>
         <!-- Spring Web -->
@@ -108,6 +114,20 @@
             <groupId>org.webjars.bowergithub.axios</groupId>
             <artifactId>axios</artifactId>
             <version>${axios.version}</version>
+        </dependency>
+
+        <!-- websocket 相关 sockjs-client -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>sockjs-client</artifactId>
+            <version>${sockjs-client.version}</version>
+        </dependency>
+
+        <!-- websocket 相关 stomp-websocket -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>stomp-websocket</artifactId>
+            <version>${stomp-websocket.version}</version>
         </dependency>
 
         <!-- Swagger -->
