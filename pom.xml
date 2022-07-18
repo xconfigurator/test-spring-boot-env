@@ -10,11 +10,21 @@
         <version>2.6.5</version><!-- 20220331 upgraded for SpEL -->
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
+    <!-- 坐标 begin -->
     <groupId>liuyang</groupId>
     <artifactId>test-spring-boot-env</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version><!-- 配合私服的发布规则（需配合distributionManagement）：0.0.1-SNAPSHOT发布到snapshots仓库，0.0.1或者0.0.1-RELEASE发布到releases仓库。 -->
+    <!-- 坐标 end -->
+
     <name>test-spring-boot-env</name>
+    <!-- 打包格式 begin -->
+    <!-- 实践：Spring Boot项目最好从start.spring.io生成示例骨架。 -->
+    <!--<packaging>jar</packaging>--><!-- 默认是jar。使用start.spring.io生成的目标是jar的骨架不带这个配置。-->
+    <!-- <packaging>war</packaging> --><!-- 实测打开有效，可打成war。但若想工程可运行需要同时修改Spring Boot启动类。-->
+    <!-- 打包格式 end -->
     <description>Demo project for Spring Boot</description>
+
     <properties>
         <java.version>11</java.version>
         <fastjson.version>1.2.83</fastjson.version><!-- 20220606 upgrade from 1.2.76 to 1.2.83 基于已知安全漏洞 -->
@@ -430,7 +440,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <!--<version>3.1.0</version>-->
+                <version>3.1.0</version><!-- 20220712 fix Failed to execute goal org.apache.maven.plugins:maven-resources-plugin:3.2.0:resources -->
                 <configuration>
                     <encoding>UTF-8</encoding><!-- 注意一定要加这个编码！！！ -->
                     <nonFilteredFileExtensions>
@@ -459,4 +469,23 @@
         </resources>
         <!-- liuyang 202103301125 add fix MyBatis 的mapper.xml找不到问题 end -->
     </build>
+
+    <!-- 发布到私服 liuyang 20220712 add begin -->
+    <!-- step1 配置：在项目的pom.xml中配置私服仓库地址。 并不要配置仓库组的地址，要明确指定发布的repository名称。-->
+    <!-- setp2 打包：mvn deploy 或者选择IntelliJ右侧Maven视图Lifecycle 对应的指令即可。-->
+    <!-- 注1：具体发布到哪个仓库是由坐标中的version来决定的。-->
+    <!-- e.g. 1.0-SNAPSHOT 发布到 snapshots.-->
+    <!-- e.g. 1.0或者1.0-RELEASE 发布到releases. -->
+    <!-- 注2：该配置仅影响deploy指令。在不执行deploy指令的时候该配置不影响程序本地开发调试。所以就先打开吧。 -->
+    <distributionManagement>
+        <repository>
+            <id>nexus-shine</id><!-- nexus认证id -->
+            <url>http://localhost:8081/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-shine</id><!-- nexus认证id -->
+            <url>http://localhost:8081/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <!-- 发布到私服 liuyang 20220712 add end -->
 </project>
