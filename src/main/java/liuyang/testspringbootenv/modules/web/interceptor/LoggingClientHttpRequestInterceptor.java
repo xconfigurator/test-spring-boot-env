@@ -41,7 +41,8 @@ public class LoggingClientHttpRequestInterceptor implements ClientHttpRequestInt
             log.debug("{} {}", request.getMethod(), request.getURI());
 
             HttpHeaders httpHeades = request.getHeaders();
-            if (null == httpHeades.entrySet()) return; // 20220718 liuyang add
+            // httpHeads.entrySet()必须被使用。且其实现保证entrySet()返回不为null，故不需要对null进行处理。
+            //if (null == httpHeades.entrySet()) return; // 20220718 liuyang add
             for (Map.Entry<String, List<String>> item : httpHeades.entrySet()) {
                 log.debug("{}: {}", item.getKey(), item.getValue());
             }
@@ -54,7 +55,8 @@ public class LoggingClientHttpRequestInterceptor implements ClientHttpRequestInt
             log.debug("******http response*****");
             log.debug("{} {}", response.getStatusCode(), response.getStatusText());
             HttpHeaders httpHeades = response.getHeaders();
-            if (null == httpHeades.entrySet()) return; // 20220718 liuyang add
+            // httpHeads.entrySet()必须被使用。且其实现保证entrySet()返回不为null，故不需要对null进行处理。
+            //if (null == httpHeades.entrySet()) return; // 20220718 liuyang add
             for (Map.Entry<String, List<String>> item : httpHeades.entrySet()) {
                 log.debug("{}: {}", item.getKey(), item.getValue());
             }
