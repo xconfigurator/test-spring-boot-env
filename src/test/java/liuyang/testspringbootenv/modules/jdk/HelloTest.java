@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.jdk.stream;
+package liuyang.testspringbootenv.modules.jdk;
 
 import org.junit.jupiter.api.Test;
 
