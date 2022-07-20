@@ -9,3 +9,6 @@ spring:
     port: 6379
   thymeleaf:
     cache=false: false
+  jpa:
+    hibernate:
+      ddl-auto: update # 阿里云上有好事者会把库删掉
