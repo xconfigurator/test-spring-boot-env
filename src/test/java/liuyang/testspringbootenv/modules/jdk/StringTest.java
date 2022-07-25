@@ -4,7 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -24,5 +28,14 @@ public class StringTest {
         } else {
             log.info("match");
         }
+    }
+
+    @Test
+    void test202207251602() {
+        String[] arr = {};
+        for (String str : arr) {
+            log.debug("foo");
+        }
+        log.debug("bar");
     }
 }
