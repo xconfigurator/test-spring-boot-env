@@ -6,6 +6,7 @@ import com.alibaba.excel.event.AnalysisEventListener;
 import liuyang.testspringbootenv.modules.utils.vo.AIOpsAlarmDictionary;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,9 +28,10 @@ public class EasyExcelTest {
     // 就是读一个
     @Test
     void testRead() throws IOException {
-        String filePath = "E:\\project_202204_soph-devops-north-interface_docs\\告警知识库列表 (1).xls";// OK
+        //String filePath = "E:\\project_202204_soph-devops-north-interface_docs\\告警知识库列表.xls";// OK
         //String filePath = "G:\\告警知识库列表 (1).xlsx";// OK
-        File file = new File(filePath);
+        //File file = new File(filePath);
+        File file = ResourceUtils.getFile("classpath:data/告警知识库列表.xls");// 20220808
         //log.info("file = {}", file.getCanonicalPath());
         FileInputStream fis = new FileInputStream(file);
 
