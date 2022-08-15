@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -97,6 +98,42 @@ public class _02_02_BasicOperatorTests {
         assertTrue(lisi.isPresent());
         if (lisi.isPresent()) {
             assertEquals("lisi", lisi.get().getUsername());
+        }
+    }
+
+    @Test
+    public void givenUsers_whenMatchUsername_thenFindFirstUsingStream_ifUserListIsEmpty() {
+        userList = new ArrayList<>();
+        //Optional<User> lisi = userList.stream().filter(user -> user.getUsername().equals("lisi")).findFirst();
+        /*
+        assertTrue(lisi.isPresent());
+        if (lisi.isPresent()) {
+            assertEquals("lisi", lisi.get().getUsername());
+        }
+         */
+
+        // 实测到这里不会报错
+        userList.stream().filter(user -> user.getUsername().equals("lisi"));
+
+        /*
+        .ifPresentOrElse(
+                        username -> {
+                            log.debug("username: {}", username);
+                            assertEquals("zhangsan", username);
+                        },
+                        () -> {
+                            log.debug("cannot reach else block");
+                });
+         */
+
+        Optional<User> lisi = userList.stream()
+                .filter(user -> user.getUsername().equals("lisi"))
+                .findFirst();
+
+        if (lisi.isPresent()){
+            log.info("有lisi");
+        } else {
+            log.info("无lisi");
         }
     }
 
