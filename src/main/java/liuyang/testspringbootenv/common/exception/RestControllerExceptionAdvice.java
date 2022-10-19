@@ -21,7 +21,8 @@ import java.util.stream.Collectors;
  */
 @RestControllerAdvice
 @Slf4j
-public class RestControllerExceptionAdvice {
+public class
+RestControllerExceptionAdvice {
 
     // 灰_灰 BeanValidation视频 3. 异常处理、级联验证 的前半部分（00:00 ~ 30:38）讲得就是一个全局异常处理方案。
     // 一般为BeanValidation时抛出 20220516 add
