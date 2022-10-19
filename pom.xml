@@ -426,6 +426,21 @@
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
         </dependency>
+
+        <!-- CSV  -->
+        <!-- https://mvnrepository.com/artifact/com.univocity/univocity-parsers -->
+        <!-- https://www.imooc.com/article/323254 -->
+        <dependency>
+            <groupId>com.univocity</groupId>
+            <artifactId>univocity-parsers</artifactId>
+            <version>2.9.1</version>
+        </dependency>
+        <!-- CSV替代 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.9.0</version>
+        </dependency>
     </dependencies>
 
     <build>
