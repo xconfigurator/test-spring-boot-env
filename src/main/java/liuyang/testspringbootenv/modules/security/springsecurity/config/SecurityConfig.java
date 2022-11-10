@@ -63,9 +63,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/hello").permitAll()
                 .antMatchers("/upload/excel").permitAll()
-                .antMatchers("/login").permitAll()                  // 注意没有/logout，想想为什么。
+                .antMatchers("/login").permitAll()                          // 注意没有/logout，想想为什么。
                 .antMatchers("/security/login/page").permitAll()
                 .antMatchers("/security/login").permitAll()
+                .antMatchers("/gs-guide-websocket-endpoint/**").permitAll() // 20221108 add 调试用 WebSocket的Endpoint
+                .antMatchers("/ws/**").permitAll()                          // 20221108 add 调试用 WebSocket的@MessageMapping路径前缀
+                // 其他
                 .antMatchers("/inma_smart/alarm").permitAll();
 
         // 关于permitAll()和anonymous()的区别

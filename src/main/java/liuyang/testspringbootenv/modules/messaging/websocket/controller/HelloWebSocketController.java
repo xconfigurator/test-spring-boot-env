@@ -32,7 +32,11 @@ public class HelloWebSocketController {
     }
 
     // 转发方式2 SimpMessagingTemplate 202207111420 ok
-    @MessageMapping("/hello")
+    /**
+     * @SendTo和SimpleMessageTemplate区别。
+     *
+     */
+    @MessageMapping("/hello")// stompClient.send("/app/hello", {}, ...) 这个/app在 MessageBrokerRegistry .setApplicationDestinationPrefixes("/app"); 处设置。
     public void greeting2(Message message) throws Exception {
         simpMessagingTemplate.convertAndSend("/topic/greetings", message);// stompClient.subscribe('/topic/greetings',...);
     }
