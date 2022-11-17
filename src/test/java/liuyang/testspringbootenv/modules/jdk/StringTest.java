@@ -1,6 +1,7 @@
 package liuyang.testspringbootenv.modules.jdk;
 
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -17,6 +18,15 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 public class StringTest {
+
+    @ParameterizedTest
+    @ValueSource(strings = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "001", "10", "20", "200", "1", "12", "123" })
+    void test202211171112(String provinceId) {
+        final Pattern pattern = Pattern.compile("^0+");
+        String s = pattern.matcher(provinceId).replaceFirst("");
+        log.info("处理前 = {}， 处理后 = {}", provinceId, s);
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {
             "1_-1","2_-1", "1_1", "2_2", "1_-1", "2_0"
