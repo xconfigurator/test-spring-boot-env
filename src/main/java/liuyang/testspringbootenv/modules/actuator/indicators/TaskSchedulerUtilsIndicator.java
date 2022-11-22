@@ -1,11 +1,13 @@
 package liuyang.testspringbootenv.modules.actuator.indicators;
 
+import liuyang.testspringbootenv.modules.scheduling.spring.config.SchedulerConfig;
 import liuyang.testspringbootenv.modules.scheduling.spring.util.TaskSchedulerUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -19,14 +21,14 @@ import java.util.concurrent.ScheduledFuture;
  * @since 2022/6/7
  */
 @ConditionalOnBean(TaskSchedulerUtils.class)
-@Component
+@Component// 20221122 发现关闭schduling.spring包下组件后，这里注入会出错
 @Slf4j
 public class TaskSchedulerUtilsIndicator implements HealthIndicator {
 
     //@Autowired
     private TaskSchedulerUtils taskSchedulerUtils;
 
-    @Autowired
+    //@Autowired // 这里这个注解并不是必须的
     public void setTaskSchedulerUtils(TaskSchedulerUtils taskSchedulerUtils) {
         this.taskSchedulerUtils = taskSchedulerUtils;
     }

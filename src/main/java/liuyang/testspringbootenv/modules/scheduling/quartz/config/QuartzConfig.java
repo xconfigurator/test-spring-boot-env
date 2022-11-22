@@ -2,6 +2,7 @@ package liuyang.testspringbootenv.modules.scheduling.quartz.config;
 
 import liuyang.testspringbootenv.modules.scheduling.quartz.quartzjobbean.Hello01Job;
 import org.quartz.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,9 @@ import org.springframework.context.annotation.Configuration;
 public class QuartzConfig {
     private static final String JOB_GROUP_NAME = "LIUYANG_QUARTZ_SINGLE_JOB_GROUP_NAME";
     private static final String TRIGGER_GROUP_NAME = "LIUYANG_QUARTZ_SINGLE_TRIGGER_GROUP_NAME";
+
+    @Value("${modules.scheduling.quartz.config.quartzconfig.cron}")
+    private String CRON;
 
     @Bean // 疑问点：JobDetail和Trigger有没有必要使用Spring容器托管？ 答：这是文档推荐写法
     public JobDetail helloJobDetail01() {
@@ -32,7 +36,8 @@ public class QuartzConfig {
     @Bean // 疑问点：JobDetail和Trigger有没有必要使用Spring容器托管？ 答；这是文档推荐写法。
     public Trigger helloJobTrigger01(JobDetail helloJobDetail01) {
         // 每隔2秒一次
-        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule("0/25 * * * * ?");
+        //CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule("0/25 * * * * ?");
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(CRON);
 
         // 创建触发器
         Trigger trigger = TriggerBuilder.newTrigger()
