@@ -68,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/security/login").permitAll()
                 .antMatchers("/gs-guide-websocket-endpoint/**").permitAll() // 20221108 add 调试用 WebSocket的Endpoint
                 .antMatchers("/ws/**").permitAll()                          // 20221108 add 调试用 WebSocket的@MessageMapping路径前缀
+                .antMatchers("/actuator/**").permitAll()                    // 20221127 add 为方便查看指标。
                 // 其他
                 .antMatchers("/inma_smart/alarm").permitAll();
 
@@ -114,11 +115,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         whiteList(http);// 设置白名单（方便开发）
 
         // 授权规则：需要权限控制的页面
-        // 1. 先配置具体的
+        // 1. 先配置具体的(20230128 IT老齐：推荐使用mvcMatchers而不是antMatchers)
+        /*
         http.authorizeRequests()
                 .antMatchers("/hello/r1").hasAuthority("r1")
-                .antMatchers("/hello/r2").hasAuthority("r2");
-        // 2. 再配置范围的
+                .antMatchers("/hello/r2").hasAuthority("r2");// 改用mvcMatchers试一下。 antMatchers 实际匹配的是/hello/r2/
+        */
+        http.authorizeRequests()
+                .mvcMatchers("/hello/r1").hasAuthority("r1")
+                .mvcMatchers("/hello/r2").hasAuthority("r2");// 改用mvcMatchers试一下。 antMatchers 实际匹配的是/hello/r2/
+        // 2. 再配置范围的 (mvcMatchers要放在anyRequest的前面！否则启动时报错！)
         // 声明需要权限拦截的资源
         //http.authorizeRequests().anyRequest().authenticated();
         http.authorizeRequests(req -> {
