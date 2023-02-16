@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.springtools.beanutils.vo;
+package liuyang.testspringbootenv.modules.utils.springtools.beanutils.vo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

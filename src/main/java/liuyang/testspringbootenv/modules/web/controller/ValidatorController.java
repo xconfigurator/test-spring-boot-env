@@ -17,6 +17,16 @@ import static java.util.stream.Collectors.joining;
  * 注意2：
  * post一个完整的JSON，参数接收的时候应该使用：@RequestBody标注参数名称前。
  *
+ * 灰_灰视频：
+ * https://www.bilibili.com/video/BV1UE411t7BZ/?spm_id_from=333.788.recommend_more_video.0&vd_source=8bd7b24b38e3e12c558d839b352b32f4
+ * 乐之者Java视频：
+ * https://www.bilibili.com/video/BV17i4y157Ah?p=16&spm_id_from=pageDriver&vd_source=8bd7b24b38e3e12c558d839b352b32f4
+ *
+ * @Valid: 不能指定分组
+ * @Validated: 可以指定分组
+ * https://www.bilibili.com/video/BV17i4y157Ah?p=18&spm_id_from=pageDriver&vd_source=8bd7b24b38e3e12c558d839b352b32f4
+ * https://www.bilibili.com/video/BV17i4y157Ah?p=20&spm_id_from=pageDriver&vd_source=8bd7b24b38e3e12c558d839b352b32f4
+ *
  * @author liuyang
  * @since 2021/6/22
  *        2022/5/16 配合HttpClient 4测试用例完成第一个完整的校验流程。
@@ -24,6 +34,7 @@ import static java.util.stream.Collectors.joining;
 @RestController
 @RequestMapping("/valid")
 @Slf4j
+// @Validated // 表示整个类都启动校验，如果碰到入参含有Bean Validation注解的话，就会自动校验。
 public class ValidatorController {
 
     @GetMapping

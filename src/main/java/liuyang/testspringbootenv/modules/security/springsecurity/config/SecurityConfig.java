@@ -230,6 +230,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorities("r2")
         ;
 
+        // 也可以使用配置文件 20230129 add
+        // spring.security.user.name=foo
+        // spring.seucrity.user.password=bar
+
         // auth.userDetailsService(foo).passwordEncoder(bar).userDetailsPasswordManager(xxx);
 
         // 配置这个方法会自动创建表结构。
@@ -254,7 +258,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 如何得到这些加密串？
         // 答：参考BCryptTest
         manager.createUser(User.withUsername("liuyang")
-                .password("$2a$10$kLtge.Vw3FRRNGWPYdCNse/zOiqN0sM/Z/7F8solSY0hShG5wgt46") // 123
+                .password("$2a$10$kLtge.Vw3FRRNGWPYdCNse/zOiqN0sM/Z/7F8solSY0hShG5wgt46") // 123 passwordEncoder.encode("xxx");
                 .authorities("authoritiesxxx")
                 .roles("admin", "xxx").build());
         manager.createUser(User.withUsername("liuyang2")
