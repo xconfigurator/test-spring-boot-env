@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * @scine 2021/8/27
  */
 @Slf4j
-public class BeanUtilsTest {
+public class BeanUtils20210827Test {
 
     @Test
     void testCopyProperties() {

@@ -1,7 +1,7 @@
-package liuyang.testspringbootenv.modules.utils.springtools2021.beanutils;
+package liuyang.testspringbootenv.modules.utils.springtools2021;
 
-import liuyang.testspringbootenv.modules.utils.springtools2021.beanutils.vo.ASource;
-import liuyang.testspringbootenv.modules.utils.springtools2021.beanutils.vo.BTarget;
+import liuyang.testspringbootenv.modules.utils.springtools2021.vo.ASource;
+import liuyang.testspringbootenv.modules.utils.springtools2021.vo.BTarget;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +15,7 @@ import java.util.Arrays;
  * @scine 2021/6/23
  */
 @Slf4j
-public class BeanUtilsTest {
+public class BeanUtils20210623Test {
 
     private static ASource a;
 
