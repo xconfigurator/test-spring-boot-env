@@ -1,7 +1,7 @@
-package liuyang.testspringbootenv.modules.utils.springtools.beanutils;
+package liuyang.testspringbootenv.modules.utils.springtools2021.beanutils;
 
-import liuyang.testspringbootenv.modules.utils.springtools.beanutils.vo.ASource;
-import liuyang.testspringbootenv.modules.utils.springtools.beanutils.vo.BTarget;
+import liuyang.testspringbootenv.modules.utils.springtools2021.beanutils.vo.ASource;
+import liuyang.testspringbootenv.modules.utils.springtools2021.beanutils.vo.BTarget;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;

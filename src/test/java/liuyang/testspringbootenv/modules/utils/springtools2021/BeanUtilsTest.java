@@ -1,4 +1,4 @@
-package liuyang.testspringbootenv.modules.utils;
+package liuyang.testspringbootenv.modules.utils.springtools2021;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
