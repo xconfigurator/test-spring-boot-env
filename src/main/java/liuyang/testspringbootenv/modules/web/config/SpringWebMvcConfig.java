@@ -40,7 +40,13 @@ public class SpringWebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // TODO 在这里装配Interceptor
+        // 拦截器介绍
+        // HandlerInterceptor
+        // https://www.bilibili.com/video/BV1Km4y1k7bn/?p=146&vd_source=8bd7b24b38e3e12c558d839b352b32f4
+
+        // 多个拦截器的顺序
+        // order越小越先执行 .order(1)
+        // https://www.bilibili.com/video/BV1Km4y1k7bn?p=148&vd_source=8bd7b24b38e3e12c558d839b352b32f4
     }
 
     // 跨域请求处理

@@ -37,8 +37,11 @@ import java.math.BigDecimal;
 @RestController
 @RequestMapping("/cn")
 public class ResponseContentNegotiationController {
-
-
+    /**
+     * http://localhost/cn/user?format=json
+     * http://localhost/cn/user?format=xml
+     * http://localhost/cn/user?format=yaml
+     */
     @GetMapping("/user")
     public UserDTO user() {
         UserDTO user = new UserDTO(IdUtil.randomUUID(), "刘洋", "foo", 12.3, new BigDecimal(123123));
