@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @scine 2021/7/29
  * @update 2021/9/16
  */
-@Component
+@Component// 貌似这个不是必须的
 @Slf4j
 public class LiuyangEvent3Listener implements ApplicationListener<LiuyangEvent3> {
 
