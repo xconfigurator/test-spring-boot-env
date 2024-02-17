@@ -307,6 +307,18 @@
             <version>2.13.2</version>
         </dependency>-->
 
+        <!-- 为内容协商提供返回XML格式数据的能力 20231230 add -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+        </dependency>
+
+        <!-- 测试增加yaml格式数据能力 20231230 add -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+        </dependency>
+
         <!-- FastJSON -->
         <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
         <dependency>
