@@ -13,19 +13,24 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * 全局异常处理
+ * 全局异常处理（DispatcherServlet流程控制下发生的异常）
  *
  * @author liuyang
  * @scine 2021/3/31
  *        2022/5/16 增加BeanValidation的统一验证处理
+ *        2024/2/18 证实BeanValidation的同意验证方案依据。看一下MethodArgumentNotValidException的继承结构。
+ *                  动力节点 https://www.bilibili.com/video/BV1Km4y1k7bn/?p=157&spm_id_from=pageDriver&vd_source=8bd7b24b38e3e12c558d839b352b32f4
+ *
  */
 @RestControllerAdvice
 @Slf4j
 public class
 RestControllerExceptionAdvice {
 
-    // 灰_灰 BeanValidation视频 3. 异常处理、级联验证 的前半部分（00:00 ~ 30:38）讲得就是一个全局异常处理方案。
+    // 依据1： 灰_灰 BeanValidation视频 3. 异常处理、级联验证 的前半部分（00:00 ~ 30:38）讲得就是一个全局异常处理方案。
     // 一般为BeanValidation时抛出 20220516 add
+    //@ExceptionHandler(org.springframework.validation.BindException.class)
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public R handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         //return style1(e);
