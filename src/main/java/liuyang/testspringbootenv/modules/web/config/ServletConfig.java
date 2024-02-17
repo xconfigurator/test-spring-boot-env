@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author liuyang
  * @scine 2021/9/6
+ *        2024/2/18 视频 https://www.bilibili.com/video/BV1Km4y1k7bn/?p=136&vd_source=8bd7b24b38e3e12c558d839b352b32f4
  */
 //@Configuration
 public class ServletConfig {

@@ -1,7 +1,11 @@
 package liuyang.testspringbootenv.modules.web.config;
 
+import liuyang.testspringbootenv.modules.web.converters.MyYamlHttpMessageConverter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.*;
+
+import java.util.List;
 
 /**
  * 注册Spring MVC组件
@@ -69,4 +73,10 @@ public class SpringWebMvcConfig implements WebMvcConfigurer {
                 .maxAge(MAX_AGE);            // Access-Control-Max-Age
     }
      */
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        //WebMvcConfigurer.super.configureMessageConverters(converters);
+        converters.add(new MyYamlHttpMessageConverter());// 20231230 实测，这样不会影响已经有的转换器工做。
+    }
 }
