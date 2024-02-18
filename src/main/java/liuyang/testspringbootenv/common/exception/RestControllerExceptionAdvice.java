@@ -4,6 +4,7 @@ import liuyang.testspringbootenv.common.enums.ErrorEnum;
 import liuyang.testspringbootenv.common.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -66,6 +67,18 @@ RestControllerExceptionAdvice {
                 .stream()
                 .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
         return R.error(ErrorEnum.MethodArgumentNotValid.getCode(), ErrorEnum.MethodArgumentNotValid.getMsg(), errorInfo);
+    }
+
+    // 内容协商异常，请求了一种不支持的类型
+    @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
+    public R handleHttpMediaTypeNotAcceptableException(HttpMediaTypeNotAcceptableException e) {
+        log.error(e.getMessage(), e);
+        // TODO 只能返回406头，但内容并没有按照程序预期运行。待解决。
+        /*
+        2024-02-18 04:38:15.001 [http-nio-80-exec-9] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Failure in @ExceptionHandler liuyang.testspringbootenv.common.exception.RestControllerExceptionAdvice#handleHttpMediaTypeNotAcceptableException(HttpMediaTypeNotAcceptableException)
+org.springframework.web.HttpMediaTypeNotAcceptableException: Could not find acceptable representation
+         */
+        return R.error(ErrorEnum.MediaTypeNotAcceptable.getCode(), ErrorEnum.MediaTypeNotAcceptable.getMsg());
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)

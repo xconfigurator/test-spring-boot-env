@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 认证异常处理
+ * 认证异常处理 e.g. 访问了没有权限的受保护资源
  * 会被过滤器链中的ExceptionTranslationFilter调用
  *
  * @author liuyang(wx)

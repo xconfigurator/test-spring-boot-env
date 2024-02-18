@@ -13,6 +13,7 @@ import lombok.Getter;
 public enum ErrorEnum {
     ServerError(500, "服务器内部错误")
     , MethodNotSupported(80403, "没有该方法")
+    , MediaTypeNotAcceptable(80500, "请求了不支持的内容协商类型")
     , MethodArgumentNotValid(80888, "参数校验失败");
 
     private int code;

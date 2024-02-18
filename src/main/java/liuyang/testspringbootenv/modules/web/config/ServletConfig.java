@@ -42,6 +42,10 @@ public class ServletConfig {
         filterRegistrationBean.addUrlPatterns("/*");// 实测不设置优先级也不影响Shiro权限过滤器。
         return filterRegistrationBean;
         */
+
+        // 控制Fitler顺序(重要！！)
+        // 方法1： 类名小的先执行
+        // 方法2： order小的先执行 filterRegistrationBean.setOrder(1);
         return null;
     }
 

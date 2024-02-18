@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import liuyang.testspringbootenv.modules.security.springsecurity.exception.RESTAccessDeniedHandler;
 import liuyang.testspringbootenv.modules.security.springsecurity.exception.RESTAuthenticationEntryPoint;
 import liuyang.testspringbootenv.modules.security.springsecurity.filter.JWTAuthenticationFilter;
-import liuyang.testspringbootenv.modules.security.springsecurity.filter.RESTAuthenticationFilter;
+import liuyang.testspringbootenv.modules.security.springsecurity.filter.RESTLoginAuthenticationFilter;
 import liuyang.testspringbootenv.modules.security.springsecurity.handler.RESTAuthenticationFailureHandler;
 import liuyang.testspringbootenv.modules.security.springsecurity.handler.RESTAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @scine 2021/4/1
  * @update 2022/1/25            整理，清理旧笔记，完成页面版本。（页面和JSON版本的都是基于session的。）
  * @update 2022/1/26            增加REST式登录入口。
- * @update TODO                 完成JWT版本。
+ * @update 2024/2/19            完成JWT版本(部分，已经确定好方案和位置)。时间没写错，就是2024。
+ *                              先后参考雷丰阳、接灰的电子产品、飞浪、三更草堂、环环、Thor以及Ruoyi的实现。
+ *                              2024020190431 无JWT条件下，REST方式登录、注销流程测试成功！
+ *                              JWT的就留在其他环境测试吧。
  * @update 2022/3/22            增加白名单独立方法（方便调试）。
  *
  */
@@ -69,6 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/gs-guide-websocket-endpoint/**").permitAll() // 20221108 add 调试用 WebSocket的Endpoint
                 .antMatchers("/ws/**").permitAll()                          // 20221108 add 调试用 WebSocket的@MessageMapping路径前缀
                 .antMatchers("/actuator/**").permitAll()                    // 20221127 add 为方便查看指标。
+                .antMatchers("/cn/**").permitAll()                          // 20231230 add 增加内容协商测试
                 // 其他
                 .antMatchers("/inma_smart/alarm").permitAll();
 
@@ -137,17 +141,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // REST风格登录改造 202201261017  add
         // 指定一个REST式login的入口
         // 入口地址：REST_AUTH_FILTER_PROCESS_URL
-        http.addFilterAt(restAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);// 根据源码注释，尽量不要用at造成不确定性。
+        http.addFilterAt(restLoginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);// 根据源码注释，尽量不要用at造成不确定性。
         //http.addFilterBefore(restAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         // Exception
         // REST风格认证授权异常处理 202203281513 add
-        http.exceptionHandling().accessDeniedHandler(restAccessDeniedHandler());// 认证
-        http.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint());// 授权
+        http.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint());// e.g. 未携带token访问了受保护的资源页面
+        http.exceptionHandling().accessDeniedHandler(restAccessDeniedHandler());// e.g. 访问了没有权限的页面
 
         // JWT
         // REST && 前后端分离 的JWT过滤器
         //http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        //http.addFilterAt() // liuyang 20240219 是不是应该用这个？！
 
         // CORS
         // REST && 前后端分离 需要在Spring Security中开启跨域允许
@@ -296,12 +301,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     // “接灰的电子产品”的方案 20220328 是否采取这种方案有争议
+    // 20240219 liuyang 参考Thor的方案。个人认为接灰和Thor的方案靠谱！决定采纳！
     @Bean
-    public RESTAuthenticationFilter restAuthenticationFilter() throws Exception {
-        RESTAuthenticationFilter filter = new RESTAuthenticationFilter(om);// 注意到这是一个UsernamePasswordAuthenticationFilter。
+    public RESTLoginAuthenticationFilter restLoginAuthenticationFilter() throws Exception {
+        RESTLoginAuthenticationFilter filter = new RESTLoginAuthenticationFilter(om);// 注意到这是一个UsernamePasswordAuthenticationFilter。
         filter.setAuthenticationSuccessHandler(new RESTAuthenticationSuccessHandler());
         filter.setAuthenticationFailureHandler(new RESTAuthenticationFailureHandler());
         filter.setAuthenticationManager(authenticationManager());// authenticationManager()是在WebSecurityConfigurerAdapter中
+        filter.setPostOnly(false);// 为调试方便，也接受get请求。
         filter.setFilterProcessesUrl(REST_AUTH_FILTER_PROCESS_URL);
         return filter;
     }

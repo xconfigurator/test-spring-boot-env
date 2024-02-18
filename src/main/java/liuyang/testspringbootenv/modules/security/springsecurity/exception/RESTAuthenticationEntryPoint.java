@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 授权异常处理
+ * 授权异常处理（请求未认证资源时返回） e.g. 未携带token访问了受保护的资源页面
  * 会被过滤器链中的ExceptionTranslationFilter调用
  *
  * Security filter chain: [
@@ -51,5 +51,11 @@ public class RESTAuthenticationEntryPoint implements AuthenticationEntryPoint {
         log.error(authException.getMessage(), authException);
         // 当然可以在这里把authException分类翻译一下。
         RespHelper.printJSONError(response, authException.getMessage());
+
+        // 好用！
+        /*
+        2023-12-30 10:30:42.659 [http-nio-80-exec-3] ERROR l.t.m.s.s.exception.RESTAuthenticationEntryPoint - Full authentication is required to access this resource
+org.springframework.security.authentication.InsufficientAuthenticationException: Full authentication is required to access this resource
+         */
     }
 }
