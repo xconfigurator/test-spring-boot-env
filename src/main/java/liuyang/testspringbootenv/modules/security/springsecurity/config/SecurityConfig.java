@@ -19,6 +19,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -42,6 +43,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  *                              2024020190431 无JWT条件下，REST方式登录、注销流程测试成功！
  *                              JWT的就留在其他环境测试吧。
  * @update 2022/3/22            增加白名单独立方法（方便调试）。
+ * @update 2024/2/20            增加授权规则独立方法（方便调试）。并修正注释。
  *
  */
 //@EnableWebSecurity(debug = true)// 打开debug方便学习和调试。debug默认是false
@@ -60,6 +62,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String REST_AUTH_FILTER_PROCESS_URL = "/rest/login";
 
+    // ///////////////////////////////////////////////////////////////////////
+    // 白名单 /////////////////////////////////////////////////////////////////
     // liuyang 2022/3/22
     private void whiteList(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -81,6 +85,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 不过参考下面的public void configure(WebSecurity web) throws Exception ，看来三更草堂的说法也不是特备靠谱。
     }
 
+    // ///////////////////////////////////////////////////////////////////////
+    // 授权规则 ///////////////////////////////////////////////////////////////
+    // liuyang 2024/2/20
+    private void authorizeRequestsRoles(HttpSecurity http) throws Exception {
+        // 授权规则：需要权限控制的页面
+        // 1. 先配置具体的(20230128 IT老齐：推荐使用mvcMatchers而不是antMatchers)
+        /*
+        http.authorizeRequests()
+                .antMatchers("/hello/r1").hasAuthority("r1")
+                .antMatchers("/hello/r2").hasAuthority("r2");// 改用mvcMatchers试一下。 antMatchers 实际匹配的是/hello/r2/
+        */
+        http.authorizeRequests()
+                .mvcMatchers("/hello/r1").hasAuthority("r1")
+                .mvcMatchers("/hello/r2").hasAuthority("r2");// 改用mvcMatchers试一下。 antMatchers 实际匹配的是/hello/r2/
+        // 2. 再配置范围的 (mvcMatchers要放在anyRequest的前面！否则启动时报错！)
+        // 声明需要权限拦截的资源
+        //http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests(req -> {
+            req.anyRequest().authenticated();// 另一种写法
+        });
+    }
+
+    // ///////////////////////////////////////////////////////////////////////
+    // 静态资源 ///////////////////////////////////////////////////////////////
     // 通过这个方法配置不需要进入过滤器链的内容
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -91,7 +119,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().mvcMatchers("/error");
     }
 
-    // 授权
+
+    // ///////////////////////////////////////////////////////////////////////
+    // 框架行为配置 ////////////////////////////////////////////////////////////
+    // 授权（20240220已抽取到单独方法）
     // 定义安全拦截机制
     // 能够配置的项具体参见HttpSecurity的源码注释
     @Override
@@ -110,7 +141,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         System.out.println("* liuyang Spring Security is protecting.  Config using liuyang.debug.security.enabled in appliation.properties");
         System.out.println("**************************************************************************************************************");
 
-        // ///////////////////////////////////////////////
+        // ///////////////////////////////////////////////////////////////////////
         // 【一段相对完整的配置示例】 begin
         // 类比shiro: shiroFilterFactoryBean.setFilterChainDefinitionMap(FilterChainDefinitionMapBuilder.build())
         // 声明不需要权限拦截的资源（白名单必须在前，否则将失效）
@@ -118,29 +149,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 白名单：首页
         whiteList(http);// 设置白名单（方便开发）
 
-        // 授权规则：需要权限控制的页面
-        // 1. 先配置具体的(20230128 IT老齐：推荐使用mvcMatchers而不是antMatchers)
-        /*
-        http.authorizeRequests()
-                .antMatchers("/hello/r1").hasAuthority("r1")
-                .antMatchers("/hello/r2").hasAuthority("r2");// 改用mvcMatchers试一下。 antMatchers 实际匹配的是/hello/r2/
-        */
-        http.authorizeRequests()
-                .mvcMatchers("/hello/r1").hasAuthority("r1")
-                .mvcMatchers("/hello/r2").hasAuthority("r2");// 改用mvcMatchers试一下。 antMatchers 实际匹配的是/hello/r2/
-        // 2. 再配置范围的 (mvcMatchers要放在anyRequest的前面！否则启动时报错！)
-        // 声明需要权限拦截的资源
-        //http.authorizeRequests().anyRequest().authenticated();
-        http.authorizeRequests(req -> {
-            req.anyRequest().authenticated();// 另一种写法
-        });
+        // 授权规则：
+        authorizeRequestsRoles(http);// 2024/2/20 抽取出去
 
+        // REST 风格改造
         // Login（前后端分离版本）
         // 【方案争议】是否采用本方案待议 20220328
         //          另一种方案是把登录和注销都放在一个Controller中，通过配置暴露出AuthenticationManager来完成相关操作。见三更草堂方案。
         // REST风格登录改造 202201261017  add
         // 指定一个REST式login的入口
-        // 入口地址：REST_AUTH_FILTER_PROCESS_URL
+
+        // 登录入口地址：REST_AUTH_FILTER_PROCESS_URL
         http.addFilterAt(restLoginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);// 根据源码注释，尽量不要用at造成不确定性。
         //http.addFilterBefore(restAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
@@ -149,26 +168,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint());// e.g. 未携带token访问了受保护的资源页面
         http.exceptionHandling().accessDeniedHandler(restAccessDeniedHandler());// e.g. 访问了没有权限的页面
 
-        // JWT
-        // REST && 前后端分离 的JWT过滤器
+        // JWT 方案改造202402202158（参考Ruoyi）
+        // 方案与返回JSON改造后的异常处理流程相同，但有两处区别
+        // 1. 登录后要返回JWT令牌。在登录过滤器返回时返回携带JWT Token 修改点在RestLoginAut
+        // 2. 增加JWT过滤器。REST && 前后端分离的JWT过滤器
         //http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-        //http.addFilterAt() // liuyang 20240219 是不是应该用这个？！
+        //http.addFilterBefore(jwtAuthenticationFilter(), 自定义的restLoginAuthenticationFilter.class);// liuyang 20240220 如果前面设置过滤器用了At也许应该这样写，未测试。
+        // 3. 关闭session管理。
+        // 4. 关闭csrf保护（CSRF禁用，因为不使用session）。
+        // 5. 禁用HTTP响应头。
+        //http.headers().cacheControl().disable();
 
-        // CORS
+        // CORS 前后端分离必须配置。
         // REST && 前后端分离 需要在Spring Security中开启跨域允许
         // liuyang 20220328 Spring Security允许跨域（Spring MVC也需要配置允许跨域，参见WebMvcConfig.java）
         http.cors();
 
         // Session
-        // REST && 前后端分离 20220327 https://www.bilibili.com/video/BV1mm4y1X7Hc?p=17&spm_id_from=pageDriver 16:09 前后端分离项目中，禁止使用session。
-        // 详细策略参见SessionCreationPolicy.STATELESS注释
+        // 2024/2/20 如果基于JWT Token，则不使用session管理。
         //http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        // 详细策略参见SessionCreationPolicy.STATELESS注释
 
         // CSRF
-        // REST && 前后端分离 关闭csrf保护即可
-        // https://blog.csdn.net/t894690230/article/details/52404105
-        // http.csrf().disable();
-        http.csrf(AbstractHttpConfigurer::disable);
+        // 2024/2/20 如果不使用session则禁用csrf。
+        //http.csrf().disable();// 禁用方法1
+        http.csrf(AbstractHttpConfigurer::disable);// 禁用方法2
+        //http.csrf();// 开启csrf保护方案。
         // CSRF(Cross-Site Request Forgery)方案：
         // 方案1： csrf_token: token是由服务器生成，并存储在浏览器的cookie当中。服务端每个请求都要求携带这个token。（目前默认的方案）
         // 方案2： 设置Cookie中的SameSite属性。但是存在浏览器的兼容性问题。
@@ -203,6 +228,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             //logout.logoutSuccessHandler(new RESTLogoutSuccessHandler());  // 定制JSON版本 20220125 ok
             //logout.deleteCookies("JSESSIONID")                            // 删除指定的Cookie
             //logout.invalidateHttpSession(true);                           // 另Session失效
+            //logout.addLogoutHandler();                                    // Thor
         });
 
         // Remember-Me
@@ -216,7 +242,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // remember-me功能需要一个UserDetailUservice
 
         // 【一段相对完整的配置示例】 end
-        // ///////////////////////////////////////////////
+        // ///////////////////////////////////////////////////////////////////////
     }
 
     // 认证 // UserDetailService
